@@ -8,6 +8,7 @@
 #include "SPIFFS.h"
 
 #include "logo.c"
+#include "ssl_root_certs.h"
 
 #define KEYBOARD_I2C_ADDR     0X08
 #define KEYBOARD_INT          5
@@ -55,6 +56,9 @@ void setup()
   pressa_screen();
   portal();
   on_rates();
+  Serial.println("lnbits server is:");
+  Serial.println(lnbits_server);
+  Serial.println("Setup complete");
 }
 
 ///////////////////MAIN LOOP//////////////////////
@@ -225,10 +229,11 @@ void qrdisplay_screen()
 
 void on_rates()
 {
-  
   WiFiClientSecure client;
+  client.setCACert(amazon_root_ca);
+
   if (!client.connect("api.opennode.com", 443)) {
-    Serial.println("failed");
+    Serial.println("failed to connect to api.opennode.com");
     return;
   }
 
@@ -249,6 +254,7 @@ void on_rates()
     deserializeJson(doc, line);
     Serial.println(line);
     conversion = doc["data"]["BTC" + String(currency)][currency]; 
+    Serial.println("Exchange rate is:");
     Serial.println(conversion);
 
 }
@@ -258,12 +264,16 @@ void on_rates()
 void getinvoice(String nosats) 
 {
   WiFiClientSecure client;
+  client.setCACert(letsencrypt_root_ca);
+
   const char* lnbitsserver = lnbits_server;
   const char* invoicekey = invoice_key;
   const char* lnbitsdescription = lnbits_description;
 
   if (!client.connect(lnbitsserver, 443)){
-    Serial.println("failed");
+    Serial.println("failed to connect to lnbits server");
+    Serial.println("Make sure the server is running and you have set ssl root certificate correctly. For more info see: ");
+    Serial.println("https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFiClientSecure/examples/WiFiClientSecure/WiFiClientSecure.ino");
     down = true;
     return;   
   }
@@ -308,9 +318,12 @@ void getinvoice(String nosats)
 bool checkinvoice()
 {
   WiFiClientSecure client;
+  client.setCACert(letsencrypt_root_ca);
+
   const char* lnbitsserver = lnbits_server;
   const char* invoicekey = invoice_key;
   if (!client.connect(lnbitsserver, 443)){
+    Serial.println("failed to connect to lnbits server");
     down = true;
     return false;   
   }
