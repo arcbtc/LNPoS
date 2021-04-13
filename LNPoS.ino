@@ -9,6 +9,8 @@
 
 #include "logo.c"
 
+// flag to enable keypad -- comment to use the build in buttons
+#define KEYPAD
 #define KEYBOARD_I2C_ADDR     0X08
 #define KEYBOARD_INT          5
 
@@ -63,9 +65,14 @@ void loop()
 {
   input_screen();
   cntr = "1";
+#ifndef KEYPAD
+  temp = 0.01;
+#endif
   while (cntr == "1"){
     M5.update();
+#ifdef KEYPAD
     get_keypad(); 
+#endif
     if (M5.BtnC.wasReleased()) {
       processing_screen();
       getinvoice(nosats);
@@ -78,6 +85,7 @@ void loop()
       inputs = "";
     }
     else if (M5.BtnB.wasReleased()) {
+#ifdef KEYPAD
       processing_screen();
       nosats = "0";
       getinvoice(nosats);
@@ -88,6 +96,9 @@ void loop()
       M5.Lcd.fillScreen(BLACK);
       key_val = "";
       inputs = "";
+#else
+	  temp *= 1.1;
+#endif
     }
     else if (M5.BtnA.wasReleased()) {
       M5.Lcd.fillScreen(BLACK);
@@ -97,10 +108,15 @@ void loop()
       key_val = "";
       inputs = "";  
       nosats = "";
+#ifndef KEYPAD
+      temp = 1;
+#endif
     }
+#ifdef KEYPAD
     inputs += key_val;
     temp = inputs.toInt();
     temp = temp / 100;
+#endif
     fiat = temp;
     satoshis = temp/conversion;
     int intsats = (int) round(satoshis*100000000.0);
@@ -125,7 +141,11 @@ void input_screen()
   M5.Lcd.setTextColor(TFT_WHITE);
   M5.Lcd.setTextSize(3);
   M5.Lcd.setCursor(0, 40);
+#ifdef KEYPAD
   M5.Lcd.println("Amount then C");
+#else
+  M5.Lcd.println("");
+#endif
   M5.Lcd.println("");
   M5.Lcd.println(String(currency) + ": ");
   M5.Lcd.println("");
@@ -133,8 +153,13 @@ void input_screen()
   M5.Lcd.println("");
   M5.Lcd.println("");
   M5.Lcd.setTextSize(2);
+#ifdef KEYPAD
   M5.Lcd.setCursor(50, 200);
   M5.Lcd.println("TO RESET PRESS A");
+#else
+  M5.Lcd.setCursor(40, 220);
+  M5.Lcd.println("RESET   +10%     OK");
+#endif
 }
 
 void processing_screen()
