@@ -44,6 +44,7 @@ float conversion;
 
 void setup() 
 {
+  Serial.println(115200);
   M5.begin();
   Wire.begin();
   logo_screen();
@@ -394,9 +395,10 @@ void portal()
   wm.addParameter(&custom_invoice_key);
   wm.addParameter(&custom_currency);
   wm.addParameter(&custom_wifi_password);
-
+   
 //IF RESET WAS TRIGGERED, RUN PORTAL AND WRITE FILES
   if (!wm.autoConnect("⚡LNPoS⚡", wifi_password)) {
+    
     Serial.println("failed to connect and hit timeout");
     delay(3000);
     ESP.restart();
