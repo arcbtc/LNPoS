@@ -1,7 +1,7 @@
 
 # LNPoS
 
-<img src="https://user-images.githubusercontent.com/33088785/110760353-883db880-8246-11eb-92bb-b371a629292e.png" width="50%">
+<img src="https://i.imgur.com/9gkJ946.png" width="50%">
 
 ### Hardware
 
