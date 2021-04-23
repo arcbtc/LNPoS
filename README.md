@@ -18,12 +18,15 @@ Install ESP32 boards:
 https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/boards_manager.md
 
 Install libraries:
-- lv_arduino
 - WiFimanager
-- M5Core2
+- M5Stack
 - ArduinoJson
 
 <img src="https://i.imgur.com/KEg2QsN.png" width="50%">
+
+Select board "M5Stack-Core-ESP32"
+
+Libararies that worked are in this repo
 
 Upload code!
 
@@ -39,7 +42,6 @@ Enter your LNBits details<br/>
 
 ### Notes
 
-To create a splash image, you can use the
-[Online Image to C Array Converter](https://littlevgl.com/image-to-c-array).
+I had an issue 
 
 ### <a href="https://github.com/arcbtc/M5StackSats">Old version</a>
