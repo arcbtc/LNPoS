@@ -198,7 +198,7 @@ void logo_screen()
   M5.Lcd.setCursor(45, 80);
   M5.Lcd.setTextSize(4);
   M5.Lcd.setTextColor(TFT_PURPLE);
-  M5.Lcd.println("LNbits POS");
+  M5.Lcd.println("LNbits PoS");
   M5.Lcd.setTextSize(2);
   M5.Lcd.setCursor(20, 200);
   M5.Lcd.setTextColor(TFT_WHITE);
