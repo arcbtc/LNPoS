@@ -17,16 +17,18 @@ Install ESP32 boards:
 
 https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/boards_manager.md
 
+*Occasionally boards are updated and code stops working, I used esp boards version 1.0.5-rc7
+
 Install libraries:
 - WiFimanager
 - M5Stack
 - ArduinoJson
 
+*Libraries I used that worked are in this repo
+
 <img src="https://i.imgur.com/KEg2QsN.png" width="50%">
 
 Select board "M5Stack-Core-ESP32"
-
-Libararies that worked are in this repo
 
 Upload code!
 
