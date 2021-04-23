@@ -1,7 +1,7 @@
 
 # LNPoS
 
-<img src="https://i.imgur.com/9gkJ946.png" width="50%">
+<img src="https://i.imgur.com/fYmbOGf.png" width="50%">
 
 ### Hardware
 
