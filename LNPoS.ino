@@ -1,4 +1,4 @@
-////////LOAD LIBRARIES/DEFINE VARIABLES///////////
+#include "WiFi.h"
 
 #include <M5Stack.h>
 #include "FS.h"
@@ -7,15 +7,13 @@
 #include <WiFiClientSecure.h>
 #include "SPIFFS.h"
 
-#include "logo.c"
-
 #define KEYBOARD_I2C_ADDR     0X08
 #define KEYBOARD_INT          5
 
 char lnbits_server[40] = "lnbits.com";
 char currency[10] = "GBP";
 char invoice_key[500] = "";
-char lnbits_description[100] = "";
+char lnbits_description[100] = "pos";
 char lnbits_amount[500] = "1000";
 char wifi_password[25] = "password1";
 char high_pin[5] = "16";
@@ -43,61 +41,23 @@ String fiat;
 float satoshis;
 String nosats;
 float conversion;
-  
-/////////////////////SETUP////////////////////////
 
 void setup() 
 {
   M5.begin();
   Wire.begin();
-  M5.Lcd.drawBitmap(0, 0, 320, 240, (uint8_t *)logo_map);
-  delay(3000);
-  pressa_screen();
+  logo_screen();
   portal();
   on_rates();
 }
 
-///////////////////MAIN LOOP//////////////////////
 
-void loop() 
-{
+void loop() {
   input_screen();
   cntr = "1";
   while (cntr == "1"){
     M5.update();
     get_keypad(); 
-    if (M5.BtnC.wasReleased()) {
-      processing_screen();
-      getinvoice(nosats);
-      qrdisplay_screen();
-      while(!checkinvoice()){
-        delay(3000);
-      }
-      M5.Lcd.fillScreen(BLACK);
-      key_val = "";
-      inputs = "";
-    }
-    else if (M5.BtnB.wasReleased()) {
-      processing_screen();
-      nosats = "0";
-      getinvoice(nosats);
-      qrdisplay_screen();
-      while(!checkinvoice()){
-        delay(3000);
-      }
-      M5.Lcd.fillScreen(BLACK);
-      key_val = "";
-      inputs = "";
-    }
-    else if (M5.BtnA.wasReleased()) {
-      M5.Lcd.fillScreen(BLACK);
-      M5.Lcd.setCursor(0, 0);
-      M5.Lcd.setTextColor(TFT_WHITE);
-      input_screen();
-      key_val = "";
-      inputs = "";  
-      nosats = "";
-    }
     inputs += key_val;
     temp = inputs.toInt();
     temp = temp / 100;
@@ -114,9 +74,44 @@ void loop()
     M5.Lcd.println(nosats);
     delay(100);
     key_val = "";
+        if (M5.BtnC.wasReleased()) {
+      processing_screen();
+      getinvoice(nosats);
+      qrdisplay_screen();
+      while(!checkinvoice()){
+        delay(3000);
+      }
+      M5.Lcd.fillScreen(BLACK);
+      key_val = "";
+      inputs = "";
+    }
+    else if (M5.BtnB.wasReleased()) {
+      processing_screen();
+      getinvoice(nosats);
+      nosats = "0";
+      qrdisplay_screen();
+      while(!checkinvoice()){
+        delay(3000);
+      }
+      key_val = "";
+      inputs = "";
+      complete_screen();
+      delay(3000);
+      cntr = "0";
+    }
+    else if (M5.BtnA.wasReleased()) {
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setCursor(0, 0);
+      M5.Lcd.setTextColor(TFT_WHITE);
+      input_screen();
+      key_val = "";
+      inputs = "";  
+      nosats = "";
+      cntr = "0";
+    }
   }
-}
 
+}
 //////////////////M5STACK///////////////////
 
 void input_screen()
@@ -187,22 +182,26 @@ void portal_screen()
   M5.Lcd.println("PORTAL LAUNCHED");
 }
 
-void pressa_screen()
-{ 
-  M5.Lcd.fillScreen(BLACK);
-  M5.Lcd.setCursor(10, 80);
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(TFT_WHITE);
-  M5.Lcd.println("PRESS A TO LAUNCH PORTAL");
-}
-
 void complete_screen()
 { 
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setCursor(60, 80);
   M5.Lcd.setTextSize(4);
-  M5.Lcd.setTextColor(TFT_WHITE);
+  M5.Lcd.setTextColor(TFT_GREEN);
   M5.Lcd.println("COMPLETE");
+}
+
+void logo_screen()
+{ 
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setCursor(45, 80);
+  M5.Lcd.setTextSize(4);
+  M5.Lcd.setTextColor(TFT_PURPLE);
+  M5.Lcd.println("LNbits POS");
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.setCursor(20, 200);
+  M5.Lcd.setTextColor(TFT_WHITE);
+  M5.Lcd.println("PRESS A TO LAUNCH PORTAL");
 }
 
 void error_screen()
@@ -221,12 +220,10 @@ void qrdisplay_screen()
   delay(100);
 }
 
-//////////////////OPENNODE CALL///////////////////
-
 void on_rates()
 {
-  
   WiFiClientSecure client;
+  client.setInsecure();
   if (!client.connect("api.opennode.com", 443)) {
     Serial.println("failed");
     return;
@@ -250,7 +247,6 @@ void on_rates()
     Serial.println(line);
     conversion = doc["data"]["BTC" + String(currency)][currency]; 
     Serial.println(conversion);
-
 }
 
 //////////////////LNBITS CALLS///////////////////
@@ -258,6 +254,7 @@ void on_rates()
 void getinvoice(String nosats) 
 {
   WiFiClientSecure client;
+  client.setInsecure();
   const char* lnbitsserver = lnbits_server;
   const char* invoicekey = invoice_key;
   const char* lnbitsdescription = lnbits_description;
@@ -279,8 +276,10 @@ void getinvoice(String nosats)
                 "Content-Length: " + topost.length() + "\r\n" +
                 "\r\n" + 
                 topost + "\n");
+
   while (client.connected()) {
     String line = client.readStringUntil('\n');
+    Serial.println(line);
     if (line == "\r") {
       break;
     }
@@ -308,6 +307,7 @@ void getinvoice(String nosats)
 bool checkinvoice()
 {
   WiFiClientSecure client;
+  client.setInsecure();
   const char* lnbitsserver = lnbits_server;
   const char* invoicekey = invoice_key;
   if (!client.connect(lnbitsserver, 443)){
