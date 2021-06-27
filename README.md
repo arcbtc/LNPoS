@@ -44,6 +44,5 @@ Enter your LNBits details<br/>
 
 ### Notes
 
-I had an issue 
 
 ### <a href="https://github.com/arcbtc/M5StackSats">Old version</a>
