@@ -15,7 +15,7 @@ https://www.arduino.cc/en/software
 
 Install ESP32 boards: 
 
-https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/boards_manager.md
+https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html
 
 *Occasionally boards are updated and code stops working, I used esp boards version 1.0.5-rc7
 
