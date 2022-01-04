@@ -1,12 +1,4 @@
-#if defined(ARDUINO_ARCH_ESP8266)
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
-#include <LittleFS.h>
-using WebServerClass = ESP8266WebServer;
-FS& FlashFS = LittleFS;
-#define FORMAT_ON_FAIL
 
-#elif defined(ARDUINO_ARCH_ESP32)
 #include <WiFi.h>
 #include <WebServer.h>
 #include <FS.h>
@@ -14,13 +6,57 @@ FS& FlashFS = LittleFS;
 using WebServerClass = WebServer;
 fs::SPIFFSFS& FlashFS = SPIFFS;
 #define FORMAT_ON_FAIL  true
-#endif
 
 #include <AutoConnect.h>
 
-#define PARAM_FILE      "/elements.json"
-#define USERNAME        "bitcoinPoS"
-#define PASSWORD        "ToTheMoon"
+#include <M5Stack.h>
+#define KEYBOARD_I2C_ADDR     0X08
+#define KEYBOARD_INT          5
+
+#include <string.h>
+#include "Bitcoin.h"
+#include <Hash.h>
+#include <Conversion.h>
+#include <WiFi.h>
+#include "esp_adc_cal.h"
+
+#define PARAM_FILE "/elements.json"
+#define DEVICENAME "bitcoinPoS"
+#define PASSWORD "satoshi1" //Must be 8 characters
+
+
+//CHANGE TO HIGHER IF USING TOR
+int QRCodeComplexity = 8;
+
+//////////////VARIABLES///////////////////
+String dataId = "";
+bool paid = false;
+bool shouldSaveConfig = false;
+bool down = false;
+const char *spiffcontent = "";
+String spiffing;
+String lnurl;
+String choice;
+String payhash;
+String key_val;
+String cntr = "0";
+String inputs;
+int keysdec;
+int keyssdec;
+float temp;
+String fiat;
+float satoshis;
+String nosats;
+float conversion;
+String virtkey;
+String payreq;
+int randomPin;
+bool settle = false;
+String preparedURL;
+RTC_DATA_ATTR int bootCount = 0;
+long timeOfLastInteraction = millis();
+bool isPretendSleeping = false;
+
 
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
@@ -28,17 +64,6 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
   "title": "PoS Options",
   "menu": true,
   "element": [
-    {
-      "name": "tablecss",
-      "type": "ACStyle",
-      "value": "table{font-family:arial,sans-serif;border-collapse:collapse;width:100%;color:black;}td,th{border:1px solid #dddddd;text-align:center;padding:8px;}tr:nth-child(even){background-color:#dddddd;}"
-    },
-    {
-      "name": "text",
-      "type": "ACText",
-      "value": "bitcoinPoS options",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
-    },
     {
       "name": "pin",
       "type": "ACInput",
@@ -48,16 +73,10 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "pattern": "\\d*"
     },
     {
-      "name": "hr",
-      "type": "ACElement",
-      "value": "<hr style=\"height:1px;border-width:0;color:gray;background-color:#52a6ed\">",
-      "posterior": "par"
-    },
-    {
       "name": "offline",
       "type": "ACText",
       "value": "Onchain *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;padding:15px;"
     },
     {
       "name": "masterkey",
@@ -65,16 +84,10 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "label": "Master Public Key"
     },
     {
-      "name": "hr1",
-      "type": "ACElement",
-      "value": "<hr style=\"height:1px;border-width:0;color:gray;background-color:#52a6ed\">",
-      "posterior": "par"
-    },
-    {
       "name": "lightning1",
       "type": "ACText",
       "value": "Lightning *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;padding:15px;"
     },
     {
       "name": "server",
@@ -87,16 +100,10 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "label": "Wallet Invoice Key"
     },
     {
-      "name": "hr2",
-      "type": "ACElement",
-      "value": "<hr style=\"height:1px;border-width:0;color:gray;background-color:#52a6ed\">",
-      "posterior": "par"
-    },
-    {
       "name": "lightning2",
       "type": "ACText",
       "value": "Offline Lightning *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;padding:15px;"
     },
     {
       "name": "baseurl",
@@ -125,11 +132,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "value": "Save",
       "uri": "/save"
     },
-    {
-      "name": "adjust_width",
-      "type": "ACElement",
-      "value": "<script type=\"text/javascript\">window.onload=function(){var t=document.querySelectorAll(\"input[type='text']\");for(i=0;i<t.length;i++){var e=t[i].getAttribute(\"placeholder\");e&&t[i].setAttribute(\"size\",e.length*.8)}};</script>"
-    }
+
   ]
  }
 )";
@@ -173,9 +176,10 @@ AutoConnectAux  elementsAux;
 AutoConnectAux  saveAux;
 
 void setup() {
-  delay(1000);
-  Serial.begin(115200);
-  Serial.println();
+  M5.begin();
+  Wire.begin();
+  
+  logo();
 
   FlashFS.begin(FORMAT_ON_FAIL);
   server.on("/", []() {
@@ -187,13 +191,15 @@ void setup() {
   elementsAux.load(FPSTR(PAGE_ELEMENTS));
   elementsAux.on([] (AutoConnectAux& aux, PageArgument& arg) {
     if (portal.where() == "/posconfig") {
+      Serial.println("cunt");
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
         aux.loadElement(param, { "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
         param.close();
       }
     }
-    return String();
+    
+  return String();
   });
 
   saveAux.load(FPSTR(PAGE_SAVE));
@@ -208,31 +214,85 @@ void setup() {
       // Read the saved elements again to display.
       param = FlashFS.open(PARAM_FILE, "r");
       aux["echo"].value = param.readString();
-      
       param.close();
     }
     else {
       aux["echo"].value = "Filesystem failed to open.";
     }
-    Serial.println(String());
     return String();
   });
 
   portal.join({ elementsAux, saveAux });
   config.auth = AC_AUTH_BASIC;
   config.authScope = AC_AUTHSCOPE_AUX;
-  config.username = USERNAME;
-  config.password = PASSWORD;
   config.ticker = true;
+  config.title = DEVICENAME;
+  config.apid = DEVICENAME;
+  config.psk  = PASSWORD;
   config.autoReconnect = true;
   config.reconnectInterval = 1;
+  config.immediateStart = true;
   portal.config(config);
-  portal.begin();
-  while(true){
-    portal.handleClient();
-  }
 }
 
 void loop() {
-  portal.handleClient();
+  int count = 0;
+  while (count < 3000){
+    M5.update();
+    get_keypad(); 
+    if (M5.BtnA.wasReleased()) {
+      accessPoint();
+      portal.begin();
+      while(true){
+        portal.handleClient();
+      }
+    }
+    count = count + 100;
+    delay(100);
+  }
+  Serial.println("cunttyty");
+}
+
+void get_keypad()
+{
+   if(digitalRead(KEYBOARD_INT) == LOW) {
+    Wire.requestFrom(KEYBOARD_I2C_ADDR, 1);  // request 1 byte from keyboard
+    while (Wire.available()) { 
+       uint8_t key = Wire.read();                  // receive a byte as character
+       key_val = key;
+       if(key != 0) {
+        if(key >= 0x20 && key < 0x7F) { // ASCII String
+          if (isdigit((char)key)){
+          key_val = ((char)key);
+          }
+          else {
+          key_val = "";
+        } 
+        }
+      }
+    }
+  }
+}
+
+///////////DISPLAY///////////////
+
+void logo()
+{
+  M5.Lcd.fillScreen(TFT_BLACK);
+  M5.Lcd.setTextColor(TFT_WHITE, TFT_BLACK); // White characters on black background
+  M5.Lcd.setTextSize(5);
+  M5.Lcd.setCursor(40, 100);  // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  M5.Lcd.print("LNURLPoS"); // Using tft.print means text background is NEVER rendered
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.setCursor(42, 140);          // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  M5.Lcd.print("Powered by LNbits"); // Using tft.print means text background is NEVER rendered
+}
+
+void accessPoint()
+{
+  M5.Lcd.fillScreen(TFT_BLACK);
+  M5.Lcd.setTextColor(TFT_GREEN, TFT_BLACK); // White characters on black background
+  M5.Lcd.setTextSize(3);
+  M5.Lcd.setCursor(40, 100);  // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  M5.Lcd.print("Enter Pin"); // Using tft.print means text background is NEVER rendered
 }
