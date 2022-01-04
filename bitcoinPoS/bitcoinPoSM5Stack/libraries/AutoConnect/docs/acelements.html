@@ -1,0 +1,2933 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ESP8266/ESP32 WLAN configuration at run time with web interface">
+      
+      
+        <meta name="author" content="Hieromon Ikasamo">
+      
+      
+        <link rel="canonical" href="https://Hieromon.github.io/AutoConnect/acelements.html">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+    
+    
+      
+        <title>AutoConnectElements - AutoConnect for ESP8266/ESP32</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/paragraph.css">
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    
+    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EHK8XV10VE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-EHK8XV10VE",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHK8XV10VE"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-elements-for-the-custom-web-pages" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-header__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoConnect for ESP8266/ESP32
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AutoConnectElements
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-nav__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    AutoConnect for ESP8266/ESP32
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gettingstarted.html" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menu.html" class="md-nav__link">
+        AutoConnect menu
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="basicusage.html" class="md-nav__link">
+        Basic usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Advanced usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Advanced usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="advancedusage.html" class="md-nav__link">
+        Advanced usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adconnection.html" class="md-nav__link">
+        AutoConnect WiFi connection control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcpcontrol.html" class="md-nav__link">
+        Captive portal control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adnetwork.html" class="md-nav__link">
+        Settings and controls for network and WiFi
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adauthentication.html" class="md-nav__link">
+        Authentication settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcredential.html" class="md-nav__link">
+        Credential accesses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adexterior.html" class="md-nav__link">
+        Customizing page appearance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adothers.html" class="md-nav__link">
+        Other operation settings and controls
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Custom Web pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Custom Web pages" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Custom Web pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acintro.html" class="md-nav__link">
+        Custom Web pages with AutoConnect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          AutoConnectElements
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="acelements.html" class="md-nav__link md-nav__link--active">
+        AutoConnectElements
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-elements-for-the-custom-web-pages" class="md-nav__link">
+    The elements for the custom Web pages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-on-a-custom-web-page" class="md-nav__link">
+    Layout on a custom Web page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-css-for-a-custom-web-page" class="md-nav__link">
+    Custom CSS for a custom Web page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#form-and-autoconnectelements" class="md-nav__link">
+    Form and AutoConnectElements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectelement-a-basic-class-of-elements" class="md-nav__link">
+    AutoConnectElement - A basic class of elements
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectElement - A basic class of elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+     type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectbutton" class="md-nav__link">
+    AutoConnectButton
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectButton">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_1" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_1" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_1" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action" class="md-nav__link">
+     action
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_1" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectcheckbox" class="md-nav__link">
+    AutoConnectCheckbox
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectCheckbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_2" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_2" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_2" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checked" class="md-nav__link">
+     checked
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelposition" class="md-nav__link">
+     labelPosition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_2" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectfile" class="md-nav__link">
+    AutoConnectFile
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectFile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_3" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_3" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_3" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_1" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#store" class="md-nav__link">
+     store
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_3" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectinput" class="md-nav__link">
+    AutoConnectInput
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectInput">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_4" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_4" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_4" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_2" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern" class="md-nav__link">
+     pattern
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#placeholder" class="md-nav__link">
+     placeholder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_4" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply" class="md-nav__link">
+     apply
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectradio" class="md-nav__link">
+    AutoConnectRadio
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectRadio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_5" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_5" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+     values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_3" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order" class="md-nav__link">
+     order
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checked_1" class="md-nav__link">
+     checked
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_5" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectrange" class="md-nav__link">
+    AutoConnectRange
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectRange">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_6" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_6" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_5" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_4" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min" class="md-nav__link">
+     min
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max" class="md-nav__link">
+     max
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step" class="md-nav__link">
+     step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magnify" class="md-nav__link">
+     magnify
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_6" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#style" class="md-nav__link">
+     style
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectstyle" class="md-nav__link">
+    AutoConnectStyle
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectStyle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_7" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_7" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_6" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectselect" class="md-nav__link">
+    AutoConnectSelect
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectSelect">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_8" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_8" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+     options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_5" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected" class="md-nav__link">
+     selected
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_7" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectsubmit" class="md-nav__link">
+    AutoConnectSubmit
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectSubmit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_9" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_9" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_7" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uri" class="md-nav__link">
+     uri
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_8" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnecttext" class="md-nav__link">
+    AutoConnectText
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectText">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_10" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_10" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_8" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#style_1" class="md-nav__link">
+     style
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+     format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_9" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-coding-for-the-elements" class="md-nav__link">
+    How to coding for the elements
+  </a>
+  
+    <nav class="md-nav" aria-label="How to coding for the elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaration-for-the-elements-in-sketches" class="md-nav__link">
+     Declaration for the elements in Sketches
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variant-for-autoconnectelements" class="md-nav__link">
+     Variant for AutoConnectElements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acjson.html" class="md-nav__link">
+        Custom Web pages with JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="achandling.html" class="md-nav__link">
+        Handling the custom Web pages
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          OTA Updates
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="OTA Updates" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          OTA Updates
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaupdate.html" class="md-nav__link">
+        OTA Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otabrowser.html" class="md-nav__link">
+        Using Web Browser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaserver.html" class="md-nav__link">
+        Using Update Server
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="filesystem.html" class="md-nav__link">
+        Using Filesystem
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Library APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Library APIs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Library APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        AutoConnect API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiaux.html" class="md-nav__link">
+        AutoConnectAux API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiconfig.html" class="md-nav__link">
+        AutoConnectConfig API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apielements.html" class="md-nav__link">
+        AutoConnectElements API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiupdate.html" class="md-nav__link">
+        AutoConnectUpdate API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiextra.html" class="md-nav__link">
+        Something extra
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="howtoembed.html" class="md-nav__link">
+        How to embed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="datatips.html" class="md-nav__link">
+        Tips for data conversion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menuize.html" class="md-nav__link">
+        Attach the menus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wojson.html" class="md-nav__link">
+        Custom Web pages w/o JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esp32cam.html" class="md-nav__link">
+        Works with ESP32-CAM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lsbegin.html" class="md-nav__link">
+        Inside AutoConnect::begin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="credit.html" class="md-nav__link">
+        Saved credentials access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acupload.html" class="md-nav__link">
+        File upload handler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="colorized.html" class="md-nav__link">
+        Custom colorized
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelabel.html" class="md-nav__link">
+        Change label text
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="faq.html" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        Change log
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-elements-for-the-custom-web-pages" class="md-nav__link">
+    The elements for the custom Web pages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-on-a-custom-web-page" class="md-nav__link">
+    Layout on a custom Web page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-css-for-a-custom-web-page" class="md-nav__link">
+    Custom CSS for a custom Web page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#form-and-autoconnectelements" class="md-nav__link">
+    Form and AutoConnectElements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectelement-a-basic-class-of-elements" class="md-nav__link">
+    AutoConnectElement - A basic class of elements
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectElement - A basic class of elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+     type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectbutton" class="md-nav__link">
+    AutoConnectButton
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectButton">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_1" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_1" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_1" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action" class="md-nav__link">
+     action
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_1" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectcheckbox" class="md-nav__link">
+    AutoConnectCheckbox
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectCheckbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_2" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_2" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_2" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checked" class="md-nav__link">
+     checked
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelposition" class="md-nav__link">
+     labelPosition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_2" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectfile" class="md-nav__link">
+    AutoConnectFile
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectFile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_3" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_3" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_3" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_1" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#store" class="md-nav__link">
+     store
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_3" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectinput" class="md-nav__link">
+    AutoConnectInput
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectInput">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_4" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_4" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_4" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_2" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern" class="md-nav__link">
+     pattern
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#placeholder" class="md-nav__link">
+     placeholder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_4" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply" class="md-nav__link">
+     apply
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectradio" class="md-nav__link">
+    AutoConnectRadio
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectRadio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_5" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_5" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+     values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_3" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order" class="md-nav__link">
+     order
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checked_1" class="md-nav__link">
+     checked
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_5" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectrange" class="md-nav__link">
+    AutoConnectRange
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectRange">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_6" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_6" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_5" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_4" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min" class="md-nav__link">
+     min
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max" class="md-nav__link">
+     max
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step" class="md-nav__link">
+     step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magnify" class="md-nav__link">
+     magnify
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_6" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#style" class="md-nav__link">
+     style
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectstyle" class="md-nav__link">
+    AutoConnectStyle
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectStyle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_7" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_7" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_6" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectselect" class="md-nav__link">
+    AutoConnectSelect
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectSelect">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_8" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_8" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+     options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label_5" class="md-nav__link">
+     label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected" class="md-nav__link">
+     selected
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_7" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectsubmit" class="md-nav__link">
+    AutoConnectSubmit
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectSubmit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_9" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_9" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_7" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uri" class="md-nav__link">
+     uri
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_8" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnecttext" class="md-nav__link">
+    AutoConnectText
+  </a>
+  
+    <nav class="md-nav" aria-label="AutoConnectText">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_10" class="md-nav__link">
+     Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_10" class="md-nav__link">
+     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value_8" class="md-nav__link">
+     value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#style_1" class="md-nav__link">
+     style
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+     format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post_9" class="md-nav__link">
+     post
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-coding-for-the-elements" class="md-nav__link">
+    How to coding for the elements
+  </a>
+  
+    <nav class="md-nav" aria-label="How to coding for the elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaration-for-the-elements-in-sketches" class="md-nav__link">
+     Declaration for the elements in Sketches
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variant-for-autoconnectelements" class="md-nav__link">
+     Variant for AutoConnectElements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+  <h1>AutoConnectElements</h1>
+
+<h2 id="the-elements-for-the-custom-web-pages">The elements for the custom Web pages<a class="headerlink" href="#the-elements-for-the-custom-web-pages" title="Permanent link">&para;</a></h2>
+<p>Representative HTML elements for making the custom Web page are provided as AutoConnectElements.</p>
+<ul>
+<li><a href="#autoconnectbutton">AutoConnectButton</a>: Labeled action button</li>
+<li><a href="#autoconnectcheckbox">AutoConnectCheckbox</a>: Labeled checkbox</li>
+<li><a href="#autoconnectelement-a-basic-class-of-elements">AutoConnectElement</a>: General tag</li>
+<li><a href="#autoconnectfile">AutoConnectFile</a>: File uploader</li>
+<li><a href="#autoconnectinput">AutoConnectInput</a>: Labeled text input box</li>
+<li><a href="#autoconnectradio">AutoConnectRadio</a>: Labeled radio button</li>
+<li><a href="#autoconnectrange">AutoConnectRange</a>: Labeled range slider</li>
+<li><a href="#autoconnectselect">AutoConnectSelect</a>: Selection list</li>
+<li><a href="#autoconnectstyle">AutoConnectStyle</a>: Custom CSS code</li>
+<li><a href="#autoconnectsubmit">AutoConnectSubmit</a>: Submit button</li>
+<li><a href="#autoconnecttext">AutoConnectText</a>: Style attributed text</li>
+</ul>
+<h2 id="layout-on-a-custom-web-page">Layout on a custom Web page<a class="headerlink" href="#layout-on-a-custom-web-page" title="Permanent link">&para;</a></h2>
+<p>AutoConnect will not actively be involved in the layout of custom Web pages generated from AutoConnectElements. However, each element has <a href="#post">an attribute to arrange placement</a> on a custom web page by horizontally or vertically.</p>
+<h2 id="custom-css-for-a-custom-web-page">Custom CSS for a custom Web page<a class="headerlink" href="#custom-css-for-a-custom-web-page" title="Permanent link">&para;</a></h2>
+<p>All custom Web page styles are limited to the built-in unique CSS embedded in the library code. Direct modification of the CSS affects AutoConnect behavior. You can use dedicated elements to relatively safely modify the style of your custom Web page.
+The <a href="#autoconnectstyle">AutoConnectStyle</a> will insert the raw CSS code into the style block in HTML of the custom Web page.</p>
+<h2 id="form-and-autoconnectelements">Form and AutoConnectElements<a class="headerlink" href="#form-and-autoconnectelements" title="Permanent link">&para;</a></h2>
+<p>All AutoConnectElements placed on custom web pages will be contained into one form. Its form is fixed and created by AutoConnect. The form value (usually the text or checkbox you entered) is sent by <a href="#autoconnectsubmit">AutoConnectSubmit</a> using the <strong>POST</strong> method with HTTP. The post method sends the actual form data which is a query string whose contents are the <strong>name</strong> and <strong>value</strong> of AutoConnectElements. You can retrieve the value for the parameter with the Sketch from the query string with <a href="https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer#getting-information-about-request-arguments">ESP8266WebServer::arg</a> function or <a href="https://github.com/Hieromon/PageBuilder#arguments-of-invoked-user-function">PageArgument</a> class of the <a href="api.html#on">AutoConnect::on</a> handler when the form is submitted.</p>
+<h2 id="autoconnectelement-a-basic-class-of-elements">AutoConnectElement - <small>A basic class of elements</small><a class="headerlink" href="#autoconnectelement-a-basic-class-of-elements" title="Permanent link">&para;</a></h2>
+<p>AutoConnectElement is a base class for other element classes and has common attributes for all elements. It can also be used as a <a href="#variant-for-autoconnectelements">variant</a> of each element. The following items are attributes that AutoConnectElement has and are common to other elements.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectElement element("element", "&lt;hr&gt;");</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acelement.png"></p>
+<h3 id="constructor"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectElement(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h3>
+<p>Each element has a name. The <strong>name</strong> is the String data type. You can identify each element by the name to access it with sketches. </p>
+<h3 id="value"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value" title="Permanent link">&para;</a></h3>
+<p>The <strong>value</strong> is the string which is a source to generate an HTML code. Characteristics of Value vary depending on the element. The value of AutoConnectElement is native HTML code. A string of value is output as HTML as it is.</p>
+<h3 id="post"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post" title="Permanent link">&para;</a></h3>
+<p>The <strong>post</strong> specifies a tag to add behind the HTML code generated from the element. Its purpose is to place elements on the custom Web page as intended by the user sketch.
+AutoConnect will not actively be involved in the layout of custom Web pages generated from AutoConnectElements. Each element follows behind the previous one, with the exception of some elements. You can use the <strong>post</strong> value to arrange vertically or horizontal when the elements do not have the intended position on the custom Web Page specifying the following enumeration value as <strong>ACPosterior_t</strong> type for the <strong>post</strong>.</p>
+<ul>
+<li><strong><code>AC_Tag_None</code></strong> : No generate additional tags.</li>
+<li><strong><code>AC_Tag_BR</code></strong> : Add a <code>&lt;br&gt;</code> tag to the end of the element.</li>
+<li><strong><code>AC_Tag_P</code></strong> : Include the element in the <code>&lt;p&gt; ~ &lt;/p&gt;</code> tag.</li>
+<li><strong><code>AC_Tag_DIV</code></strong> : Include the element in the <code>&lt;div&gt; ~ &lt;/div&gt;</code> tag.</li>
+</ul>
+<p>The default interpretation of the post value is specific to each element.</p>
+<table>
+<thead>
+<tr>
+<th>AutoConnectElements</th>
+<th>Default interpretation of the post value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AutoConnectElement</td>
+<td>AC_Tag_None</td>
+</tr>
+<tr>
+<td>AutoConnectButton</td>
+<td>AC_Tag_None</td>
+</tr>
+<tr>
+<td>AutoConnectCheckBox</td>
+<td>AC_Tag_BR</td>
+</tr>
+<tr>
+<td>AutoConnectFile</td>
+<td>AC_Tag_BR</td>
+</tr>
+<tr>
+<td>AutoConnectInput</td>
+<td>AC_Tag_BR</td>
+</tr>
+<tr>
+<td>AutoConnectRadio</td>
+<td>AC_Tag_BR</td>
+</tr>
+<tr>
+<td>AutoConnectRange</td>
+<td>AC_Tag_BR</td>
+</tr>
+<tr>
+<td>AutoConnectSelect</td>
+<td>AC_Tag_BR</td>
+</tr>
+<tr>
+<td>AutoConnectSubmit</td>
+<td>AC_Tag_None</td>
+</tr>
+<tr>
+<td>AutoConnectText</td>
+<td>AC_Tag_None</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">A placement posterior of AutoConnectText</p>
+<p>A placement posterior for AutoConnectText has a slightly peculiar specification. AutoConnectText element without the style attribute will be drained to HTML as a raw value and is accompanied by <code>&lt;p&gt;</code>, <code>&lt;br&gt;</code> or <code>&lt;div&gt;</code> tags according to the post enumeration values.  <br />
+If the style attribute is specified, the post enumeration value will be ignored and always be enclosed in the <code>&lt;div&gt;</code> tag, and the style value will be inserted into <code>style</code> attribute of the <code>&lt;div&gt;</code> tag.</p>
+</div>
+<h3 id="type"><i class="fa fa-caret-right"></i> type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h3>
+<p>The <strong>type</strong> indicates the type of the element and represented as the <em>ACElement_t</em> enumeration type in the Sketch. Since AutoConnectElement also acts as a variant of other elements, it can be applied to handle elements collectively. At that time, the type can be referred to by the <a href="apielements.html#typeof"><strong>typeOf()</strong></a> function. The following example changes the font color of all <a href="#autoconnecttext">AutoConnectText</a> elements of a custom Web page to gray.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectAux  customPage;</span>
+
+<span style="color: #f8f8f2">AutoConnectElementVT</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> elements </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> customPage.getElements();</span>
+<span style="color: #66d9ef">for</span><span style="color: #f8f8f2"> (AutoConnectElement</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> elm : elements) {</span>
+<span style="background-color: #49483e"><span style="color: #f8f8f2">  </span><span style="color: #66d9ef">if</span><span style="color: #f8f8f2"> (elm.typeOf() </span><span style="color: #f92672">==</span><span style="color: #f8f8f2"> AC_Text) {</span>
+</span><span style="color: #f8f8f2">    AutoConnectText</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> text </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">reinterpret_cast</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">AutoConnectText</span><span style="color: #f92672">&amp;&gt;</span><span style="color: #f8f8f2">(elm);</span>
+<span style="color: #f8f8f2">    text.style </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&quot;color:gray;&quot;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">  }</span>
+<span style="color: #f8f8f2">}</span>
+</code></pre></div>
+<p>The enumerators for <em>ACElement_t</em> are as follows:</p>
+<ul>
+<li>AutoConnectButton: <strong>AC_Button</strong></li>
+<li>AutoConnectCheckbox: <strong>AC_Checkbox</strong> </li>
+<li>AutoConnectElement: <strong>AC_Element</strong></li>
+<li>AutoConnectFile: <strong>AC_File</strong></li>
+<li>AutoConnectInput: <strong>AC_Input</strong></li>
+<li>AutoConnectRadio: <strong>AC_Radio</strong></li>
+<li>AutoConnectRange: <strong>AC_Range</strong></li>
+<li>AutoConnectSelect: <strong>AC_Select</strong></li>
+<li>AutoConnectStyle: <strong>AC_Style</strong></li>
+<li>AutoConnectSubmit: <strong>AC_Submit</strong></li>
+<li>AutoConnectText: <strong>AC_Text</strong></li>
+<li>Uninitialized element: <strong>AC_Unknown</strong></li>
+</ul>
+<p>Furthermore, to convert an entity that is not an AutoConnectElement to its native type, you must <a href="https://en.cppreference.com/w/cpp/language/reinterpret_cast">re-interpret</a> that type with c++. Or, you can be coding the Sketch more easily with using the <a href="apielements.html#ast62"><strong>as&lt;T></strong></a> function.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectAux  customPage;</span>
+
+<span style="color: #f8f8f2">AutoConnectElementVT</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> elements </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> customPage.getElements();</span>
+<span style="color: #66d9ef">for</span><span style="color: #f8f8f2"> (AutoConnectElement</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> elm : elements) {</span>
+<span style="color: #f8f8f2">  </span><span style="color: #66d9ef">if</span><span style="color: #f8f8f2"> (elm.type() </span><span style="color: #f92672">==</span><span style="color: #f8f8f2"> AC_Text) {</span>
+<span style="background-color: #49483e"><span style="color: #f8f8f2">    AutoConnectText</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> text </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> customPage[elm.name].as</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">AutoConnectText</span><span style="color: #f92672">&gt;</span><span style="color: #f8f8f2">();</span>
+</span><span style="color: #f8f8f2">    text.style </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&quot;color:gray;&quot;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">// Or, it is also possible to write the code further reduced as follows.</span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">// customPage[elm.name].as&lt;AutoConnectText&gt;().style = &quot;color:gray;&quot;;</span>
+<span style="color: #f8f8f2">  }</span>
+<span style="color: #f8f8f2">}</span>
+</code></pre></div>
+<h2 id="autoconnectbutton">AutoConnectButton<a class="headerlink" href="#autoconnectbutton" title="Permanent link">&para;</a></h2>
+<p>AutoConnectButton generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">button</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;button&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag and locates a clickable button to a custom Web page. Currently AutoConnectButton corresponds only to name, value, an <em>onclick</em> attribute of HTML button tag. An <em>onclick</em> attribute is generated from an <code>action</code> member variable of the AutoConnectButton, which is mostly used with a JavaScript to activate a script.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectButton button("button", "OK", "myFunction()");</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acbutton.png"></p>
+<h3 id="constructor_1"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_1" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectButton(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> String</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> action, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_1"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_1" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectButton element and matches the name attribute of the button tag. It also becomes the parameter name of the query string when submitted.</p>
+<h3 id="value_1"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_1" title="Permanent link">&para;</a></h3>
+<p>It becomes a value of the <code>value</code> attribute of an HTML button tag.</p>
+<h3 id="action"><i class="fa fa-caret-right"></i> action<a class="headerlink" href="#action" title="Permanent link">&para;</a></h3>
+<p><strong>action</strong> is String data type and is an <em>onclick</em> attribute fire on a mouse click on the element. It is mostly used with a JavaScript to activate a script.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> For example, the following code defines a custom Web page that copies a content of <code>Text1</code> to <code>Text2</code> by clicking <code>Button</code>.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> scCopyText </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">R&quot;(</span>
+<span style="color: #e6db74">&lt;script&gt;</span>
+<span style="background-color: #49483e"><span style="color: #e6db74">function CopyText() {</span>
+</span><span style="background-color: #49483e"><span style="color: #e6db74">  document.getElementById(&quot;Text2&quot;).value = document.getElementById(&quot;Text1&quot;).value;</span>
+</span><span style="background-color: #49483e"><span style="color: #e6db74">}</span>
+</span><span style="color: #e6db74">&lt;/script&gt;</span>
+<span style="color: #e6db74">)&quot;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ACInput(Text1, </span><span style="color: #e6db74">&quot;Text1&quot;</span><span style="color: #f8f8f2">);</span>
+<span style="color: #f8f8f2">ACInput(Text2, </span><span style="color: #e6db74">&quot;Text2&quot;</span><span style="color: #f8f8f2">);</span>
+<span style="background-color: #49483e"><span style="color: #f8f8f2">ACButton(Button, </span><span style="color: #e6db74">&quot;COPY&quot;</span><span style="color: #f8f8f2">, </span><span style="color: #e6db74">&quot;CopyText()&quot;</span><span style="color: #f8f8f2">);</span>
+</span><span style="color: #f8f8f2">ACElement(TextCopy, scCopyText);</span>
+</code></pre></div>
+<h3 id="post_1"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_1" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_None</code>.</p>
+<h2 id="autoconnectcheckbox">AutoConnectCheckbox<a class="headerlink" href="#autoconnectcheckbox" title="Permanent link">&para;</a></h2>
+<p>AutoConnectCheckbox generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;checkbox&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag and a <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag. It places horizontally on a custom Web page by default.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectCheckbox checkbox("checkbox", "uniqueapid", "Use APID unique", false);</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/accheckbox.png"></p>
+<h3 id="constructor_2"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_2" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectCheckbox(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> label, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">bool</span><span style="color: #f8f8f2"> checked, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosition_t labelPosition, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_2"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_2" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectCheckbox element and matches the name attribute of the input tag. It also becomes the parameter name of the query string when submitted.</p>
+<h3 id="value_2"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_2" title="Permanent link">&para;</a></h3>
+<p>It becomes a value of the <code>value</code> attribute of an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;checkbox&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag.</p>
+<h3 id="label"><i class="fa fa-caret-right"></i> label<a class="headerlink" href="#label" title="Permanent link">&para;</a></h3>
+<p>A label is an optional string. A label is always arranged on the right side of the checkbox. Specification of a label will generate an HTML <code>&lt;label&gt;</code> tag with an <code>id</code> attribute. The checkbox and the label are connected by the id attribute. 
+Only <i class="far fa-square"></i> will be displayed if a label is not specified.</p>
+<h3 id="checked"><i class="fa fa-caret-right"></i> checked<a class="headerlink" href="#checked" title="Permanent link">&para;</a></h3>
+<p>A checked is a Boolean value and indicates the checked status of the checkbox. The value of the checked checkbox element is packed in the query string and sent.</p>
+<h3 id="labelposition"><i class="fa fa-caret-right"></i> labelPosition<a class="headerlink" href="#labelposition" title="Permanent link">&para;</a></h3>
+<p>The position of the label belonging to the checkbox can be specified around the element. The labelPosition specifies the position of the label to generate with <strong>ACPostion_t</strong> enumeration value. The default value is <code>AC_Behind</code>.</p>
+<ul>
+<li><strong><code>AC_Infront</code></strong> : Place a label in front of the check box.</li>
+<li><strong><code>AC_Behind</code></strong> : Place a label behind the check box.</li>
+</ul>
+<h3 id="post_2"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_2" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_BR</code>.</p>
+<h2 id="autoconnectfile">AutoConnectFile<a class="headerlink" href="#autoconnectfile" title="Permanent link">&para;</a></h2>
+<p>AutoConnectFile generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;file&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag and a <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag. AutoConnectFile enables file upload from the client through the web browser to ESP8266/ESP32 module. You can select the flash in the module, external SD device or any output destination as the storage of the uploaded file.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectFile file("file", "", "Upload:", AC_File_FS)</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acfile.png"></p>
+<h3 id="constructor_3"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_3" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectFile(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> label, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACFile_t store, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_3"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_3" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectFile element and matches the name attribute of the input tag. It also becomes the parameter name of the query string when submitted.</p>
+<h3 id="value_3"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_3" title="Permanent link">&para;</a></h3>
+<p>File name to be upload. The value contains the value entered by the client browser to the <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;file&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag and is read-only. Even If you give a value to the constructor, it does not affect as an initial value like a default file name.</p>
+<h3 id="label_1"><i class="fa fa-caret-right"></i> label<a class="headerlink" href="#label_1" title="Permanent link">&para;</a></h3>
+<p>A <code>label</code> is an optional string. A label is always arranged on the left side of the input box. Specification of a label will generate an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag with an id attribute. The input box and the label are connected by the id attribute.</p>
+<h3 id="store"><i class="fa fa-caret-right"></i> store<a class="headerlink" href="#store" title="Permanent link">&para;</a></h3>
+<p>Specifies the destination to save the uploaded file. The destination can be specified the following values ​​in the <em>ACFile_t</em> enumeration type.</p>
+<ul>
+<li><strong><code>AC_File_FS</code></strong> : Save as the SPIFFS file in flash of ESP8266/ESP32 module.</li>
+<li><strong><code>AC_File_SD</code></strong> : Save to an external SD device connected to ESP8266/ESP32 module.</li>
+<li><strong><code>AC_File_Extern</code></strong> : Pass the content of the uploaded file to the uploader which is declared by the Sketch individually. Its uploader must inherit <a href="acupload.html#to-upload-to-a-device-other-than-flash-or-sd"><strong>AutoConnectUploadHandler</strong></a> class and implements <em>_open</em>, <em>_write</em> and <em>_close</em> function.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Built-in uploader is ready.</p>
+<p>AutoConnect already equips the built-in uploader for saving to the SPIFFS as AC_File_FS and the external SD as AC_File_SD. It is already implemented inside AutoConnect and will store uploaded file automatically.</p>
+</div>
+<h3 id="post_3"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_3" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_BR</code>.</p>
+<h2 id="autoconnectinput">AutoConnectInput<a class="headerlink" href="#autoconnectinput" title="Permanent link">&para;</a></h2>
+<p>AutoConnectInput generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text&quot;</span><span style="color: #f8f8f2">&gt;</span></code>, <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;number&quot;</span><span style="color: #f8f8f2">&gt;</span></code> or <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;password&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag and a <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag. It can also have a placeholder. The value of the input box is passed to the destination in the query string and can be retrieved programmatically. You can also update from the Sketches.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectInput input("input", "", "Server", "MQTT broker server");</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acinput.png"></p>
+<h3 id="constructor_4"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_4" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectInput(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> label, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> pattern, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> placeholder, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACInput_t apply)</span>
+</code></pre></div>
+<h3 id="name_4"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_4" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectInput element and matches the name attribute, the id attribute of the input tag. It also becomes the parameter name of the query string when submitted.</p>
+<h3 id="value_4"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_4" title="Permanent link">&para;</a></h3>
+<p>It becomes a string value of the <code>value</code> attribute of an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag. The text entered from the custom Web page will be grouped in the query string of the form submission and the string set before accessing the page will be displayed as the initial value.</p>
+<h3 id="label_2"><i class="fa fa-caret-right"></i> label<a class="headerlink" href="#label_2" title="Permanent link">&para;</a></h3>
+<p>A <code>label</code> is an optional string. A label is always arranged on the left side of the input box. Specification of a label will generate an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag with an id attribute. The input box and the label are connected by the id attribute.</p>
+<h3 id="pattern"><i class="fa fa-caret-right"></i> pattern<a class="headerlink" href="#pattern" title="Permanent link">&para;</a></h3>
+<p>A <code>pattern</code> specifies a <a href="https://www.w3schools.com/js/js_regexp.asp">regular expression</a> that the AutoConnectInput element's value is checked against on form submission. If it is invalid, the background color will change, but it will be sent even if the data format does not match. To check whether the entered value matches the pattern, use the <a href="apielements.html#isvalid">isValid</a> function.</p>
+<ul>
+<li>The password that must contain 8 or more characters that are of at least one number, and one uppercase and lowercase letter:<br><code>(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}</code></li>
+<li>
+<p>Email address as <em>characters@characters.domain</em>:<br><code>[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}</code></p>
+</li>
+<li>
+<p>IP address:<br><code>(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])</code></p>
+</li>
+<li>
+<p>Host name of Internet:<br><code>(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])</code></p>
+</li>
+<li>
+<p>Date (MM/DD/YYYY) as range 1900-2099:<br><code>(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d</code></p>
+</li>
+<li>
+<p>Twitter account:<br><code>^@?(\w){1,15}$</code></p>
+</li>
+</ul>
+<h3 id="placeholder"><i class="fa fa-caret-right"></i> placeholder<a class="headerlink" href="#placeholder" title="Permanent link">&para;</a></h3>
+<p>A placeholder is an option string. Specification of a placeholder will generate a <code>placeholder</code> attribute for the input tag.</p>
+<h3 id="post_4"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_4" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_BR</code>.</p>
+<h3 id="apply"><i class="fa fa-caret-right"></i> apply<a class="headerlink" href="#apply" title="Permanent link">&para;</a></h3>
+<p>Specifies the type of input that the text box accepts. AutoConnectInput will generate either a <code>input type="text"</code>, <code>input type="password"</code>, or <code>input type="number"</code> tag based on the <code>apply</code> specifying as input type. The input type can be specified the following values in the <em>ACInput_t</em> enumeration type.</p>
+<ul>
+<li><strong><code>AC_Input_Text</code></strong> : <code>input type="text"</code></li>
+<li><strong><code>AC_Input_Password</code></strong> : <code>input type="password"</code></li>
+<li><strong><code>AC_Input_Number</code></strong> : <code>input type="number"</code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Numerical keypad is different</p>
+<p>When the AutoConnectInput element with the <code>AC_Input_Number</code> applied is focused on the browser, the numeric keypad may be displayed automatically. For popular mobile OSes such as Android and iOS, the numeric keypad has the following styles and is different with each OS.
+<div style="display:inline-block"><img src="images/html5_forms_number.png"><span style="padding-left:30px"></span><img src="images/html5_forms_number_ios.png"></div></p>
+</div>
+<h2 id="autoconnectradio">AutoConnectRadio<a class="headerlink" href="#autoconnectradio" title="Permanent link">&para;</a></h2>
+<p>AutoConnectRadio generates few HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;radio&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tags as grouped and the same number of <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tags. AutoConnectRadio can keep the value of a radio button as a collection. The grouped values will be placed in the custom Web page to select only one exclusively.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectRadio radio("radio", { "30 sec.", "60 sec.", "180 sec." }, "Update period", AC_Vertical, 1);</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acradio.png"></p>
+<h3 id="constructor_5"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_5" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectRadio(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, std</span><span style="color: #f92672">::</span><span style="color: #f8f8f2">vector</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">String</span><span style="color: #f92672">&gt;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">const</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> values, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> label, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACArrange_t order, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">uint8_t</span><span style="color: #f8f8f2"> checked, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_5"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_5" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectRadio element and matches the name attribute of the input tags. It also becomes the parameter name of the query string when submitted.</p>
+<h3 id="values"><i class="fa fa-caret-right"></i> values<a class="headerlink" href="#values" title="Permanent link">&para;</a></h3>
+<p>A <code>values</code> is an array of String type for the radio button options which as actually <a href="https://en.cppreference.com/w/cpp/container/vector">std::vector</a>. It is an initialization list can be used. The input tags will be generated from each entry in the values, the amount of which is the same as the number of items in <code>values</code>.</p>
+<h3 id="label_3"><i class="fa fa-caret-right"></i> label<a class="headerlink" href="#label_3" title="Permanent link">&para;</a></h3>
+<p>A label is an optional string. A label will be arranged in the left or top of the radio buttons according to the <strong>order</strong>. Specification of a label will generate an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag with an <code>id</code> attribute. The radio buttons and the label are connected by the id attribute.</p>
+<h3 id="order"><i class="fa fa-caret-right"></i> order<a class="headerlink" href="#order" title="Permanent link">&para;</a></h3>
+<p>A <code>order</code> specifies the direction to arrange the radio buttons. It is a value of type <code>ACArrange_t</code> and accepts one of the following:</p>
+<ul>
+<li><strong><code>AC_Horizontal</code></strong> : Horizontal arrangement.</li>
+<li><strong><code>AC_Vertical</code></strong> : Vertical arrangement.</li>
+</ul>
+<p>A label will place in the left or the top according to the <strong>order</strong>.</p>
+<h3 id="checked_1"><i class="fa fa-caret-right"></i> checked<a class="headerlink" href="#checked_1" title="Permanent link">&para;</a></h3>
+<p>A <code>checked</code> specifies the index number (1-based) of the <strong>values</strong> to be checked. If this parameter is not specified neither item is checked.</p>
+<h3 id="post_5"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_5" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_BR</code>.</p>
+<h2 id="autoconnectrange">AutoConnectRange<a class="headerlink" href="#autoconnectrange" title="Permanent link">&para;</a></h2>
+<p>AutoConnectRange generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;range&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag and a <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectRange range("bri", 0, "Brightness", -2, 2, 1, AC_Infront);</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acrange.png"></p>
+<h3 id="constructor_6"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_6" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectRange(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> label, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2"> min, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2"> max, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2"> step, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosition_t magnify, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> style)</span>
+</code></pre></div>
+<h3 id="name_6"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_6" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectRange element and matches the name attribute, the id attribute of the input tag. It also becomes the parameter name of the query string when submitted.</p>
+<h3 id="value_5"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_5" title="Permanent link">&para;</a></h3>
+<p>It becomes a string value of the <code>value</code> attribute of an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;range&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag, which indicates the default value of the range.</p>
+<h3 id="label_4"><i class="fa fa-caret-right"></i> label<a class="headerlink" href="#label_4" title="Permanent link">&para;</a></h3>
+<p>A <code>label</code> is an optional string. A label is always arranged on the left side of the range slider. Specification of a label will generate an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag with an id attribute. The range slider and the label are connected by the id attribute.</p>
+<h3 id="min"><i class="fa fa-caret-right"></i> min<a class="headerlink" href="#min" title="Permanent link">&para;</a></h3>
+<p>Specifies the most negative value within the range of allowed values and must not be less than the <code>value</code> argument.</p>
+<h3 id="max"><i class="fa fa-caret-right"></i> max<a class="headerlink" href="#max" title="Permanent link">&para;</a></h3>
+<p>It defines the greatest value in the range of permitted values.</p>
+<h3 id="step"><i class="fa fa-caret-right"></i> step<a class="headerlink" href="#step" title="Permanent link">&para;</a></h3>
+<p>It is a number that specifies the granularity that the value must adhere to. The default is 1. As you move the slider, it increases or decreases the value according to the <code>step</code> in granularity.</p>
+<h3 id="magnify"><i class="fa fa-caret-right"></i> magnify<a class="headerlink" href="#magnify" title="Permanent link">&para;</a></h3>
+<p>Displays the current value of the range on the left or right side of the slider.</p>
+<ul>
+<li><strong><code>AC_Infront</code></strong> : Displays the current value on the left side.</li>
+<li><strong><code>AC_Behind</code></strong> : Displays the current value on the right side.</li>
+<li><strong><code>AC_Void</code></strong> : No display the current value. This is the default.</li>
+</ul>
+<h3 id="post_6"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_6" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_BR</code>.</p>
+<h3 id="style"><i class="fa fa-caret-right"></i> style<a class="headerlink" href="#style" title="Permanent link">&para;</a></h3>
+<p>A <code>style</code> specifies the qualification style to give to the content and can use the style attribute format as it is.</p>
+<h2 id="autoconnectstyle">AutoConnectStyle<a class="headerlink" href="#autoconnectstyle" title="Permanent link">&para;</a></h2>
+<p>AutoConnectStyle inserts the string given by the <strong>value</strong> into the style block of a custom Web page as it is raw.</p>
+<div class="admonition warning">
+<p class="admonition-title">The validity as CSS will not be checked</p>
+<p>AutoConnectStyle does not do syntax checking and semantic analysis of value. Insert the specified string into the style block of the custom Web page without processing it.
+Therefore, specifying the wrong CSS will modulate the behavior of the custom Web page.</p>
+</div>
+<h3 id="constructor_7"><i class="fa fa-code"></i> Constructor<a class="headerlink" href="#constructor_7" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectStyle(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value)</span>
+</code></pre></div>
+<h3 id="name_7"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_7" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectStyle element and is useful only to access this element from the Sketch. It does not affect the generated HTML code.</p>
+<h3 id="value_6"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_6" title="Permanent link">&para;</a></h3>
+<p>The raw CSS code. It is not necessary to write <code>&lt;style&gt;</code> <code>&lt;/style&gt;</code> tags.</p>
+<h2 id="autoconnectselect">AutoConnectSelect<a class="headerlink" href="#autoconnectselect" title="Permanent link">&para;</a></h2>
+<p>AutoConnectSelect generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">select</span><span style="color: #f8f8f2">&gt;</span></code> tag (drop-down list) and few <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">option</span><span style="color: #f8f8f2">&gt;</span></code> tags.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectSelect select("select", { String("Europe/London"), String("Europe/Berlin"), String("Europe/Helsinki"), String("Europe/Moscow"), String("Asia/Dubai") }, "Select TZ name");</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acselect.png"></p>
+<h3 id="constructor_8"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_8" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectSelect(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, std</span><span style="color: #f92672">::</span><span style="color: #f8f8f2">vector</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">String</span><span style="color: #f92672">&gt;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">const</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> options, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> label, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">uint8_t</span><span style="color: #f8f8f2"> selected, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_8"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_8" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectSelect element and matches the name attribute of the select tags.</p>
+<h3 id="options"><i class="fa fa-caret-right"></i> options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
+<p>An <code>options</code> is an array of String type for the options which as actually <a href="https://en.cppreference.com/w/cpp/container/vector">std::vector</a> for an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">option</span><span style="color: #f8f8f2">&gt;</span></code> tag. It is an initialization list can be used. The option tags will be generated from each entry in the options, the amount of which is the same as the number of items in an <code>options</code>.</p>
+<h3 id="label_5"><i class="fa fa-caret-right"></i> label<a class="headerlink" href="#label_5" title="Permanent link">&para;</a></h3>
+<p>A <code>label</code> is an optional string. A label is always arranged on the left side of the drop-down list. Specification of a label will generate an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">label</span><span style="color: #f8f8f2">&gt;</span></code> tag with an id attribute. The select tag and the label are connected by the id attribute.</p>
+<h3 id="selected"><i class="fa fa-caret-right"></i> selected<a class="headerlink" href="#selected" title="Permanent link">&para;</a></h3>
+<p>A <code>selected</code> is an optional value. Specifies that an option should be pre-selected when the page loads.</p>
+<h3 id="post_7"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_7" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_BR</code>.</p>
+<h2 id="autoconnectsubmit">AutoConnectSubmit<a class="headerlink" href="#autoconnectsubmit" title="Permanent link">&para;</a></h2>
+<p>AutoConnectSubmit generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;button&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag attached <code class="highlight">onclick</code> attribute. The native code of the <code class="highlight">onclick</code> attribute is the submission of the form with the <strong>POST</strong> method.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectSubmit submit("submit", "Save", "/mqtt_save");</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/acsubmit.png"></p>
+<h3 id="constructor_9"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_9" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectSubmit(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> uri, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_9"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_9" title="Permanent link">&para;</a></h3>
+<p>It is the <code>name</code> of the AutoConnectSubmit element and matches the name attribute of the input tag.</p>
+<h3 id="value_7"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_7" title="Permanent link">&para;</a></h3>
+<p>It becomes a string of the <code>value</code> attribute of an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">input</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;button&quot;</span><span style="color: #f8f8f2">&gt;</span></code> tag. The <code>value</code> will be displayed as a label of the button.</p>
+<h3 id="uri"><i class="fa fa-caret-right"></i> uri<a class="headerlink" href="#uri" title="Permanent link">&para;</a></h3>
+<p>A <code>uri</code> specifies the URI to send form data when the button declared by AutoConnectSubmit is clicked.</p>
+<p>The query string of the form data sent with AutoConnectSubmit contains the URI of the page. Its parameter name is <code>_acuri</code>. In Sketch, you can know the called URI by referring to the <code>_acuri</code> parameter with the destination page handler. The actual query string is as follows:</p>
+<p>_acuri=<strong>CALLER_URI</strong></p>
+<h3 id="post_8"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_8" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_None</code>.</p>
+<h2 id="autoconnecttext">AutoConnectText<a class="headerlink" href="#autoconnecttext" title="Permanent link">&para;</a></h2>
+<p>AutoConnectText generates an HTML <code class="highlight"><span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">div</span><span style="color: #f8f8f2">&gt;</span></code> tag. A <code class="highlight">style</code> attribute will be attached if a <a href="#style">style</a> parameter is passed.</p>
+<p><i class="fa fa-eye"></i> <strong>Sample</strong><br>
+<small><strong><code>AutoConnectText text("text", "Publishing the WiFi signal strength to MQTT channel. RSSI value of ESP8266 to the channel created on ThingSpeak", "font-family:serif;color:#4682b4;");</code></strong></small></p>
+<p><small>On the page:</small><br><img src="images/actext.png"></p>
+<h3 id="constructor_10"><i class="fa fa-edit"></i> Constructor<a class="headerlink" href="#constructor_10" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectText(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> name, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> value, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> style, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> format, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> ACPosterior_t post)</span>
+</code></pre></div>
+<h3 id="name_10"><i class="fa fa-caret-right"></i> name<a class="headerlink" href="#name_10" title="Permanent link">&para;</a></h3>
+<p>A <code>name</code> does not exist in the generated HTML. It provides only a means of accessing elements with the Sketches.</p>
+<h3 id="value_8"><i class="fa fa-caret-right"></i> value<a class="headerlink" href="#value_8" title="Permanent link">&para;</a></h3>
+<p>It becomes content and also can contain the native HTML code, but remember that your written code is enclosed by the div tag.</p>
+<h3 id="style_1"><i class="fa fa-caret-right"></i> style<a class="headerlink" href="#style_1" title="Permanent link">&para;</a></h3>
+<p>A <code>style</code> specifies the qualification style to give to the content and can use the style attribute format as it is.</p>
+<h3 id="format"><i class="fa fa-caret-right"></i> format<a class="headerlink" href="#format" title="Permanent link">&para;</a></h3>
+<p>A <code>format</code> is a pointer to a null-terminated multi byte string specifying how to interpret the value. It specifies the conversion format when outputting values. The format string conforms to C-style printf library functions, but depends on the Espressif's SDK implementation. The conversion specification is valid only in <strong>%s</strong> format. (Left and Right justification, width are also valid.)</p>
+<h3 id="post_9"><i class="fa fa-caret-right"></i> post<a class="headerlink" href="#post_9" title="Permanent link">&para;</a></h3>
+<p>Specifies a tag to add behind the HTML code generated from the element. The default values is <code>AC_Tag_None</code>.<br />
+AutoConnectText element without the style parameter will be drained to HTML as a raw value and is accompanied by <code>&lt;p&gt;</code>, <code>&lt;br&gt;</code> or <code>&lt;div&gt;</code> tags according to the post enumeration values. If the style parameter is specified, the post enumeration value will be ignored and always be enclosed in the <code>&lt;div&gt;</code> tag, and the style value will be inserted into <code>style</code> attribute of the <code>&lt;div&gt;</code> tag.</p>
+<h2 id="how-to-coding-for-the-elements">How to coding for the elements<a class="headerlink" href="#how-to-coding-for-the-elements" title="Permanent link">&para;</a></h2>
+<h3 id="declaration-for-the-elements-in-sketches"><i class="fa fa-edit"></i> Declaration for the elements in Sketches<a class="headerlink" href="#declaration-for-the-elements-in-sketches" title="Permanent link">&para;</a></h3>
+<p>Variables of each AutoConnetElement can be declared with macros. By using the macros, you can treat element name that is String type as variable in sketches.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></p>
+<p>ACElement ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACButton ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>action</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACCheckbox ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>label</em> <small>]</small> <small>[</small> , <small><strong>true</strong></small> | <small><strong>false</strong></small> <small>]</small> <small>[</small> , <small><strong>AC_Infront</strong></small> | <small><strong>AC_Behind</strong></small> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACFile ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>label</em> <small>]</small> <small>[</small> , <small><strong>AC_File_FS</strong></small> | <small><strong>AC_File_SD</strong></small> | <small><strong>AC_File_Extern</strong></small> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACInput ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>label</em> <small>]</small> <small>[</small> , <em>pattern</em> <small>]</small> <small>[</small> , <em>placeholder</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> <small>[</small> , <small><strong>AC_Input_Text</strong></small> | <small><strong>AC_Input_Password</strong></small> | <small><strong>AC_Input_Number</strong></small> <small>]</small>)</p>
+<p>ACRadio ( <em>name</em> <small>[</small> , <em>values</em> <small>]</small> <small>[</small> , <em>label</em> <small>]</small> <small>[</small> , <small><strong>AC_Horizontal</small></strong> | <small><strong>AC_Vertical</strong></small> <small>]</small> <small>[</small> , <em>checked</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACRange ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>label</em> <small>]</small> <small>[</small> , <em>min</em> <small>]</small> <small>[</small> , <em>max</em> <small>]</small> <small>[</small> , <em>step</em> </small> <small>]</small> <small>[</small> , <small><strong>AC_Infront</strong></small> | <small><strong>AC_Behind</strong></small> | <small><strong>AC_Void</strong></small> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> <small>[</small> , <em>style</em> <small>]</small> )</p>
+<p>ACSelect ( <em>name</em> <small>[</small> , <em>options</em> <small>]</small> <small>[</small> , <em>label</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACStyle ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> )</p>
+<p>ACSubmit ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>uri</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<p>ACText ( <em>name</em> <small>[</small> , <em>value</em> <small>]</small> <small>[</small> , <em>style</em> <small>]</small> <small>[</small> , <em>format</em> <small>]</small> <small>[</small> , <small><strong>AC_Tag_None</strong></small> | <small><strong>AC_Tag_BR</strong></small> | <small><strong>AC_Tag_P</strong></small> | <small><strong>AC_Tag_DIV</strong></small> <small>]</small> )</p>
+<div class="admonition memo">
+<p class="admonition-title">Declaration macro usage</p>
+<p>For example, <em>AutoConnectText</em> can be declared using macros.
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectText caption(</span><span style="color: #e6db74">&quot;caption&quot;</span><span style="color: #f8f8f2">, </span><span style="color: #e6db74">&quot;hello, world&quot;</span><span style="color: #f8f8f2">, </span><span style="color: #e6db74">&quot;color:blue;&quot;</span><span style="color: #f8f8f2">)</span>
+</code></pre></div>
+equals by using <em>ACText</em> macro.<br>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">ACText(caption, </span><span style="color: #e6db74">&quot;hello, world&quot;</span><span style="color: #f8f8f2">, </span><span style="color: #e6db74">&quot;color:blue;&quot;</span><span style="color: #f8f8f2">)</span>
+</code></pre></div></p>
+</div>
+<h3 id="variant-for-autoconnectelements"><i class="fa fa-edit"></i> Variant for AutoConnectElements<a class="headerlink" href="#variant-for-autoconnectelements" title="Permanent link">&para;</a></h3>
+<p>Some AutoConnectAux APIs specify AutoConnectElements as an argument. There are also functions that return a pointer to AutoConnectElements. AutoConnectElement behaves as a variant type of each element class to make these interfaces a single. Use <a href="https://en.cppreference.com/w/cpp/language/reinterpret_cast">reinterpret_cast</a> to cast from a variant pointer to an Actual type pointer of AutoConnectElements.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectAux aux;</span>
+<span style="color: #f8f8f2">ACText(Text1, </span><span style="color: #e6db74">&quot;hello, world&quot;</span><span style="color: #f8f8f2">);</span>
+<span style="color: #f8f8f2">aux.add(Text1);</span>
+<span style="color: #f8f8f2">AutoConnectText</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> text_p </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">reinterpret_cast</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">AutoConnectText</span><span style="color: #f92672">*&gt;</span><span style="color: #f8f8f2">(aux.getElement(</span><span style="color: #e6db74">&quot;Text1&quot;</span><span style="color: #f8f8f2">));</span>
+<span style="color: #f8f8f2">AutoConnectText</span><span style="color: #f92672">&amp;</span><span style="color: #f8f8f2"> text </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> aux.getElement</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">AutoConnectText</span><span style="color: #f92672">&gt;</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;Text1&quot;</span><span style="color: #f8f8f2">);</span>
+</code></pre></div>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>JavaScript can be inserted into a custom Web page using AutoConnectElement.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>The square brackets in the syntax are optional parameters, the stroke is a selection parameter, the bold fonts are literal.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="acintro.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Custom Web pages with AutoConnect" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Custom Web pages with AutoConnect
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="acjson.html" class="md-footer__link md-footer__link--next" aria-label="Next: Custom Web pages with JSON" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Custom Web pages with JSON
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2018-2021 Hieromon Ikasamo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/Hieromon" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hieromon" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      
+        <script src="js/gifffer.min.js"></script>
+      
+    
+  </body>
+</html>

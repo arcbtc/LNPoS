@@ -19,8 +19,8 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 #include <AutoConnect.h>
 
 #define PARAM_FILE      "/elements.json"
-#define USERNAME        "username_you_wish"
-#define PASSWORD        "password_you_wish"
+#define USERNAME        "bitcoinPoS"
+#define PASSWORD        "ToTheMoon"
 
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
