@@ -1,12 +1,3 @@
-#if defined(ARDUINO_ARCH_ESP8266)
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
-#include <LittleFS.h>
-using WebServerClass = ESP8266WebServer;
-FS& FlashFS = LittleFS;
-#define FORMAT_ON_FAIL
-
-#elif defined(ARDUINO_ARCH_ESP32)
 #include <WiFi.h>
 #include <WebServer.h>
 #include <FS.h>
@@ -14,7 +5,6 @@ FS& FlashFS = LittleFS;
 using WebServerClass = WebServer;
 fs::SPIFFSFS& FlashFS = SPIFFS;
 #define FORMAT_ON_FAIL  true
-#endif
 
 #include <AutoConnect.h>
 
@@ -28,11 +18,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
   "title": "PoS Options",
   "menu": true,
   "element": [
-    {
-      "name": "tablecss",
-      "type": "ACStyle",
-      "value": "table{font-family:arial,sans-serif;border-collapse:collapse;width:100%;color:black;}td,th{border:1px solid #dddddd;text-align:center;padding:8px;}tr:nth-child(even){background-color:#dddddd;}"
-    },
+
     {
       "name": "text",
       "type": "ACText",
@@ -47,12 +33,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "apply": "number",
       "pattern": "\\d*"
     },
-    {
-      "name": "hr",
-      "type": "ACElement",
-      "value": "<hr style=\"height:1px;border-width:0;color:gray;background-color:#52a6ed\">",
-      "posterior": "par"
-    },
+
     {
       "name": "offline",
       "type": "ACText",
@@ -64,12 +45,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "type": "ACInput",
       "label": "Master Public Key"
     },
-    {
-      "name": "hr1",
-      "type": "ACElement",
-      "value": "<hr style=\"height:1px;border-width:0;color:gray;background-color:#52a6ed\">",
-      "posterior": "par"
-    },
+
     {
       "name": "lightning1",
       "type": "ACText",
@@ -85,12 +61,6 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "invoice",
       "type": "ACInput",
       "label": "Wallet Invoice Key"
-    },
-    {
-      "name": "hr2",
-      "type": "ACElement",
-      "value": "<hr style=\"height:1px;border-width:0;color:gray;background-color:#52a6ed\">",
-      "posterior": "par"
     },
     {
       "name": "lightning2",
@@ -128,7 +98,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
     {
       "name": "adjust_width",
       "type": "ACElement",
-      "value": "<script type=\"text/javascript\">window.onload=function(){var t=document.querySelectorAll(\"input[type='text']\");for(i=0;i<t.length;i++){var e=t[i].getAttribute(\"placeholder\");e&&t[i].setAttribute(\"size\",e.length*.8)}};</script>"
+      "value": "<script type='text/javascript'>window.onload=function(){var t=document.querySelectorAll('input[]');for(i=0;i<t.length;i++){var e=t[i].getAttribute('placeholder');e&&t[i].setAttribute('size',e.length*.8)}};</script>"
     }
   ]
  }
@@ -217,7 +187,8 @@ void setup() {
     Serial.println(String());
     return String();
   });
-
+  poo();
+  Serial.println(PAGE_ELEMENTS[1]);
   portal.join({ elementsAux, saveAux });
   config.auth = AC_AUTH_BASIC;
   config.authScope = AC_AUTHSCOPE_AUX;
@@ -228,11 +199,15 @@ void setup() {
   config.reconnectInterval = 1;
   portal.config(config);
   portal.begin();
-  while(true){
-    portal.handleClient();
-  }
+  
+
+  Serial.println("cunt");
 }
 
 void loop() {
   portal.handleClient();
+}
+
+void poo(){
+  Serial.println("mother-fucker");
 }
