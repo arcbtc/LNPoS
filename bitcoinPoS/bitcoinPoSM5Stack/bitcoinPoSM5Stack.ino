@@ -60,7 +60,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "pin",
       "type": "ACInput",
       "label": "PoS Admin Pin",
-      "value": "1989",
+      "value": "9735",
       "apply": "number",
       "pattern": "\\d*"
     },
@@ -198,6 +198,8 @@ void setup() {
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   StaticJsonDocument<2000> doc;
   DeserializationError error = deserializeJson(doc, paramFile.readString());
+  paramFile.close();
+  
   JsonObject pinRoot = doc[0];
   const char* apPinChar = pinRoot["value"]; 
   apPin  = apPinChar;
@@ -239,7 +241,13 @@ void setup() {
     server.send(200, "text/html", content);
   });
   
+  elementsAux.load(FPSTR(PAGE_ELEMENTS));
   elementsAux.on([] (AutoConnectAux& aux, PageArgument& arg) {
+    File param = FlashFS.open(PARAM_FILE, "r");
+      if (param) {
+        aux.loadElement(param, { "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
+        param.close();
+      }
     if (portal.where() == "/posconfig") {
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
@@ -269,16 +277,17 @@ void setup() {
     return String();
   });
 
-  portal.join({ elementsAux, saveAux });
   config.auth = AC_AUTH_BASIC;
   config.authScope = AC_AUTHSCOPE_AUX;
+  config.username = "USERNAME";
+  config.password = "PASSWORD";
   config.ticker = true;
   config.autoReconnect = true;
   config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
   config.psk = "ToTheMoon";
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
-  portal.config(config);
+  
   int timer = 0;
   while(timer < 3000){
     BTNA.read();   
@@ -286,6 +295,8 @@ void setup() {
     BTNC.read();
     if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased())
     {
+      portal.join({ elementsAux, saveAux });
+      portal.config(config);
       portal.begin();
       Serial.println("portal launched!");
       while(true){
