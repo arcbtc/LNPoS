@@ -6,6 +6,7 @@ using WebServerClass = WebServer;
 fs::SPIFFSFS& FlashFS = SPIFFS;
 #define FORMAT_ON_FAIL  true
 
+#include <JC_Button.h>
 #include <AutoConnect.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -21,7 +22,6 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 #define KEYBOARD_INT          5
 
 #define PARAM_FILE "/elements.json"
-#define PIN_FILE "/pin.txt"
 
 String key_val;
 String inputs;
@@ -33,6 +33,15 @@ String currency;
 String key;
 String preparedURL;
 String baseURL;
+String apPin = "9735"; //default AP pin
+String masterKey;
+String lnbitsServer;
+String invoice;
+String lnbitsBaseURL;
+String secret;
+bool onchainCheck = false;
+bool lnCheck = false;
+bool lnurlCheck = false;
 int randomPin;
 
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -160,6 +169,12 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
+const byte
+    BUTTON_PIN_A(39), BUTTON_PIN_B(38), BUTTON_PIN_C(37);
+Button BTNA(BUTTON_PIN_A);
+Button BTNB(BUTTON_PIN_B);
+Button BTNC(BUTTON_PIN_C);
+
 WebServerClass  server;
 AutoConnect portal(server);
 AutoConnectConfig config;
@@ -170,29 +185,54 @@ void setup() {
 
   Serial.begin(115200);
   tft.init();
+  tft.invertDisplay(true);
   tft.setRotation(1);
   h.begin();
+  BTNA.begin();
+  BTNB.begin();
+  BTNC.begin();
   logo();
   FlashFS.begin(FORMAT_ON_FAIL);
-  
+
+//Get the saved details 
   File paramFile = FlashFS.open(PARAM_FILE, "r");
-  Serial.println(paramFile.readString());
-  paramFile.close();
-  
-  File pinFile = FlashFS.open(PIN_FILE, "r");
-  Serial.println(pinFile.readString());
-  pinFile.close();
-  
-  File pinfile = FlashFS.open(PIN_FILE, "w");
-    if (pinfile) {
-      thePin = pinfile.readString();
-      Serial.println(thePin);
-    }
-    else{
-      pinfile.print("1989");
-    }
-  
-  pinfile.close();
+  StaticJsonDocument<2000> doc;
+  DeserializationError error = deserializeJson(doc, paramFile.readString());
+  JsonObject pinRoot = doc[0];
+  const char* apPinChar = pinRoot["value"]; 
+  apPin  = apPinChar;
+  if (apPinChar != "") {
+    apPin = apPinChar;
+  }
+  JsonObject maRoot = doc[1];
+  const char* masterKeyChar = maRoot["value"]; 
+  masterKey  = masterKeyChar;
+  if(masterKey != ""){
+    onchainCheck = true;
+  }
+  JsonObject serverRoot = doc[2];
+  const char* serverChar = serverRoot["value"]; 
+  lnbitsServer  = serverChar;
+  JsonObject invoiceRoot = doc[3];
+  const char* invoiceChar = invoiceRoot["value"]; 
+  invoice  = invoiceChar;
+  if(invoice != ""){
+    lnCheck = true;
+  }
+  JsonObject baseURLRoot = doc[4];
+  const char* baseURLChar = baseURLRoot["value"]; 
+  lnbitsBaseURL  = baseURLChar;
+  JsonObject secretRoot = doc[5];
+  const char* secretChar = secretRoot["value"]; 
+  secret  = secretChar;
+  JsonObject currencyRoot = doc[6];
+  const char* currencyChar = currencyRoot["value"]; 
+  currency  = currencyChar;
+  if(secret != ""){
+    lnurlCheck = true;
+  }
+
+//Handle AP traffic
   server.on("/", []() {
     String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
     content += AUTOCONNECT_LINK(COG_24);
@@ -203,7 +243,7 @@ void setup() {
     if (portal.where() == "/posconfig") {
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
-        aux.loadElement(param, { "text", "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
+        aux.loadElement(param, { "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
         param.close();
       }
     }
@@ -213,30 +253,21 @@ void setup() {
   saveAux.load(FPSTR(PAGE_SAVE));
   saveAux.on([] (AutoConnectAux& aux, PageArgument& arg) {
     aux["caption"].value = PARAM_FILE;
-
     File param = FlashFS.open(PARAM_FILE, "w");
     if (param) {
-      
-      File pinfile = FlashFS.open(PIN_FILE, "w");
-      pinfile.print(arg.arg("pin").toInt());
-      pinfile.close();
-      
       // Save as a loadable set for parameters.
-      elementsAux.saveElement(param, { "text", "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"});
+      elementsAux.saveElement(param, { "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"});
       param.close();
       // Read the saved elements again to display.
       param = FlashFS.open(PARAM_FILE, "r");
       aux["echo"].value = param.readString();
-      
       param.close();
     }
     else {
       aux["echo"].value = "Filesystem failed to open.";
     }
-
     return String();
   });
-  
 
   portal.join({ elementsAux, saveAux });
   config.auth = AC_AUTH_BASIC;
@@ -248,11 +279,27 @@ void setup() {
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
   portal.config(config);
-  portal.begin();
+  int timer = 0;
+  while(timer < 3000){
+    BTNA.read();   
+    BTNB.read();
+    BTNC.read();
+    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased())
+    {
+      portal.begin();
+      Serial.println("portal launched!");
+      while(true){
+        portal.handleClient();
+      }
+    }
+  timer = timer + 200;
+  delay(200);
+  }
 }
 
 void loop() {
-  portal.handleClient();
+  Serial.println("nothing pressed");
+  delay(3000);
 }
 
 void get_keypad()
