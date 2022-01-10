@@ -7,6 +7,10 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 #define FORMAT_ON_FAIL  true
 
 #include <AutoConnect.h>
+#include <SPI.h>
+
+#include <TFT_eSPI.h>
+#include <ArduinoJson.h>
 
 #define PARAM_FILE "/elements.json"
 #define PIN_FILE "/pin.txt"
@@ -136,17 +140,20 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 }
 )";
 
+
+
 WebServerClass  server;
 AutoConnect portal(server);
 AutoConnectConfig config;
 AutoConnectAux  elementsAux;
 AutoConnectAux  saveAux;
-
+TFT_eSPI tft = TFT_eSPI();
 
 void setup() {
-  delay(1000);
-  Serial.begin(115200);
 
+  Serial.begin(115200);
+  tft.init();
+  logo();
   FlashFS.begin(FORMAT_ON_FAIL);
   
   File paramFile = FlashFS.open(PARAM_FILE, "r");
@@ -175,7 +182,6 @@ void setup() {
   
   elementsAux.on([] (AutoConnectAux& aux, PageArgument& arg) {
     if (portal.where() == "/posconfig") {
-      Serial.println("cunt");
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
         aux.loadElement(param, { "text", "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
@@ -230,17 +236,14 @@ void loop() {
   portal.handleClient();
 }
 
-void readFile(fs::FS &fs, const char * path){
-    Serial.printf("Reading file: %s\r\n", path);
-
-    File file = fs.open(path);
-    if(!file || file.isDirectory()){
-        Serial.println("- failed to open file for reading");
-        return;
-    }
-
-    Serial.println("- read from file:");
-    while(file.available()){
-        Serial.write(file.read());
-    }
+void logo()
+{
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK); // White characters on black background
+  tft.setTextSize(5);
+  tft.setCursor(40, 100);  // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  tft.print("LNURLPoS"); // Using tft.print means text background is NEVER rendered
+  tft.setTextSize(2);
+  tft.setCursor(42, 140);          // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  tft.print("Powered by LNbits"); // Using tft.print means text background is NEVER rendered
 }
