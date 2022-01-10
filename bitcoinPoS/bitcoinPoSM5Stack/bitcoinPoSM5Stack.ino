@@ -8,10 +8,10 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 
 #include <AutoConnect.h>
 
-#define PARAM_FILE      "/elements.json"
-#define USERNAME        "bitcoinPoS"
-#define PASSWORD        "ToTheMoon"
+#define PARAM_FILE "/elements.json"
+#define PIN_FILE "/pin.txt"
 
+String thePin;
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
   "uri": "/posconfig",
@@ -142,24 +142,43 @@ AutoConnectConfig config;
 AutoConnectAux  elementsAux;
 AutoConnectAux  saveAux;
 
+
 void setup() {
   delay(1000);
   Serial.begin(115200);
-  Serial.println();
 
   FlashFS.begin(FORMAT_ON_FAIL);
+  
+  File paramFile = FlashFS.open(PARAM_FILE, "r");
+  Serial.println(paramFile.readString());
+  paramFile.close();
+  
+  File pinFile = FlashFS.open(PIN_FILE, "r");
+  Serial.println(pinFile.readString());
+  pinFile.close();
+  
+  File pinfile = FlashFS.open(PIN_FILE, "w");
+    if (pinfile) {
+      thePin = pinfile.readString();
+      Serial.println(thePin);
+    }
+    else{
+      pinfile.print("1989");
+    }
+  
+  pinfile.close();
   server.on("/", []() {
-    String content = "Place the root page with the sketch application.&ensp;";
+    String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
     content += AUTOCONNECT_LINK(COG_24);
     server.send(200, "text/html", content);
   });
-
-  elementsAux.load(FPSTR(PAGE_ELEMENTS));
+  
   elementsAux.on([] (AutoConnectAux& aux, PageArgument& arg) {
     if (portal.where() == "/posconfig") {
+      Serial.println("cunt");
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
-        aux.loadElement(param, { "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
+        aux.loadElement(param, { "text", "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"} );
         param.close();
       }
     }
@@ -172,8 +191,13 @@ void setup() {
 
     File param = FlashFS.open(PARAM_FILE, "w");
     if (param) {
+      
+      File pinfile = FlashFS.open(PIN_FILE, "w");
+      pinfile.print(arg.arg("pin").toInt());
+      pinfile.close();
+      
       // Save as a loadable set for parameters.
-      elementsAux.saveElement(param, { "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"});
+      elementsAux.saveElement(param, { "text", "pin", "masterkey", "server", "invoice", "baseurl", "secret", "currency"});
       param.close();
       // Read the saved elements again to display.
       param = FlashFS.open(PARAM_FILE, "r");
@@ -184,30 +208,39 @@ void setup() {
     else {
       aux["echo"].value = "Filesystem failed to open.";
     }
-    Serial.println(String());
+
     return String();
   });
-  poo();
-  Serial.println(PAGE_ELEMENTS[1]);
+  
+
   portal.join({ elementsAux, saveAux });
   config.auth = AC_AUTH_BASIC;
   config.authScope = AC_AUTHSCOPE_AUX;
-  config.username = USERNAME;
-  config.password = PASSWORD;
   config.ticker = true;
   config.autoReconnect = true;
+  config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
+  config.psk = "ToTheMoon";
+  config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
   portal.config(config);
   portal.begin();
-  
-
-  Serial.println("cunt");
 }
 
 void loop() {
   portal.handleClient();
 }
 
-void poo(){
-  Serial.println("mother-fucker");
+void readFile(fs::FS &fs, const char * path){
+    Serial.printf("Reading file: %s\r\n", path);
+
+    File file = fs.open(path);
+    if(!file || file.isDirectory()){
+        Serial.println("- failed to open file for reading");
+        return;
+    }
+
+    Serial.println("- read from file:");
+    while(file.available()){
+        Serial.write(file.read());
+    }
 }
