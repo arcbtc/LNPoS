@@ -12,7 +12,7 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 #include <Wire.h>
 #include <TFT_eSPI.h>
 #include <Hash.h>
-#include <Conversion.h>
+//#include <Conversion.h>
 #include <ArduinoJson.h>
 #include "qrcode.h"
 #include "Bitcoin.h"
@@ -33,12 +33,12 @@ String lncurrency;
 String key;
 String preparedURL;
 String baseURL;
-String apPin = "9735"; //default AP pin
-char* masterKey[130];
-char* lnbitsServer[40];
-char* invoice[40];
-char* lnbitsBaseURL[100];
-char* secret[30];
+String apPassword = "ToTheMoon1"; //default WiFi AP password
+String masterKey;
+String lnbitsServer;
+String invoice;
+String lnbitsBaseURL;
+String secret;
 String dataIn;
 String amountToShow;
 String noSats;
@@ -66,12 +66,10 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
-      "name": "pin",
+      "name": "password",
       "type": "ACInput",
-      "label": "PoS Admin Pin",
-      "value": "9735",
-      "apply": "number",
-      "pattern": "\\d*"
+      "label": "Password for PoS AP WiFi",
+      "value": "ToTheMoon1"
     },
 
     {
@@ -220,14 +218,15 @@ void setup() {
     StaticJsonDocument<2000> doc;
     DeserializationError error = deserializeJson(doc, paramFile.readString());
   
-    JsonObject pinRoot = doc[0];
-    const char* apPinChar = pinRoot["value"];
-    const char* apNameChar = pinRoot["name"];
-    if (String(apPinChar) != "" && String(apNameChar) == "pin") {
-      apPin = apPinChar;
+    JsonObject passRoot = doc[0];
+    const char* apPasswordChar = passRoot["value"];
+    const char* apNameChar = passRoot["name"];
+    if (String(apPasswordChar) != "" && String(apNameChar) == "password") {
+      apPassword = apPasswordChar;
     }
     JsonObject maRoot = doc[1];
-    strcpy(masterKey, maRoot["value"]);
+    const char* masterKeyChar = maRoot["name"];
+    masterKey = masterKeyChar;
     if(masterKey != ""){
       onchainCheck = true;
     }
@@ -269,13 +268,13 @@ void setup() {
   elementsAux.on([] (AutoConnectAux& aux, PageArgument& arg) {
     File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
-        aux.loadElement(param, { "pin", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"} );
+        aux.loadElement(param, { "password", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"} );
         param.close();
       }
     if (portal.where() == "/posconfig") {
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param) {
-        aux.loadElement(param, { "pin", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"} );
+        aux.loadElement(param, { "password", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"} );
         param.close();
       }
     }
@@ -288,7 +287,7 @@ void setup() {
     File param = FlashFS.open(PARAM_FILE, "w");
     if (param) {
       // Save as a loadable set for parameters.
-      elementsAux.saveElement(param, { "pin", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"});
+      elementsAux.saveElement(param, { "password", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"});
       param.close();
       // Read the saved elements again to display.
       param = FlashFS.open(PARAM_FILE, "r");
@@ -306,41 +305,15 @@ void setup() {
   config.ticker = true;
   config.autoReconnect = true;
   config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
-  config.psk = "ToTheMoon";
+  config.psk = apPassword;
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
   
-  int timer = 0;
-
-  while(timer < 2000){
-    BTNA.read();   
-    BTNB.read();
-    BTNC.read();
-    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck)){
-      enterPin();
-      while(true){
-        getKeypad(true, false);
-        if(amountToShow.length() == apPin.length() && amountToShow != apPin){
-          wrongPin();
-          dataIn = "";
-          amountToShow = "";
-          delay(1500);
-          enterPin();
-        }
-        else if(amountToShow == apPin){
-          amountToShow = "";
-          portalLaunch();
-          portal.join({ elementsAux, saveAux });
-          portal.config(config);
-          portal.begin();
-          while(true){
-            portal.handleClient();
-          }
-        } 
-      }
-    }
-  timer = timer + 200;
-  delay(200);
+  portal.join({ elementsAux, saveAux });
+  portal.config(config);
+  portal.begin();
+  while(true){
+    portal.handleClient();
   }
 }
 
@@ -376,7 +349,7 @@ void loop() {
       if (BTNA.wasReleased() && onchainCheck){
         onchainMain();
       }
-      if (BTNB.wasReleased() && lnCheck){
+      if (BTNB.wasReleased() && lnCheck && WiFi.status() == WL_CONNECTED){
         lnMain();
       }
       if (BTNC.wasReleased() && lnurlCheck){
@@ -428,10 +401,7 @@ void getKeypad(bool isPin, bool isLN)
         if(isDigit(key_val) || key_val == '.')
          {
           dataIn += (char)key_val;
-          if(isPin){
-            isPinNumber(); 
-          }
-          else if(isLN){
+          if(isLN){
             isLNMoneyNumber(); 
           }
           else{
@@ -443,15 +413,6 @@ void getKeypad(bool isPin, bool isLN)
   }
 }
 
-void isPinNumber( void )
- {
-   amountToShow = String(dataIn.toInt());
-   tft.setTextSize(3);
-   tft.setCursor(100, 120);
-   tft.setTextColor(TFT_GREEN, TFT_BLACK); 
-   tft.setTextSize(4);
-   tft.println(amountToShow);
- }
 void isLNMoneyNumber( void )
  {
    amountToShow = String(dataIn.toFloat());
@@ -521,45 +482,19 @@ void qrShowCode()
   }
 }
 
-void enterPin()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(75, 80);
-  tft.println("ENTER PIN");
-}
-
-void wrongPin()
+void error(String message, String additional)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_RED, TFT_BLACK);
   tft.setTextSize(3);
   tft.setCursor(75, 100);
-  tft.println("WRONG PIN");
-}
-
-void serverDown()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(75, 100);
-  tft.println("SERVER DOWN");
-}
-
-
-void portalLaunch()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_PURPLE, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(25, 100);
-  tft.println("PORTAL LAUNCHED");
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 220);
-  tft.setTextSize(2);
-  tft.println("RESET DEVICE WHEN FINISHED");
+  tft.println(message);
+  if(additional != ""){
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    tft.setCursor(0, 220);
+    tft.setTextSize(2);
+    tft.println(additional);
+  }
 }
 
 void choiceMenu()
@@ -581,6 +516,11 @@ void choiceMenu()
     tft.setTextColor(TFT_RED, TFT_BLACK);
     tft.setCursor(10, 75);
     tft.println("B. Lightning");  
+  }
+  else if (lnCheck && WiFi.status() != WL_CONNECTED){
+    tft.setTextColor(TFT_RED, TFT_BLACK);
+    tft.setCursor(10, 75);
+    tft.println("B. Lightning (needs WiFi)"); 
   }
   else{
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
@@ -658,24 +598,25 @@ void callback(){
 //////////LIGHTNING//////////////////////
 void getSats(){
   Serial.println("Cunts");
-   WiFiClientSecure client;
+  WiFiClientSecure client;
   //client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char* lnbitsServerChar = lnbitsServer.c_str();
   const char* invoiceChar = invoice.c_str();
+  const char* lncurrencyChar = lncurrency.c_str();
 
   if (!client.connect(lnbitsServerChar, 443)){
     Serial.println("failed");
-    serverDown();
+    error("SERVER DOWN", "");
     delay(3000);
     return;   
   }
 
-  String toPost = "{\"amount\" : 1, \"unit\" :\"" + lncurrency + "\"}";
+  String toPost = "{\"amount\" : 1, \"unit\" :\"" + String(lncurrencyChar) + "\"}";
   String url = "/api/v1/conversion";
   client.print(String("POST ") + url +" HTTP/1.1\r\n" +
-                "Host: " + lnbitsServerChar + "\r\n" +
+                "Host: " + String(lnbitsServerChar) + "\r\n" +
                 "User-Agent: ESP32\r\n" +
-                "X-Api-Key: "+ invoiceChar +" \r\n" +
+                "X-Api-Key: "+ String(invoiceChar) +" \r\n" +
                 "Content-Type: application/json\r\n" +
                 "Connection: close\r\n" +
                 "Content-Length: " + toPost.length() + "\r\n" +
@@ -704,7 +645,7 @@ void getInvoice()
 
   if (!client.connect(lnbitsServerChar, 443)){
     Serial.println("failed");
-    serverDown();
+    error("SERVER DOWN", "");
     delay(3000);
     return;   
   }
@@ -755,7 +696,7 @@ bool checkInvoice()
   const char* lnbitsServerChar = lnbitsServer.c_str();
   const char* invoiceChar = invoice.c_str();
   if (!client.connect(lnbitsServerChar, 443)){
-    serverDown();
+    error("SERVER DOWN", "");
     delay(3000);
     return false;   
   }
