@@ -23,11 +23,8 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 
 #define PARAM_FILE "/elements.json"
 
-String key_val;
 String inputs;
 String thePin;
-String pinEntered;
-String pinToShow;
 String nosats;
 String cntr = "0";
 String lnurl;
@@ -41,10 +38,15 @@ String lnbitsServer;
 String invoice;
 String lnbitsBaseURL;
 String secret;
+String dataIn;
+String pinToShow;
+uint8_t key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
 bool lnurlCheck = false;
 int randomPin;
+int calNum = 1;
+int sumFlag = 0;
 
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
@@ -188,10 +190,13 @@ void setup() {
   Serial.begin(115200);
   
   tft.init();
-  tft.invertDisplay(true);
+  tft.invertDisplay(false);
   tft.setRotation(1);
   logo();
   delay(1500);
+
+  Wire.begin();
+  pinMode(KEYBOARD_INT, INPUT_PULLUP);
   
   h.begin();
   BTNA.begin();
@@ -299,31 +304,21 @@ void setup() {
     BTNA.read();   
     BTNB.read();
     BTNC.read();
-    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck))
-    {
+    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck)){
       portalLaunch();
       delay(1500);
       enterPin();
+      Serial.println(apPin);
+      Serial.println(pinToShow);
       while(true){
-        String stars = "";
-        get_keypad();
-        for (int i = 0; i < pinEntered.length(); i++) {
-          stars = stars + "*";
-        }
-        pinToShow = stars + key_val;
-        pinEntry();
-        delay(1000);
-        if(key_val!= ""){
-          pinToShow = stars + "*";
-          pinEntry();
-        }
-        if(pinEntered.length() == apPin.length() && pinEntered != apPin){
+        getKeypad();
+        if(pinToShow.length() == apPin.length() && pinToShow != apPin){
           wrongPin();
           delay(1500);
-          pinEntered = "";
+          pinToShow = "";
           enterPin();
         }
-        else if(pinEntered == apPin){
+        else if(pinToShow == apPin){
           portal.join({ elementsAux, saveAux });
           portal.config(config);
           portal.begin();
@@ -331,7 +326,7 @@ void setup() {
           while(true){
             portal.handleClient();
           }
-        }
+        } 
       }
     }
   timer = timer + 200;
@@ -344,39 +339,39 @@ void loop() {
   delay(3000);
 }
 
-void get_keypad()
+void getKeypad()
 {
-   if(digitalRead(KEYBOARD_INT) == LOW) {
+  if(digitalRead(KEYBOARD_INT) == LOW) 
+   {
     Wire.requestFrom(KEYBOARD_I2C_ADDR, 1);  // request 1 byte from keyboard
-    while (Wire.available()) { 
-       uint8_t key = Wire.read();                  // receive a byte as character
-       key_val = key;
-       if(key != 0) {
-        if(key >= 0x20 && key < 0x7F) { // ASCII String
-          if (isdigit((char)key)){
-          key_val = ((char)key);
-          }
-          else {
-          key_val = "";
-        } 
-        }
+    
+    while (Wire.available()) 
+     { 
+      uint8_t key_val = Wire.read();                  // receive a byte as character
+      if(key_val != 0) 
+       {    
+        if(isDigit(key_val) || key_val == '.')
+         {
+          dataIn += (char)key_val;
+          isNumber(); 
+         }
       }
     }
   }
 }
 
+void isNumber( void )
+ {
+ if( calNum == 1 )
+   {
+   pinToShow = String(dataIn.toInt());
+   tft.setCursor(100, 120);
+   tft.setTextColor(TFT_GREEN, TFT_BLACK); 
+   tft.setTextSize(4);
+   tft.println(pinToShow);
+   }
+ }
 ///////////DISPLAY///////////////
-
-void clearScreen()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setCursor(0, 0);
-  tft.setTextColor(TFT_WHITE);
-  key_val = "";
-  inputs = "";  
-  nosats = "";
-  cntr = "0";
-}
 
 void qrShowCode()
 {
@@ -408,16 +403,17 @@ void enterPin()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(3);
-  tft.setCursor(70, 80);
+  tft.setCursor(75, 80);
   tft.println("ENTER PIN");
 }
 
-void pinEntry()
+void wrongPin()
 {
-  tft.setCursor(100, 120);
-  tft.setTextColor(TFT_GREEN, TFT_BLACK); 
-  tft.setTextSize(4);
-  tft.println(pinToShow);
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_RED, TFT_BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(75, 100);
+  tft.println("WRONG PIN");
 }
 
 void portalLaunch()
@@ -429,14 +425,6 @@ void portalLaunch()
   tft.println("PORTAL LAUNCHED");
 }
 
-void wrongPin()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(70, 100);
-  tft.println("WRONG PIN");
-}
 void showPin()
 {
   tft.fillScreen(TFT_BLACK);
@@ -519,14 +507,6 @@ void makeLNURL()
   Serial.println(lnurl);
 }
 
-/*
- * Fills output with nonce, xored payload, and HMAC.
- * XOR is secure for data smaller than the key size (it's basically one-time-pad). For larger data better to use AES.
- * Maximum length of the output in XOR mode is 1+1+nonce_len+1+32+8 = nonce_len+43 = 51 for 8-byte nonce.
- * Payload contains pin, currency byte and amount. Pin and amount are encoded as compact int (varint).
- * Currency byte is '$' for USD cents, 's' for satoshi, 'E' for euro cents.
- * Returns number of bytes written to the output, 0 if error occured.
- */
 int xor_encrypt(uint8_t * output, size_t outlen, uint8_t * key, size_t keylen, uint8_t * nonce, size_t nonce_len, uint64_t pin, uint64_t amount_in_cents){
   // check we have space for all the data:
   // <variant_byte><len|nonce><len|payload:{pin}{amount}><hmac>
