@@ -29,6 +29,7 @@ String nosats;
 String cntr = "0";
 String lnurl;
 String currency;
+String lncurrency;
 String key;
 String preparedURL;
 String baseURL;
@@ -40,6 +41,9 @@ String lnbitsBaseURL;
 String secret;
 String dataIn;
 String amountToShow;
+String noSats;
+String qrData;
+String dataId;
 uint8_t key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
@@ -366,6 +370,9 @@ void loop() {
   else{
     choiceMenu();
     while(true){
+      BTNA.read();   
+      BTNB.read();
+      BTNC.read();
       if (BTNA.wasReleased() && onchainCheck){
         onchainMain();
       }
@@ -387,7 +394,6 @@ void lnMain(){
   inputScreen();
   while(true){
     getKeypad(false, true);
-    getSats;
     if(BTNC.wasReleased()){
       getInvoice();
       qrShowCode();
@@ -404,7 +410,7 @@ void lnMain(){
 void lnurlMain(){
   Serial.println("lnurl");
 }
-void getKeypad(bool isPin = false, bool isLN = false)
+void getKeypad(bool isPin, bool isLN)
 {
   if(digitalRead(KEYBOARD_INT) == LOW) 
    {
@@ -421,7 +427,7 @@ void getKeypad(bool isPin = false, bool isLN = false)
           if(isPin){
             isPinNumber(); 
           }
-          if else(isLN){
+          else if(isLN){
             isLNMoneyNumber(); 
           }
           else{
@@ -444,6 +450,7 @@ void isPinNumber( void )
  }
 void isLNMoneyNumber( void )
  {
+   getSats();
    amountToShow = String(dataIn.toFloat());
    tft.setTextSize(3);
    tft.setCursor(100, 120);
@@ -452,7 +459,7 @@ void isLNMoneyNumber( void )
    tft.println(amountToShow);
    tft.setTextColor(TFT_GREEN, TFT_BLACK);
    tft.setCursor(87, 136);
-   tft.println(toSats());
+   tft.println(noSats);
  }
 
 void isLNURLMoneyNumber( void )
@@ -470,20 +477,20 @@ void isLNURLMoneyNumber( void )
 
 void inputScreen()
 {
-  M5.Lcd.fillScreen(BLACK);
-  M5.Lcd.setTextColor(TFT_WHITE);
-  M5.Lcd.setTextSize(3);
-  M5.Lcd.setCursor(0, 40);
-  M5.Lcd.println("Amount then C");
-  M5.Lcd.println("");
-  M5.Lcd.println(String(lncurrency) + ": ");
-  M5.Lcd.println("");
-  M5.Lcd.println("SATS: ");
-  M5.Lcd.println("");
-  M5.Lcd.println("");
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setCursor(50, 200);
-  M5.Lcd.println("TO RESET PRESS A");
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE);
+  tft.setTextSize(3);
+  tft.setCursor(0, 40);
+  tft.println("Amount then C");
+  tft.println("");
+  tft.println(String(lncurrency) + ": ");
+  tft.println("");
+  tft.println("SATS: ");
+  tft.println("");
+  tft.println("");
+  tft.setTextSize(2);
+  tft.setCursor(50, 200);
+  tft.println("TO RESET PRESS A");
 }
 
 void qrShowCode()
@@ -528,6 +535,16 @@ void wrongPin()
   tft.setCursor(75, 100);
   tft.println("WRONG PIN");
 }
+
+void serverDown()
+{
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_RED, TFT_BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(75, 100);
+  tft.println("SERVER DOWN");
+}
+
 
 void portalLaunch()
 {
@@ -580,7 +597,7 @@ void choiceMenu()
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setCursor(0, 220);
   tft.setTextSize(2);
-  tft.println("       A       B       C       ");
+  tft.println("     A       B       C");
 }
 void showPin()
 {
@@ -595,7 +612,7 @@ void showPin()
   tft.println(randomPin);
 }
 
-void inputScreen()
+void lnurlInputScreen()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK); // White characters on black background
@@ -615,10 +632,10 @@ void logo()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK); // White characters on black background
   tft.setTextSize(5);
-  tft.setCursor(40, 100);  // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  tft.setCursor(20, 100);  // To be compatible with Adafruit_GFX the cursor datum is always bottom left
   tft.print("bitcoinPoS"); // Using tft.print means text background is NEVER rendered
   tft.setTextSize(2);
-  tft.setCursor(42, 140);          // To be compatible with Adafruit_GFX the cursor datum is always bottom left
+  tft.setCursor(22, 140);          // To be compatible with Adafruit_GFX the cursor datum is always bottom left
   tft.print("Powered by LNbits"); // Using tft.print means text background is NEVER rendered
 }
 
@@ -636,17 +653,20 @@ void to_upper(char *arr)
 void callback(){
 }
 //////////LIGHTNING//////////////////////
-
+void getSats(){
+  noSats = "9000";
+}
 void getInvoice() 
 {
   WiFiClientSecure client;
-  client.setInsecure();
-  const char* lnbitsServerChar = lnbitsServer;
-  const char* invoiceChar = invoice;
+  //client.setInsecure(); //Some versions of WiFiClientSecure need this
+  const char* lnbitsServerChar = lnbitsServer.c_str();
+  const char* invoiceChar = invoice.c_str();
 
   if (!client.connect(lnbitsServerChar, 443)){
     Serial.println("failed");
-    down = true;
+    serverDown();
+    delay(3000);
     return;   
   }
 
@@ -692,11 +712,12 @@ void getInvoice()
 bool checkInvoice()
 {
   WiFiClientSecure client;
-  client.setInsecure();
-  const char* lnbitsServerChar = lnbitsServer;
-  const char* invoiceChar = invoice;
+  //client.setInsecure(); //Some versions of WiFiClientSecure need this
+  const char* lnbitsServerChar = lnbitsServer.c_str();
+  const char* invoiceChar = invoice.c_str();
   if (!client.connect(lnbitsServerChar, 443)){
-    down = true;
+    serverDown();
+    delay(3000);
     return false;   
   }
 
