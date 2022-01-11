@@ -26,6 +26,8 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 String key_val;
 String inputs;
 String thePin;
+String pinEntered;
+String pinToShow;
 String nosats;
 String cntr = "0";
 String lnurl;
@@ -184,14 +186,17 @@ AutoConnectAux  saveAux;
 void setup() {
 
   Serial.begin(115200);
+  
   tft.init();
   tft.invertDisplay(true);
   tft.setRotation(1);
+  logo();
+  delay(1500);
+  
   h.begin();
   BTNA.begin();
   BTNB.begin();
   BTNC.begin();
-  logo();
   FlashFS.begin(FORMAT_ON_FAIL);
 
 //Get the saved details 
@@ -289,18 +294,44 @@ void setup() {
   config.reconnectInterval = 1;
   
   int timer = 0;
-  while(timer < 3000){
+
+  while(timer < 2000){
     BTNA.read();   
     BTNB.read();
     BTNC.read();
-    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased())
+    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck))
     {
-      portal.join({ elementsAux, saveAux });
-      portal.config(config);
-      portal.begin();
-      Serial.println("portal launched!");
+      portalLaunch();
+      delay(1500);
+      enterPin();
       while(true){
-        portal.handleClient();
+        String stars = "";
+        get_keypad();
+        for (int i = 0; i < pinEntered.length(); i++) {
+          stars = stars + "*";
+        }
+        pinToShow = stars + key_val;
+        pinEntry();
+        delay(1000);
+        if(key_val!= ""){
+          pinToShow = stars + "*";
+          pinEntry();
+        }
+        if(pinEntered.length() == apPin.length() && pinEntered != apPin){
+          wrongPin();
+          delay(1500);
+          pinEntered = "";
+          enterPin();
+        }
+        else if(pinEntered == apPin){
+          portal.join({ elementsAux, saveAux });
+          portal.config(config);
+          portal.begin();
+          Serial.println("portal launched!");
+          while(true){
+            portal.handleClient();
+          }
+        }
       }
     }
   timer = timer + 200;
@@ -372,6 +403,40 @@ void qrShowCode()
   }
 }
 
+void enterPin()
+{
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(70, 80);
+  tft.println("ENTER PIN");
+}
+
+void pinEntry()
+{
+  tft.setCursor(100, 120);
+  tft.setTextColor(TFT_GREEN, TFT_BLACK); 
+  tft.setTextSize(4);
+  tft.println(pinToShow);
+}
+
+void portalLaunch()
+{
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_PURPLE, TFT_BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(20, 100);
+  tft.println("PORTAL LAUNCHED");
+}
+
+void wrongPin()
+{
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_RED, TFT_BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(70, 100);
+  tft.println("WRONG PIN");
+}
 void showPin()
 {
   tft.fillScreen(TFT_BLACK);
