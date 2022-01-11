@@ -312,8 +312,19 @@ void setup() {
   portal.join({ elementsAux, saveAux });
   portal.config(config);
   portal.begin();
-  while(true){
-    portal.handleClient();
+
+  while(timer < 2000){
+    BTNA.read();   
+    BTNB.read();
+    BTNC.read();
+    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck)){
+      portalLaunch();
+      while(true){
+        portal.handleClient();
+      }
+    }
+  timer = timer + 200;
+  delay(200);
   }
 }
 
