@@ -34,11 +34,11 @@ String key;
 String preparedURL;
 String baseURL;
 String apPin = "9735"; //default AP pin
-String masterKey;
-String lnbitsServer;
-String invoice;
-String lnbitsBaseURL;
-String secret;
+char* masterKey[130];
+char* lnbitsServer[40];
+char* invoice[40];
+char* lnbitsBaseURL[100];
+char* secret[30];
 String dataIn;
 String amountToShow;
 String noSats;
@@ -51,6 +51,7 @@ bool lnurlCheck = false;
 int randomPin;
 int calNum = 1;
 int sumFlag = 0;
+int converted;
 
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
@@ -226,8 +227,7 @@ void setup() {
       apPin = apPinChar;
     }
     JsonObject maRoot = doc[1];
-    const char* masterKeyChar = maRoot["value"]; 
-    masterKey  = masterKeyChar;
+    strcpy(masterKey, maRoot["value"]);
     if(masterKey != ""){
       onchainCheck = true;
     }
@@ -390,7 +390,11 @@ void onchainMain(){
   Serial.println("onchain");
 }
 void lnMain(){
-  Serial.println("ln");
+  delay(2000);
+  Serial.println("Are you ready?!");
+  delay(2000);
+  getSats();
+  Serial.println(converted);
   inputScreen();
   while(true){
     getKeypad(false, true);
@@ -450,7 +454,6 @@ void isPinNumber( void )
  }
 void isLNMoneyNumber( void )
  {
-   getSats();
    amountToShow = String(dataIn.toFloat());
    tft.setTextSize(3);
    tft.setCursor(100, 120);
@@ -654,8 +657,44 @@ void callback(){
 }
 //////////LIGHTNING//////////////////////
 void getSats(){
-  noSats = "9000";
+  Serial.println("Cunts");
+   WiFiClientSecure client;
+  //client.setInsecure(); //Some versions of WiFiClientSecure need this
+  const char* lnbitsServerChar = lnbitsServer.c_str();
+  const char* invoiceChar = invoice.c_str();
+
+  if (!client.connect(lnbitsServerChar, 443)){
+    Serial.println("failed");
+    serverDown();
+    delay(3000);
+    return;   
+  }
+
+  String toPost = "{\"amount\" : 1, \"unit\" :\"" + lncurrency + "\"}";
+  String url = "/api/v1/conversion";
+  client.print(String("POST ") + url +" HTTP/1.1\r\n" +
+                "Host: " + lnbitsServerChar + "\r\n" +
+                "User-Agent: ESP32\r\n" +
+                "X-Api-Key: "+ invoiceChar +" \r\n" +
+                "Content-Type: application/json\r\n" +
+                "Connection: close\r\n" +
+                "Content-Length: " + toPost.length() + "\r\n" +
+                "\r\n" + 
+                toPost + "\n");
+
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      break;
+    }
+    if (line == "\r") {
+      break;
+    }
+  }
+  String convertedStr = client.readString();
+  converted = convertedStr.toInt();
 }
+
 void getInvoice() 
 {
   WiFiClientSecure client;
