@@ -309,11 +309,6 @@ void setup() {
   config.psk = apPassword;
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
-  
-  portal.join({ elementsAux, saveAux });
-  portal.config(config);
-  portal.begin();
-  
   int timer = 0;
   while(timer < 2000){
     BTNA.read();   
@@ -321,6 +316,10 @@ void setup() {
     BTNC.read();
     if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck)){
       portalLaunch();
+      config.immediateStart = true;
+      portal.join({ elementsAux, saveAux });
+      portal.config(config);
+      portal.begin();
       while(true){
         portal.handleClient();
       }
@@ -328,6 +327,12 @@ void setup() {
   timer = timer + 200;
   delay(200);
   }
+  portal.join({ elementsAux, saveAux });
+  portal.config(config);
+  portal.begin();
+  Serial.println("poo");
+  Serial.println(WiFi.status());
+  Serial.println("poo");
 }
 
 void loop() {
@@ -378,7 +383,39 @@ void loop() {
   delay(3000);
 }
 void onchainMain(){
-  Serial.println("onchain");
+  inputScreenOnChain();
+  while(unConfirmed){
+    BTNA.read();   
+    BTNC.read();
+    if (BTNA.wasReleased()){
+      unConfirmed = false;
+    }
+    if (BTNC.wasReleased()){
+      HDPublicKey hd(pub);
+      String path = String("m/0/")+ addressNo + 1;
+      qrData = hd.derive(path).address();
+      qrShowCode("  A CANCEL      C CHECK LINK");
+      while(unConfirmed){
+        BTNA.read();
+        BTNC.read();
+        if (BTNA.wasReleased()){
+          unConfirmed = false;
+        }  
+        if (BTNC.wasReleased()){
+          while(unConfirmed){
+            qrData = "https://mempool.space/address/" + qrData;
+            qrShowCode("  A CANCEL");
+            while(unConfirmed){
+              BTNA.read();
+              if (BTNA.wasReleased()){
+                unConfirmed = false;
+              }
+            }
+          }
+        }
+      } 
+    }
+  }
 }
 void lnMain(){
   if(converted == 0){
@@ -568,6 +605,24 @@ void inputScreen()
   tft.println("     A       B       C");
 }
 
+
+void inputScreenOnChain()
+{
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE);
+  tft.setTextSize(2);
+  tft.setCursor(0, 60);
+  tft.println(" USING XPUB ENDING IN ..." + masterKey.substring(tomasterKey.length() - 5));
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(2);
+  tft.drawLine(0, 135, 400, 135, TFT_WHITE);
+  tft.setCursor(0, 150);
+  tft.println(" A. Back to menu");
+  tft.println(" C. Generate fresh address");
+  tft.setCursor(0, 220);
+  tft.println("     A               C");
+}
+
 void qrShowCodeln()
 {
   tft.fillScreen(TFT_WHITE);
@@ -593,7 +648,7 @@ void qrShowCodeln()
   }
 }
 
-void qrShowCode()
+void qrShowCode(String message)
 {
   tft.fillScreen(TFT_WHITE);
   qrData.toUpperCase();
@@ -616,6 +671,9 @@ void qrShowCode()
       }
     }
   }
+  tft.setCursor(0, 220);
+  tft.setTextSize(2);
+  tft.println(message);
 }
 
 void error(String message, String additional)
