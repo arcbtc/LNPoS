@@ -22,6 +22,7 @@ fs::SPIFFSFS& FlashFS = SPIFFS;
 #define KEYBOARD_INT          5
 
 #define PARAM_FILE "/elements.json"
+#define KEY_FILE "/key.txt"
 
 String inputs;
 String thePin;
@@ -391,7 +392,7 @@ void onchainMain(){
       unConfirmed = false;
     }
     if (BTNC.wasReleased()){
-      HDPublicKey hd(pub);
+      HDPublicKey hd(masterKey);
       String path = String("m/0/")+ addressNo + 1;
       qrData = hd.derive(path).address();
       qrShowCode("  A CANCEL      C CHECK LINK");
