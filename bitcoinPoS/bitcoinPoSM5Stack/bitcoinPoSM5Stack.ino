@@ -437,6 +437,9 @@ void lnurlMain(){
   inputScreen();
   inputs = "";
   while (unConfirmed){
+    BTNA.read();   
+    BTNB.read();
+    BTNC.read(); 
     getKeypad(false, false);
     if (BTNA.wasReleased()){
       unConfirmed = false;
@@ -445,8 +448,11 @@ void lnurlMain(){
       makeLNURL();
       qrShowCode();
       while (unConfirmed){
+        BTNA.read();   
+        BTNB.read();
         if (BTNA.wasReleased()) {
           showPin();
+          BTNB.read();
           if (BTNB.wasReleased()) {
             unConfirmed = false;
           }
@@ -480,7 +486,7 @@ void getKeypad(bool isPin, bool isLN)
             isLNMoneyNumber(false); 
           }
           else{
-            isLNURLMoneyNumber(); 
+            isLNURLMoneyNumber(false); 
           }
          }
       }
