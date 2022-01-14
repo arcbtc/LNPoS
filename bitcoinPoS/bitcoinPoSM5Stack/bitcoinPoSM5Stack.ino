@@ -208,6 +208,7 @@ void setup()
   tft.init();
   tft.invertDisplay(false);
   tft.setRotation(1);
+  tft.invertDisplay(true);
   logo();
 
   //Load keypad
@@ -236,7 +237,7 @@ void setup()
       apPassword = apPasswordChar;
     }
     JsonObject maRoot = doc[1];
-    const char *masterKeyChar = maRoot["name"];
+    const char *masterKeyChar = maRoot["value"];
     masterKey = masterKeyChar;
     if (masterKey != "")
     {
@@ -375,9 +376,12 @@ void loop()
       menuItems++;
     }
   }
-
   //If only one payment method available skip menu
-  if (menuItems == 1)
+  if (menuItems < 1){
+    error("NO METHODS", "   RESTART AND RUN PORTAL");
+    delay(100000);
+  }
+  else if (menuItems == 1)
   {
     if (choices[menuItem][0] == "onchain")
     {
@@ -422,6 +426,14 @@ void loop()
 //Onchain payment method
 void onchainMain()
 {
+  File keyfile = FlashFS.open(KEY_FILE, "w");
+  if (keyfile)
+  {
+    Serial.println(masterKey);
+    addressNo = String(keyfile.read());
+    Serial.println(addressNo);
+    keyfile.print(addressNo.toInt() + 1);
+    keyfile.close();
   inputScreenOnChain();
   while (unConfirmed)
   {
@@ -433,17 +445,10 @@ void onchainMain()
     }
     if (BTNC.wasReleased())
     {
-      File keyfile = FlashFS.open(KEY_FILE, "w");
-      if (keyfile)
-      {
-        addressNo = keyfile.readString();
-        keyfile.print(addressNo.toInt() + 1);
-        keyfile.close();
-      }
       HDPublicKey hd(masterKey);
       String path = String("m/0/") + addressNo + 1;
       qrData = hd.derive(path).address();
-      qrShowCode("  A CANCEL      C CHECK LINK");
+      qrShowCodeOnchain(true, "  A CANCEL       C CHECK");
       while (unConfirmed)
       {
         BTNA.read();
@@ -457,19 +462,24 @@ void onchainMain()
           while (unConfirmed)
           {
             qrData = "https://mempool.space/address/" + qrData;
-            qrShowCode("  A CANCEL");
+            qrShowCodeOnchain(false, "         B CANCEL");
             while (unConfirmed)
             {
-              BTNA.read();
-              if (BTNA.wasReleased())
+              BTNB.read();
+              if (BTNB.wasReleased())
               {
                 unConfirmed = false;
               }
+              
             }
           }
         }
       }
     }
+  }
+  }
+  else{
+    error("NO MASTERKEY", "RESTART AND RUN PORTAL");
   }
 }
 void lnMain()
@@ -511,7 +521,7 @@ void lnMain()
           timer = 5000;
           delay(3000);
         }
-        while (timer < 5000)
+        while (timer < 4000)
         {
           BTNB.read();
           if (BTNB.wasReleased() && lnCheck)
@@ -522,9 +532,10 @@ void lnMain()
             unConfirmed = false;
             timer = 5000;
           }
-          delay(100);
+          delay(200);
           timer = timer + 100;
         }
+        
       }
       noSats = "0";
       dataIn = "0";
@@ -551,7 +562,7 @@ void lnurlMain()
     else if (BTNC.wasReleased())
     {
       makeLNURL();
-      qrShowCode("  CLEAR       SHOW PIN");
+      qrShowCodeLNURL("  CLEAR       SHOW PIN");
       while (unConfirmed)
       {
         BTNC.read();
@@ -690,7 +701,7 @@ void inputScreenOnChain()
   tft.setTextColor(TFT_WHITE);
   tft.setTextSize(2);
   tft.setCursor(0, 60);
-  tft.println(" USING XPUB ENDING IN ..." + masterKey.substring(masterKey.length() - 5));
+  tft.println("XPUB ENDING IN ..." + masterKey.substring(masterKey.length() - 5));
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.drawLine(0, 135, 400, 135, TFT_WHITE);
@@ -726,14 +737,55 @@ void qrShowCodeln()
   }
 }
 
-void qrShowCode(String message)
+void qrShowCodeOnchain(bool anAddress,String message)
+{
+  tft.fillScreen(TFT_WHITE);
+  if(anAddress){
+    qrData.toUpperCase();
+  }
+  const char *qrDataChar = qrData.c_str();
+  QRCode qrcode;
+  uint8_t qrcodeData[qrcode_getBufferSize(20)];
+  int pixSize = 0;
+  tft.setCursor(0, 200);
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  if(anAddress){
+    qrcode_initText(&qrcode, qrcodeData, 2, 0, qrDataChar);
+    pixSize = 6;
+    tft.println("     onchain address");
+  }
+  else{
+    qrcode_initText(&qrcode, qrcodeData, 6, 0, qrDataChar);
+    pixSize = 4;
+    tft.println("     mempool.space link");
+  }
+  for (uint8_t y = 0; y < qrcode.size; y++)
+  {
+    // Each horizontal module
+    for (uint8_t x = 0; x < qrcode.size; x++)
+    {
+      if (qrcode_getModule(&qrcode, x, y))
+      {
+        tft.fillRect(80 + pixSize * x, 20 + pixSize * y, pixSize, pixSize, TFT_BLACK);
+      }
+      else
+      {
+        tft.fillRect(80 + pixSize * x, 20 + pixSize * y, pixSize, pixSize, TFT_WHITE);
+      }
+    }
+  }
+  tft.println(message);
+}
+
+void qrShowCodeLNURL(String message)
 {
   tft.fillScreen(TFT_WHITE);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcode;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-  qrcode_initText(&qrcode, qrcodeData, 8, 0, qrDataChar);
+  qrcode_initText(&qrcode, qrcodeData, 6, 0, qrDataChar);
   for (uint8_t y = 0; y < qrcode.size; y++)
   {
     // Each horizontal module
@@ -751,6 +803,7 @@ void qrShowCode(String message)
   }
   tft.setCursor(0, 220);
   tft.setTextSize(2);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
   tft.println(message);
 }
 
@@ -899,6 +952,12 @@ void callback()
 void getSats()
 {
   WiFiClientSecure client;
+  lnbitsServer.toLowerCase();
+  Serial.println(lnbitsServer);
+  if(lnbitsServer.substring(0,8) == "https://"){
+    Serial.println(lnbitsServer.substring(8,lnbitsServer.length()));
+    lnbitsServer = lnbitsServer.substring(8,lnbitsServer.length());
+  }
   //client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
@@ -909,7 +968,6 @@ void getSats()
     Serial.println("failed");
     error("SERVER DOWN", "");
     delay(3000);
-    return;
   }
 
   String toPost = "{\"amount\" : 1, \"unit\" :\"" + String(lncurrencyChar) + "\"}";
@@ -943,6 +1001,10 @@ void getSats()
 void getInvoice()
 {
   WiFiClientSecure client;
+  lnbitsServer.toLowerCase();
+  if(lnbitsServer.substring(0,8) == "https://"){
+    lnbitsServer = lnbitsServer.substring(8,lnbitsServer.length());
+  }
   //client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
