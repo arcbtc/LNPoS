@@ -1,0 +1,19 @@
+{
+  "name": "PageBuilder",
+  "keywords": "communication, http, server, web, wifi, wi-fi",
+  "description": "HTML web page assembly aid using WebServer for ESP8266 and ESP32",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Hieromon/PageBuilder.git"
+  },
+  "frameworks": "arduino",
+  "platforms":
+  [
+    "espressif8266",
+    "espressif32"
+  ],
+  "version": "1.5.2",
+  "license": "MIT",
+  "headers": "PageBuilder.h"
+}

@@ -1,0 +1,1396 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ESP8266/ESP32 WLAN configuration at run time with web interface">
+      
+      
+        <meta name="author" content="Hieromon Ikasamo">
+      
+      
+        <link rel="canonical" href="https://Hieromon.github.io/AutoConnect/menu.html">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+    
+    
+      
+        <title>AutoConnect menu - AutoConnect for ESP8266/ESP32</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/paragraph.css">
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    
+    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EHK8XV10VE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-EHK8XV10VE",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHK8XV10VE"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#where-the-from" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-header__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoConnect for ESP8266/ESP32
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AutoConnect menu
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-nav__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    AutoConnect for ESP8266/ESP32
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gettingstarted.html" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          AutoConnect menu
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="menu.html" class="md-nav__link md-nav__link--active">
+        AutoConnect menu
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-from" class="md-nav__link">
+     Where the from
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#right-on-top" class="md-nav__link">
+     Right on top
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-new-ap" class="md-nav__link">
+     Configure new AP
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-ssids" class="md-nav__link">
+     Open SSIDs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disconnect" class="md-nav__link">
+     Disconnect
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reset" class="md-nav__link">
+     Reset...
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-menu-items" class="md-nav__link">
+     Custom menu items
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+     Update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#home" class="md-nav__link">
+     HOME
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applying-the-active-menu-items" class="md-nav__link">
+     Applying the active menu items
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attaching-to-autoconnect-menu" class="md-nav__link">
+     Attaching to AutoConnect menu
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="basicusage.html" class="md-nav__link">
+        Basic usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Advanced usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Advanced usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="advancedusage.html" class="md-nav__link">
+        Advanced usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adconnection.html" class="md-nav__link">
+        AutoConnect WiFi connection control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcpcontrol.html" class="md-nav__link">
+        Captive portal control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adnetwork.html" class="md-nav__link">
+        Settings and controls for network and WiFi
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adauthentication.html" class="md-nav__link">
+        Authentication settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcredential.html" class="md-nav__link">
+        Credential accesses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adexterior.html" class="md-nav__link">
+        Customizing page appearance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adothers.html" class="md-nav__link">
+        Other operation settings and controls
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Custom Web pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Custom Web pages" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Custom Web pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acintro.html" class="md-nav__link">
+        Custom Web pages with AutoConnect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acelements.html" class="md-nav__link">
+        AutoConnectElements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acjson.html" class="md-nav__link">
+        Custom Web pages with JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="achandling.html" class="md-nav__link">
+        Handling the custom Web pages
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          OTA Updates
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="OTA Updates" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          OTA Updates
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaupdate.html" class="md-nav__link">
+        OTA Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otabrowser.html" class="md-nav__link">
+        Using Web Browser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaserver.html" class="md-nav__link">
+        Using Update Server
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="filesystem.html" class="md-nav__link">
+        Using Filesystem
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Library APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Library APIs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Library APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        AutoConnect API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiaux.html" class="md-nav__link">
+        AutoConnectAux API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiconfig.html" class="md-nav__link">
+        AutoConnectConfig API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apielements.html" class="md-nav__link">
+        AutoConnectElements API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiupdate.html" class="md-nav__link">
+        AutoConnectUpdate API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiextra.html" class="md-nav__link">
+        Something extra
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="howtoembed.html" class="md-nav__link">
+        How to embed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="datatips.html" class="md-nav__link">
+        Tips for data conversion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menuize.html" class="md-nav__link">
+        Attach the menus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wojson.html" class="md-nav__link">
+        Custom Web pages w/o JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esp32cam.html" class="md-nav__link">
+        Works with ESP32-CAM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lsbegin.html" class="md-nav__link">
+        Inside AutoConnect::begin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="credit.html" class="md-nav__link">
+        Saved credentials access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acupload.html" class="md-nav__link">
+        File upload handler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="colorized.html" class="md-nav__link">
+        Custom colorized
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelabel.html" class="md-nav__link">
+        Change label text
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="faq.html" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        Change log
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-from" class="md-nav__link">
+     Where the from
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#right-on-top" class="md-nav__link">
+     Right on top
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-new-ap" class="md-nav__link">
+     Configure new AP
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-ssids" class="md-nav__link">
+     Open SSIDs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disconnect" class="md-nav__link">
+     Disconnect
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reset" class="md-nav__link">
+     Reset...
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-menu-items" class="md-nav__link">
+     Custom menu items
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+     Update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#home" class="md-nav__link">
+     HOME
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applying-the-active-menu-items" class="md-nav__link">
+     Applying the active menu items
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attaching-to-autoconnect-menu" class="md-nav__link">
+     Attaching to AutoConnect menu
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+  <h1>AutoConnect menu</h1>
+
+<div class="admonition info">
+<p class="admonition-title">Luxbar</p>
+<p>The AutoConnect menu is developed using the <a href="https://github.com/balzss/luxbar">LuxBar</a> which is licensed under the MIT License. See the <a href="license.html">License</a>.</p>
+</div>
+<h2 id="where-the-from"><i class="fa fa-external-link"></i> Where the from<a class="headerlink" href="#where-the-from" title="Permanent link">&para;</a></h2>
+<p>The following screen will appear as the AutoConnect menu when you access to <strong>AutoConnect root URL</strong> via <code>http://{localIP}/_ac</code>. (eg. <code>http://172.217.28.1/_ac</code>) It is a top page of AutoConnect which shows the current WiFi connection statistics. To invoke the AutoConnect menu, you can tap <i class="fa fa-bars"></i> at right on top.</p>
+<p><img src="images/ac.png" style="border-style:solid;border-width:1px;border-color:lightgrey;width:280px;" /></p>
+<div class="admonition note">
+<p class="admonition-title">AutoConnect root URL</p>
+<p>It is assigned "<strong>/_ac</strong>" located on the <em>local IP address</em> of ESP8266/ESP32 module by default and can be changed with the Sketch. A local IP means Local IP at connection established or SoftAP's IP.</p>
+</div>
+<h2 id="right-on-top"><i class="fa fa-bars"></i> Right on top<a class="headerlink" href="#right-on-top" title="Permanent link">&para;</a></h2>
+<p>Currently, AutoConnect supports six menus. Undermost menu as "HOME" returns to the home path of its sketch.</p>
+<ul>
+<li><strong>Configure new AP</strong>: Configure SSID and Password for new access point.</li>
+<li><strong>Open SSIDs</strong>: Opens the past SSID which has been established connection from the flash.</li>
+<li><strong>Disconnect</strong>: Disconnects current connection.</li>
+<li><strong>Reset...</strong>: Rest the ESP8266/ESP32 module.</li>
+<li><strong>Update</strong>: OTA updates. (Optional)</li>
+<li><strong>HOME</strong>: Return to user home page.</li>
+</ul>
+<p><img src="images/menu.png" style="width:280px;" /></p>
+<h2 id="configure-new-ap"><i class="fa fa-bars"></i> Configure new AP<a class="headerlink" href="#configure-new-ap" title="Permanent link">&para;</a></h2>
+<p>It scans all available access points in the vicinity and display it further the WiFi signal strength and security indicator as <i class="fa fa-lock"></i> of the detected AP. Below that, the number of discovered hidden APs will be displayed. 
+Enter SSID and Passphrase and tap "<strong>Apply</strong>" to start a WiFi connection. </p>
+<p><img src="images/newap.png" style="border-style:solid;border-width:1px;border-color:lightgrey;width:280px;" /></p>
+<p>If you want to configure with static IP, uncheck "<strong>Enable DHCP</strong>". Once the WiFi connection is established, the entered static IP<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> configuration will be stored to the credentials in the flash and restored to the station configuration via the <a href="#open-ssids">Open SSIDs</a> menu.</p>
+<p><img src="images/newap_static.png" style="border-style:solid;border-width:1px;border-color:lightgrey;width:280px;" /></p>
+<h2 id="open-ssids"><i class="fa fa-bars"></i> Open SSIDs<a class="headerlink" href="#open-ssids" title="Permanent link">&para;</a></h2>
+<p>After WiFi connected, AutoConnect will automatically save the established SSID and password to the flash on the ESP module. <strong>Open SSIDs</strong> menu reads the saved SSID credentials and lists them as below. Listed items are clickable buttons and can initiate a connection to its access point.</p>
+<p><img src="images/open.png" style="border-style:solid;border-width:1px;border-color:lightgrey;width:280px;" /></p>
+<div class="admonition note">
+<p class="admonition-title">Saved credentials data structure has changed</p>
+<p>A structure of AutoConnect saved credentials has changed in v1.1.0 and was lost backward compatibility. Credentials saved by AutoConnect v1.0.3 (or earlier) will not display properly with AutoConnect v1.1.0. You need to erase the flash of the ESP module using the esptool before the Sketch uploading.
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">esptool</span> <span style="color: #f8f8f2">-c</span> <span style="color: #f8f8f2">esp8266</span> <span style="color: #f8f8f2">(or</span> <span style="color: #f8f8f2">esp32)</span> <span style="color: #f8f8f2">-p</span> <span style="color: #66d9ef">[COM_PORT]</span> <span style="color: #f8f8f2">erase_flash</span>
+</code></pre></div></p>
+</div>
+<h2 id="disconnect"><i class="fa fa-bars"></i> Disconnect<a class="headerlink" href="#disconnect" title="Permanent link">&para;</a></h2>
+<p>It disconnects ESP8266/ESP32 from the current connection. Also, ESP8266/ESP32 can be automatically reset after WiFi cutting by instructing with the Sketch using the <a href="api.html#autoreset">AutoConnect API</a>.</p>
+<p>After tapping the <strong>Disconnect</strong>, you will not be able to reach the AutoConnect menu. Once disconnected, you will need to set the SSID again for connecting to the WLAN. </p>
+<h2 id="reset"><i class="fa fa-bars"></i> Reset...<a class="headerlink" href="#reset" title="Permanent link">&para;</a></h2>
+<p>Resetting the ESP8266/ESP32 module will initiate a reboot. When the module restarting, the <em>esp8266ap</em> or <em>esp32ap</em> access point will disappear from the WLAN and the ESP8266/ESP32 module will begin to reconnect a previous access point with WIFI_STA mode.</p>
+<p><img src="images/resetting.png" style="width:280px;" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Not every ESP8266 module will be rebooted normally</p>
+<p>The Reset menu is using the <strong>ESP.reset()</strong> function for ESP8266. This is an almost hardware reset. In order to resume the Sketch normally, the <a href="https://github.com/esp8266/esp8266-wiki/wiki/Boot-Process#esp-boot-modes">state of GPIO0</a> is important. Since this depends on the circuit implementation for each module, not every module will be rebooted normally. See also <a href="faq.html#hang-up-after-reset">FAQ</a>.</p>
+</div>
+<h2 id="custom-menu-items"><i class="fa fa-bars"></i> Custom menu items<a class="headerlink" href="#custom-menu-items" title="Permanent link">&para;</a></h2>
+<p>If the Sketch has custom Web pages, the AutoConnect menu lines them up with the AutoConnect's items. Details for <a href="acintro.html#custom-web-pages-in-autoconnectmenu">Custom Web pages in AutoConnect menu</a>.</p>
+<h2 id="update"><i class="fa fa-bars"></i> Update<a class="headerlink" href="#update" title="Permanent link">&para;</a></h2>
+<p>If you specify <a href="apiconfig.html#ota">AutoConnectConfig::ota</a> to import the OTA update feature into Sketch, an item will appear in the menu list as <strong>Update</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">The Update menu item will appear only AutoConnectOTA enabled</p>
+<p>The Update item is displayed automatically in the menu only when <a href="apiconfig.html#ota">AutoConnectConfig::ota</a> is specified with <strong>AC_OTA_BUILTIN</strong> or <a href="otaserver.html#how-to-embed-autoconnectupdate-to-your-sketch">AutoConnectUpdate</a> is attached.</p>
+</div>
+<h2 id="home"><i class="fa fa-bars"></i> HOME<a class="headerlink" href="#home" title="Permanent link">&para;</a></h2>
+<p>A <strong>HOME</strong> item at the bottom of the menu list is a link to the home path, and the default URI is <code>/</code> which is defined by <code>AUTOCONNECT_HOMEURI</code> in <strong>AutoConnectDefs.h</strong> header file.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #75715e">#define AUTOCONNECT_HOMEURI     &quot;/&quot;</span>
+</code></pre></div>
+<p>Also, you can change the HOME path using the AutoConnect API. The <a href="api.html#home"><strong>AutoConnect::home</strong></a> function sets the URI as a link of the HOME item in the AutoConnect menu.</p>
+<h2 id="applying-the-active-menu-items"><i class="fa fa-bars"></i> Applying the active menu items<a class="headerlink" href="#applying-the-active-menu-items" title="Permanent link">&para;</a></h2>
+<p>Each of the above menu items can be configured with a Sketch. <a href="apiconfig.html#menuitems">AutoConnectConfig::menuItems</a> specifies the menu items that will be enabled at runtime. You can also adjust available menu items using <a href="api.html#enablemenu">AutoConnect::enableMenu</a> and <a href="api.html#disablemenu">AutoConnect::disableMenu</a> function. It is an alternative to <a href="apiconfig.html#menuitems">AutoConnectConfig::menuItems</a> and provides a shortcut to avoid using AutoConnectConfig.<br />
+For example, by disabling the <a href="#configure-new-ap">Configure new AP</a> and <a href="#disconnect">Disconnect</a> item, you can prevent the configuration for unknown access points.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnect portal;</span>
+<span style="color: #f8f8f2">AutoConnectConfig config;</span>
+
+<span style="color: #66d9ef">void</span><span style="color: #f8f8f2"> </span><span style="color: #a6e22e">setup</span><span style="color: #f8f8f2">() {</span>
+<span style="color: #f8f8f2">  config.menuItems </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> AC_MENUITEM_OPENSSIDS </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> AC_MENUITEM_RESET </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> AC_MENUITEM_HOME;</span>
+<span style="color: #f8f8f2">  portal.config(config);</span>
+<span style="color: #f8f8f2">}</span>
+</code></pre></div>
+<p>The next is another way to achieve the same effect.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnect portal;</span>
+
+<span style="color: #66d9ef">void</span><span style="color: #f8f8f2"> </span><span style="color: #a6e22e">setup</span><span style="color: #f8f8f2">() {</span>
+<span style="color: #f8f8f2">  portal.disableMenu(AC_MENUITEM_CONFIGNEW </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> AC_MENUITEM_DISCONNECT);</span>
+<span style="color: #f8f8f2">  portal.config(config);</span>
+<span style="color: #f8f8f2">}</span>
+</code></pre></div>
+<p>The result of executing the above Sketch is as below:</p>
+<p><img src="images/applymenu.png" style="border-style:solid;border-width:1px;border-color:lightgrey;width:280px;" /></p>
+<p>Details for <a href="apiconfig.html#menuitems">AutoConnectConfig::menuItems</a>.</p>
+<h2 id="attaching-to-autoconnect-menu"><i class="fa fa-bars"></i> Attaching to AutoConnect menu<a class="headerlink" href="#attaching-to-autoconnect-menu" title="Permanent link">&para;</a></h2>
+<p>The AutoConnect menu can contain your sketch's web pages as extra items as a custom. It works for HTML pages implemented by the <strong>ESP8266WebServer::on</strong> handler or the <strong>WebServer::on</strong> handler for ESP32. That is, you can make them invoke the legacy web pages from the AutoConnect menu. The below screen-shot is the result of adding an example sketch for the ESP8266WebServer library known as <a href="https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer/examples/FSBrowser">FSBrowser</a> to the AutoConnect menu item. It can add Edit and List items with little modification to the legacy sketch code.</p>
+<div style="float:left;width:auto;height:420px;"><img style="width:auto;height:420px;" src="images/fsbmenu.png"></div>
+<p><img style="margin-left:70px;width:auto;height:420px;" src="images/fsbmenu_expand.png"></p>
+<p>AutoConnect allows capturing the extra pages handled with ESP8266WebServer or WebServer's legacy into the AutoConnect menu. See Section <a href="advancedusage.html#capture-the-legacy-web-pages-as-items-into-the-menu"><em>Advanced Usage</em></a> for detailed instructions on how to add the extra pages into its menu.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>AutoConnect does not check the syntax and validity of the entered IP address. If the entered static IPs are incorrect, it cannot connect to the access point.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="gettingstarted.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Getting started
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="basicusage.html" class="md-footer__link md-footer__link--next" aria-label="Next: Basic usage" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Basic usage
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2018-2021 Hieromon Ikasamo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/Hieromon" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hieromon" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      
+        <script src="js/gifffer.min.js"></script>
+      
+    
+  </body>
+</html>
