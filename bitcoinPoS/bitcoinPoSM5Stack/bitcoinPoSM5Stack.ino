@@ -12,7 +12,6 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #include <Wire.h>
 #include <TFT_eSPI.h>
 #include <Hash.h>
-//#include <Conversion.h>
 #include <ArduinoJson.h>
 #include "qrcode.h"
 #include "Bitcoin.h"
@@ -24,6 +23,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/key.txt"
 
+//Variables
 String inputs;
 String thePin;
 String nosats;
@@ -56,6 +56,7 @@ int calNum = 1;
 int sumFlag = 0;
 int converted = 0;
 
+//Custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
   "uri": "/posconfig",
@@ -184,6 +185,7 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
+//Register buttons
 const byte
     BUTTON_PIN_A(39),
     BUTTON_PIN_B(38), BUTTON_PIN_C(37);
@@ -202,31 +204,24 @@ void setup()
 
   Serial.begin(115200);
 
+  //Load screen
   tft.init();
   tft.invertDisplay(false);
   tft.setRotation(1);
   logo();
-  delay(1500);
 
+  //Load keypad
   Wire.begin();
   pinMode(KEYBOARD_INT, INPUT_PULLUP);
 
+  //Load buttons
   h.begin();
   BTNA.begin();
   BTNB.begin();
   BTNC.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
-  File pinfile = FlashFS.open(KEY_FILE, "w");
-  if (pinfile)
-  {
-    thePin = pinfile.readString();
-    Serial.println(thePin);
-  }
-  else
-  {
-    pinfile.print("1");
-  }
-  //Get the saved details
+
+  //Get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
   {
@@ -276,7 +271,7 @@ void setup()
   }
   paramFile.close();
 
-  //Handle AP traffic
+  //Handle access point traffic
   server.on("/", []() {
     String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
     content += AUTOCONNECT_LINK(COG_24);
@@ -333,12 +328,14 @@ void setup()
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
   int timer = 0;
+
+  //Give few seconds to trigger portal
   while (timer < 2000)
   {
     BTNA.read();
     BTNB.read();
     BTNC.read();
-    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased() || (!onchainCheck && !lnCheck && !lnurlCheck))
+    if (BTNA.wasReleased() || BTNB.wasReleased() || BTNC.wasReleased())
     {
       portalLaunch();
       config.immediateStart = true;
@@ -353,9 +350,12 @@ void setup()
     timer = timer + 200;
     delay(200);
   }
-  portal.join({elementsAux, saveAux});
-  portal.config(config);
-  portal.begin();
+  if(lnCheck){
+    portal.join({elementsAux, saveAux});
+    config.autoRise = false;
+    portal.config(config);
+    portal.begin(); 
+  }
 }
 
 void loop()
@@ -376,7 +376,7 @@ void loop()
     }
   }
 
-  //If only one thing configured skip the menu
+  //If only one payment method available skip menu
   if (menuItems == 1)
   {
     if (choices[menuItem][0] == "onchain")
@@ -392,6 +392,7 @@ void loop()
       lnurlMain();
     }
   }
+  //If more than one payment method available trigger menu
   else
   {
     choiceMenu("SELECT A PAYMENT METHOD");
@@ -417,6 +418,8 @@ void loop()
   }
   delay(3000);
 }
+
+//Onchain payment method
 void onchainMain()
 {
   inputScreenOnChain();
@@ -548,12 +551,12 @@ void lnurlMain()
     else if (BTNC.wasReleased())
     {
       makeLNURL();
-      qrShowCode();
+      qrShowCode("  CLEAR       SHOW PIN");
       while (unConfirmed)
       {
+        BTNC.read();
         BTNA.read();
-        BTNB.read();
-        if (BTNA.wasReleased())
+        if (BTNC.wasReleased())
         {
           showPin();
           BTNB.read();
@@ -687,7 +690,7 @@ void inputScreenOnChain()
   tft.setTextColor(TFT_WHITE);
   tft.setTextSize(2);
   tft.setCursor(0, 60);
-  tft.println(" USING XPUB ENDING IN ..." + masterKey.substring(tomasterKey.length() - 5));
+  tft.println(" USING XPUB ENDING IN ..." + masterKey.substring(masterKey.length() - 5));
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.drawLine(0, 135, 400, 135, TFT_WHITE);
