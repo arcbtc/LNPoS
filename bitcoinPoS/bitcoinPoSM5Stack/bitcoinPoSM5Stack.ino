@@ -352,11 +352,12 @@ void setup()
     timer = timer + 200;
     delay(200);
   }
-  if(lnCheck){
+  if (lnCheck)
+  {
     portal.join({elementsAux, saveAux});
     config.autoRise = false;
     portal.config(config);
-    portal.begin(); 
+    portal.begin();
   }
 }
 
@@ -378,7 +379,8 @@ void loop()
     }
   }
   //If only one payment method available skip menu
-  if (menuItems < 1){
+  if (menuItems < 1)
+  {
     error("NO METHODS", "   RESTART AND RUN PORTAL");
     delay(100000);
   }
@@ -401,7 +403,7 @@ void loop()
   else
   {
     choiceMenu("SELECT A PAYMENT METHOD");
-    
+
     while (unConfirmed)
     {
       BTNA.read();
@@ -427,23 +429,25 @@ void loop()
 //Onchain payment method
 void onchainMain()
 {
-    File file = SPIFFS.open(KEY_FILE);
-    if(file){
-      addressNo = file.readString();
-      addressNo = String(addressNo.toInt() + 1);
-      file.close();
-      file = SPIFFS.open(KEY_FILE, FILE_WRITE);
-      file.print(addressNo);
-      file.close();
-    }
-    else{
-      file.close();
-      file = SPIFFS.open(KEY_FILE, FILE_WRITE);
-      addressNo = "1";
-      file.print(addressNo);
-      file.close();
-    }
-    Serial.println(addressNo);
+  File file = SPIFFS.open(KEY_FILE);
+  if (file)
+  {
+    addressNo = file.readString();
+    addressNo = String(addressNo.toInt() + 1);
+    file.close();
+    file = SPIFFS.open(KEY_FILE, FILE_WRITE);
+    file.print(addressNo);
+    file.close();
+  }
+  else
+  {
+    file.close();
+    file = SPIFFS.open(KEY_FILE, FILE_WRITE);
+    addressNo = "1";
+    file.print(addressNo);
+    file.close();
+  }
+  Serial.println(addressNo);
   inputScreenOnChain();
   while (unConfirmed)
   {
@@ -480,7 +484,6 @@ void onchainMain()
               {
                 unConfirmed = false;
               }
-              
             }
           }
         }
@@ -528,8 +531,8 @@ void lnMain()
         }
         while (timer < 4000)
         {
-          BTNB.read();
-          if (BTNB.wasReleased())
+          BTNA.read();
+          if (BTNA.wasReleased())
           {
             noSats = "0";
             dataIn = "0";
@@ -540,7 +543,6 @@ void lnMain()
           delay(200);
           timer = timer + 100;
         }
-        
       }
       noSats = "0";
       dataIn = "0";
@@ -576,13 +578,13 @@ void lnurlMain()
         {
           showPin();
           while (unConfirmed)
-         {
-          BTNA.read();
-          if (BTNA.wasReleased())
           {
-            unConfirmed = false;
+            BTNA.read();
+            if (BTNA.wasReleased())
+            {
+              unConfirmed = false;
+            }
           }
-         }
         }
         if (BTNA.wasReleased())
         {
@@ -689,10 +691,11 @@ void inputScreen(bool online)
   tft.setCursor(0, 40);
   tft.println(" " + String(lncurrency) + ": ");
   tft.println("");
-  if(online){
-  tft.println(" SATS: ");
-  tft.println("");
-  tft.println("");
+  if (online)
+  {
+    tft.println(" SATS: ");
+    tft.println("");
+    tft.println("");
   }
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
@@ -701,10 +704,9 @@ void inputScreen(bool online)
   tft.println(" A. Back to menu");
   tft.println(" B. Clear");
   tft.println(" C. Generate invoice");
-  
+
   tft.setCursor(0, 220);
   tft.println("     A       B       C");
-
 }
 
 void inputScreenOnChain()
@@ -747,12 +749,17 @@ void qrShowCodeln()
       }
     }
   }
+  tft.setCursor(0, 220);
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.print("  A CANCEL");
 }
 
-void qrShowCodeOnchain(bool anAddress,String message)
+void qrShowCodeOnchain(bool anAddress, String message)
 {
   tft.fillScreen(TFT_WHITE);
-  if(anAddress){
+  if (anAddress)
+  {
     qrData.toUpperCase();
   }
   const char *qrDataChar = qrData.c_str();
@@ -762,12 +769,14 @@ void qrShowCodeOnchain(bool anAddress,String message)
   tft.setCursor(0, 200);
   tft.setTextSize(2);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
-  if(anAddress){
+  if (anAddress)
+  {
     qrcode_initText(&qrcode, qrcodeData, 2, 0, qrDataChar);
     pixSize = 6;
     tft.println("     onchain address");
   }
-  else{
+  else
+  {
     qrcode_initText(&qrcode, qrcodeData, 6, 0, qrDataChar);
     pixSize = 4;
     tft.println("     mempool.space link");
@@ -905,13 +914,13 @@ void choiceMenu(String message)
 }
 void showPin()
 {
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.fillScreen(TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
   tft.setTextSize(3);
   tft.setCursor(0, 25);
   tft.println("PROOF PIN");
   tft.setCursor(100, 120);
-  tft.setTextColor(TFT_GREEN, TFT_BLACK);
+  tft.setTextColor(TFT_GREEN, TFT_WHITE);
   tft.setTextSize(4);
   tft.println(randomPin);
 }
@@ -966,9 +975,10 @@ void getSats()
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
   Serial.println(lnbitsServer);
-  if(lnbitsServer.substring(0,8) == "https://"){
-    Serial.println(lnbitsServer.substring(8,lnbitsServer.length()));
-    lnbitsServer = lnbitsServer.substring(8,lnbitsServer.length());
+  if (lnbitsServer.substring(0, 8) == "https://")
+  {
+    Serial.println(lnbitsServer.substring(8, lnbitsServer.length()));
+    lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
   //client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
@@ -1014,8 +1024,9 @@ void getInvoice()
 {
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
-  if(lnbitsServer.substring(0,8) == "https://"){
-    lnbitsServer = lnbitsServer.substring(8,lnbitsServer.length());
+  if (lnbitsServer.substring(0, 8) == "https://")
+  {
+    lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
   //client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
