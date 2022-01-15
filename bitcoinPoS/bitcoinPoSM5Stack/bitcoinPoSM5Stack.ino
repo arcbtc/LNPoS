@@ -38,15 +38,20 @@ String apPassword = "ToTheMoon1"; //default WiFi AP password
 String masterKey;
 String lnbitsServer;
 String invoice;
-String lnbitsBaseURL;
-String secret;
+String baseURLPoS;
+String secretPoS;
+String currencyPoS;
+String baseURLATM;
+String secretATM;
+String currencyATM;
 String dataIn = "0";
 String amountToShow = "0.00";
 String noSats = "0";
 String qrData;
 String dataId;
 String addressNo;
-String menuItems[5] = {"Onchain", "Lightning", "Lightning (offline)", "ATM (offline)"};
+String menuItems[5] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+String selection;
 int menuItemNo = 0;
 int randomPin;
 int calNum = 1;
@@ -57,6 +62,9 @@ bool onchainCheck = false;
 bool lnCheck = false;
 bool lnurlCheck = false;
 bool unConfirmed = true;
+bool selected = false;
+bool lnurlCheckPoS = false;
+bool lnurlCheckATM = false;
 
 //Custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -118,19 +126,9 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
-      "name": "baseurl",
+      "name": "lnurlpos",
       "type": "ACInput",
-      "label": "LNURLPoS BaseURL"
-    },
-    {
-      "name": "secret",
-      "type": "ACInput",
-      "label": "LNURLPoS Secret"
-    },
-    {
-      "name": "currency",
-      "type": "ACInput",
-      "label": "LNURLPoS Currency"
+      "label": "LNURLPoS String"
     },
     {
       "name": "load",
@@ -224,7 +222,7 @@ void setup()
   BTNC.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
   SPIFFS.begin(true);
-
+  Serial.println("cunt");
   //Get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
@@ -259,18 +257,25 @@ void setup()
     JsonObject lncurrencyRoot = doc[4];
     const char *lncurrencyChar = lncurrencyRoot["value"];
     lncurrency = lncurrencyChar;
-    JsonObject baseURLRoot = doc[5];
-    const char *baseURLChar = baseURLRoot["value"];
-    lnbitsBaseURL = baseURLChar;
-    JsonObject secretRoot = doc[6];
-    const char *secretChar = secretRoot["value"];
-    secret = secretChar;
-    JsonObject currencyRoot = doc[7];
-    const char *currencyChar = currencyRoot["value"];
-    currency = currencyChar;
-    if (secret != "")
+    JsonObject lnurlPoSRoot = doc[5];
+    const char *lnurlPoSChar = lnurlPoSRoot["value"];
+    //String lnurlPoS = lnurlPoSChar;
+    String lnurlPoS = "https://legend.lnbits.com/lnurlpos/api/v1/lnurl/SAmYYUJX2b5DCmHAPd5KVV,jyJegcfpyPdRzMSUUUo8Vf,EUR";
+    baseURLPoS = getValue(lnurlPoS,',',0);
+    secretPoS = getValue(lnurlPoS,',',1);
+    currencyPoS = getValue(lnurlPoS,',',2);
+    if (secretPoS != "")
     {
-      lnurlCheck = true;
+      lnurlCheckPoS = true;
+    }
+    //String lnurlATM = lnurlATMChar;
+    String lnurlATM = "https://legend.lnbits.com/lnurlpos/api/v1/lnurl/SAmYYUJX2b5DCmHAPd5KVV,jyJegcfpyPdRzMSUUUo8Vf,EUR";
+    baseURLATM = getValue(lnurlATM,',',0);
+    secretATM = getValue(lnurlATM,',',1);
+    currencyATM = getValue(lnurlATM,',',2);
+    if (secretATM != "")
+    {
+      lnurlCheckATM = true;
     }
   }
   paramFile.close();
@@ -369,7 +374,7 @@ void loop()
   dataIn = "0";
   amountToShow = "0";
   unConfirmed = true;
-  String choices[3][2] = {{"onchain", masterKey}, {"ln", lnbitsServer}, {"lnurl", lnbitsBaseURL}};
+  String choices[4][2] = {{"OnChain", masterKey}, {"LNPoS", lnbitsServer}, {"LNURLPoS", baseURLPoS}, {"LNURLATM", baseURLATM}};
   int menuItem;
   int menuItems = 0;
   for (int i = 0; i < 3; i++)
@@ -388,17 +393,21 @@ void loop()
   }
   else if (menuItems == 1)
   {
-    if (choices[menuItem][0] == "onchain")
+    if (choices[menuItem][0] == "OnChain")
     {
       onchainMain();
     }
-    if (choices[menuItem][0] == "ln")
+    if (choices[menuItem][0] == "LNPoS")
     {
       lnMain();
     }
-    if (choices[menuItem][0] == "lnurl")
+    if (choices[menuItem][0] == "LNURLPoS")
     {
-      lnurlMain();
+      lnurlPoSMain();
+    }
+    if (choices[menuItem][0] == "LNURLATM")
+    {
+      lnurlATMMain();
     }
   }
   //If more than one payment method available trigger menu
@@ -408,20 +417,23 @@ void loop()
 
     while (unConfirmed)
     {
-      BTNA.read();
-      BTNB.read();
-      BTNC.read();
-      if (BTNB.wasReleased() && lnCheck && WiFi.status() == WL_CONNECTED)
+      menuLoop();
+
+      if (selection == "LNPoS" && lnCheck && WiFi.status() == WL_CONNECTED)
       {
         lnMain();
       }
-      if (BTNA.wasReleased() && onchainCheck)
+      if (selection == "OnChain" && onchainCheck)
       {
         onchainMain();
       }
-      if (BTNC.wasReleased() && lnurlCheck)
+      if (selection == "LNURLPoS" && lnurlCheckPoS)
       {
-        lnurlMain();
+        lnurlPoSMain();
+      }
+      if (selection == "LNURLATM" && lnurlCheckATM)
+      {
+        lnurlATMMain();
       }
       delay(100);
     }
@@ -497,7 +509,7 @@ void lnMain()
 {
   if (converted == 0)
   {
-    choiceMenu("   FETCHING FIAT RATE");
+    processing("   FETCHING FIAT RATE");
     getSats();
   }
   inputScreen(true);
@@ -554,7 +566,7 @@ void lnMain()
     delay(100);
   }
 }
-void lnurlMain()
+void lnurlPoSMain()
 {
   inputScreen(false);
   inputs = "";
@@ -602,6 +614,12 @@ void lnurlMain()
     delay(100);
   }
 }
+
+void lnurlATMMain()
+{
+  Serial.println("lnurlatm");
+}
+
 void getKeypad(bool isPin, bool isLN)
 {
   if (digitalRead(KEYBOARD_INT) == LOW)
@@ -974,6 +992,7 @@ void callback()
 
 void menuLoop()
 {
+  selected = true;
   while (selected)
   {
     tft.setCursor(38, 30);
@@ -983,10 +1002,15 @@ void menuLoop()
     if (BTNA.wasReleased())
     {
       menuItemNo = menuItemNo + 1;
-      for (int i = 0; i < menuItems.length(); i++)
+      for (int i = 0; i < sizeof(menuItems); i++)
       {
-        if (i == menuItemNo)
+        if(menuItems[i] == "LNPoS" && WiFi.status() != WL_CONNECTED)
         {
+          tft.setTextColor(TFT_RED);
+          tft.println(menuItems[i]);
+        }
+        else if (i == menuItemNo)
+        { 
           tft.setTextColor(TFT_GREEN);
           tft.println(menuItems[i]);
           selection = menuItems[i];
@@ -1168,6 +1192,23 @@ bool checkInvoice()
   return unConfirmed;
 }
 
+String getValue(String data, char separator, int index)
+{
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length()-1;
+
+  for(int i=0; i<=maxIndex && found<=index; i++){
+    if(data.charAt(i)==separator || i==maxIndex){
+        found++;
+        strIndex[0] = strIndex[1]+1;
+        strIndex[1] = (i == maxIndex) ? i+1 : i;
+    }
+  }
+
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
+
 //////////LNURL AND CRYPTO///////////////
 
 void makeLNURL()
@@ -1179,9 +1220,17 @@ void makeLNURL()
     nonce[i] = random(256);
   }
   byte payload[51]; // 51 bytes is max one can get with xor-encryption
-  size_t payload_len = xor_encrypt(payload, sizeof(payload), (uint8_t *)secret.c_str(), secret.length(), nonce, sizeof(nonce), randomPin, dataIn.toInt());
-  preparedURL = lnbitsBaseURL + "?p=";
-  preparedURL += toBase64(payload, payload_len, BASE64_URLSAFE | BASE64_NOPADDING);
+  if(selection == "LNURLPoS"){
+    size_t payload_len = xor_encrypt(payload, sizeof(payload), (uint8_t *)secretPoS.c_str(), secretPoS.length(), nonce, sizeof(nonce), randomPin, dataIn.toInt());
+    preparedURL = baseURLPoS + "?p=";
+    preparedURL += toBase64(payload, payload_len, BASE64_URLSAFE | BASE64_NOPADDING);
+  }
+  else{
+    size_t payload_len = xor_encrypt(payload, sizeof(payload), (uint8_t *)secretATM.c_str(), secretATM.length(), nonce, sizeof(nonce), randomPin, dataIn.toInt());
+    preparedURL = baseURLATM + "?p=";
+    preparedURL += toBase64(payload, payload_len, BASE64_URLSAFE | BASE64_NOPADDING);
+  }
+
   Serial.println(preparedURL);
   char Buf[200];
   preparedURL.toCharArray(Buf, 200);
