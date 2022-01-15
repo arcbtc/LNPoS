@@ -46,15 +46,17 @@ String noSats = "0";
 String qrData;
 String dataId;
 String addressNo;
+String menuItems[5] = {"Onchain", "Lightning", "Lightning (offline)", "ATM (offline)"};
+int menuItemNo = 0;
+int randomPin;
+int calNum = 1;
+int sumFlag = 0;
+int converted = 0;
 uint8_t key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
 bool lnurlCheck = false;
 bool unConfirmed = true;
-int randomPin;
-int calNum = 1;
-int sumFlag = 0;
-int converted = 0;
 
 //Custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -968,6 +970,40 @@ void to_upper(char *arr)
 
 void callback()
 {
+}
+
+void menuLoop()
+{
+  while (selected)
+  {
+    tft.setCursor(38, 30);
+    tft.setTextSize(3);
+    BTNA.read();
+    BTNC.read();
+    if (BTNA.wasReleased())
+    {
+      menuItemNo = menuItemNo + 1;
+      for (int i = 0; i < menuItems.length(); i++)
+      {
+        if (i == menuItemNo)
+        {
+          tft.setTextColor(TFT_GREEN);
+          tft.println(menuItems[i]);
+          selection = menuItems[i];
+        }
+        else
+        {
+          tft.setTextColor(TFT_WHITE);
+          tft.println(menuItems[i]);
+        }
+      }
+      selected = false;
+    }
+    if (BTNC.wasReleased())
+    {
+      selected = true;
+    }
+  }
 }
 //////////LIGHTNING//////////////////////
 void getSats()
