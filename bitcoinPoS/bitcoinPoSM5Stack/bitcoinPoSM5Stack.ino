@@ -50,7 +50,8 @@ String noSats = "0";
 String qrData;
 String dataId;
 String addressNo;
-String menuItems[5] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
 int menuItemNo = 0;
 int randomPin;
@@ -65,6 +66,7 @@ bool unConfirmed = true;
 bool selected = false;
 bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
+String lnurlATMPin;
 
 //Custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -222,7 +224,6 @@ void setup()
   BTNC.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
   SPIFFS.begin(true);
-  Serial.println("cunt");
   //Get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
@@ -242,7 +243,7 @@ void setup()
     masterKey = masterKeyChar;
     if (masterKey != "")
     {
-      onchainCheck = true;
+      menuItemCheck[2] = 1;
     }
     JsonObject serverRoot = doc[2];
     const char *serverChar = serverRoot["value"];
@@ -252,7 +253,7 @@ void setup()
     invoice = invoiceChar;
     if (invoice != "")
     {
-      lnCheck = true;
+      menuItemCheck[0] = 1;
     }
     JsonObject lncurrencyRoot = doc[4];
     const char *lncurrencyChar = lncurrencyRoot["value"];
@@ -266,7 +267,7 @@ void setup()
     currencyPoS = getValue(lnurlPoS,',',2);
     if (secretPoS != "")
     {
-      lnurlCheckPoS = true;
+      menuItemCheck[1] = 1;
     }
     //String lnurlATM = lnurlATMChar;
     String lnurlATM = "https://legend.lnbits.com/lnurlpos/api/v1/lnurl/SAmYYUJX2b5DCmHAPd5KVV,jyJegcfpyPdRzMSUUUo8Vf,EUR";
@@ -275,10 +276,14 @@ void setup()
     currencyATM = getValue(lnurlATM,',',2);
     if (secretATM != "")
     {
-      lnurlCheckATM = true;
+      menuItemCheck[3] = 0;
     }
+    JsonObject lnurlATMRoot = doc[6];
+    const char *lnurlATMPinChar = lnurlATMRoot["value"];
+    lnurlATMPin = lnurlATMPinChar;
   }
   paramFile.close();
+  Serial.println("Aright");
 
   //Handle access point traffic
   server.on("/", []() {
@@ -337,7 +342,7 @@ void setup()
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
   int timer = 0;
-
+  
   //Give few seconds to trigger portal
   while (timer < 2000)
   {
@@ -366,6 +371,7 @@ void setup()
     portal.config(config);
     portal.begin();
   }
+  
 }
 
 void loop()
@@ -374,64 +380,67 @@ void loop()
   dataIn = "0";
   amountToShow = "0";
   unConfirmed = true;
-  String choices[4][2] = {{"OnChain", masterKey}, {"LNPoS", lnbitsServer}, {"LNURLPoS", baseURLPoS}, {"LNURLATM", baseURLATM}};
-  int menuItem;
-  int menuItems = 0;
-  for (int i = 0; i < 3; i++)
-  {
-    if (choices[i][1] != "")
-    {
-      menuItem = i;
-      menuItems++;
+  
+  int menuItemsAmount = 0;
+  if(WiFi.status() != WL_CONNECTED){
+    menuItemCheck[0] = 0;
+  }
+  for (int i = 0; i < sizeof(menuItems)/sizeof(menuItems[0]); i++){
+    if(menuItemCheck[i] == 1){
+      menuItemsAmount++;
     }
   }
-  //If only one payment method available skip menu
-  if (menuItems < 1)
+  
+//If no methods available 
+  if (menuItemsAmount < 1)
   {
     error("NO METHODS", "   RESTART AND RUN PORTAL");
     delay(100000);
   }
-  else if (menuItems == 1)
+//If only one payment method available skip menu
+  else if (menuItemsAmount == 1)
   {
-    if (choices[menuItem][0] == "OnChain")
-    {
-      onchainMain();
-    }
-    if (choices[menuItem][0] == "LNPoS")
-    {
-      lnMain();
-    }
-    if (choices[menuItem][0] == "LNURLPoS")
-    {
-      lnurlPoSMain();
-    }
-    if (choices[menuItem][0] == "LNURLATM")
-    {
-      lnurlATMMain();
+    for (int i = 0; i < sizeof(menuItemCheck); i++){
+      if(menuItemCheck[i] == 1){
+        if (menuItems[i] == "OnChain")
+        {
+          onchainMain();
+        }
+        if (menuItems[i] == "LNPoS")
+        {
+          lnMain();
+        }
+        if (menuItems[i] == "LNURLPoS")
+        {
+          lnurlPoSMain();
+        }
+        if (menuItems[i] == "LNURLATM")
+        {
+          lnurlATMMain();
+        }
+      }
     }
   }
-  //If more than one payment method available trigger menu
+//If more than one payment method available trigger menu
   else
   {
-    choiceMenu("SELECT A PAYMENT METHOD");
-
     while (unConfirmed)
     {
       menuLoop();
-
-      if (selection == "LNPoS" && lnCheck && WiFi.status() == WL_CONNECTED)
+      Serial.println(selection);
+      if (selection == "LNPoS")
       {
         lnMain();
       }
-      if (selection == "OnChain" && onchainCheck)
+      if (selection == "OnChain")
       {
         onchainMain();
       }
-      if (selection == "LNURLPoS" && lnurlCheckPoS)
+      if (selection == "LNURLPoS")
       {
         lnurlPoSMain();
       }
-      if (selection == "LNURLATM" && lnurlCheckATM)
+      if (selection == "LNURLATM")
       {
         lnurlATMMain();
       }
@@ -992,40 +1001,63 @@ void callback()
 
 void menuLoop()
 {
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(2);
+  tft.setCursor(25, 20);
+  tft.print("SELECT PAYMENT METHOD");
+  tft.setCursor(0, 220);
+  tft.setTextSize(2);
+  tft.println("   NEXT           SELECT");
+  
   selected = true;
   while (selected)
-  {
-    tft.setCursor(38, 30);
-    tft.setTextSize(3);
-    BTNA.read();
-    BTNC.read();
-    if (BTNA.wasReleased())
-    {
+  { 
+    if(menuItemCheck[0] == 0 && menuItemNo == 0){
       menuItemNo = menuItemNo + 1;
-      for (int i = 0; i < sizeof(menuItems); i++)
+    }
+    tft.setCursor(0, 75);
+    tft.setTextSize(3);
+    int current = 0;
+    for (int i = 0; i < sizeof(menuItems)/sizeof(menuItems[0]); i++)
+    {
+      if(menuItemCheck[i] == 1)
       {
-        if(menuItems[i] == "LNPoS" && WiFi.status() != WL_CONNECTED)
-        {
-          tft.setTextColor(TFT_RED);
-          tft.println(menuItems[i]);
-        }
-        else if (i == menuItemNo)
-        { 
-          tft.setTextColor(TFT_GREEN);
+        if(menuItems[i] == menuItems[menuItemNo]){
+          tft.setTextColor(TFT_GREEN, TFT_BLACK);
           tft.println(menuItems[i]);
           selection = menuItems[i];
         }
-        else
-        {
-          tft.setTextColor(TFT_WHITE);
-          tft.println(menuItems[i]);
+        else{
+        tft.setTextColor(TFT_WHITE, TFT_BLACK);
+        tft.println(menuItems[i]);
         }
       }
-      selected = false;
+      else{
+        tft.setTextColor(TFT_RED, TFT_BLACK);
+        tft.println(menuItems[i]);
+      }
     }
-    if (BTNC.wasReleased())
-    {
-      selected = true;
+    bool btnloop = true;
+    while(btnloop){
+      BTNA.read();
+      BTNC.read();
+      if (BTNA.wasReleased())
+      {
+        menuItemNo = menuItemNo + 1;
+        if(menuItemCheck[menuItemNo] == 0){
+          menuItemNo = menuItemNo + 1;
+        }
+        if(menuItemNo >= (sizeof(menuItems)/sizeof(menuItems[0]))){
+          menuItemNo = 0;
+        }
+        btnloop = false;
+      }
+      if (BTNC.wasReleased())
+      {      
+        selected = false;
+        btnloop = false;
+      }
     }
   }
 }
