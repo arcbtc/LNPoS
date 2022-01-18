@@ -50,6 +50,7 @@ String noSats = "0";
 String qrData;
 String dataId;
 String addressNo;
+String pinToShow;
 char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
 int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
@@ -276,11 +277,12 @@ void setup()
     currencyATM = getValue(lnurlATM,',',2);
     if (secretATM != "")
     {
-      menuItemCheck[3] = 0;
+      menuItemCheck[3] = 1;
     }
     JsonObject lnurlATMRoot = doc[6];
     const char *lnurlATMPinChar = lnurlATMRoot["value"];
-    lnurlATMPin = lnurlATMPinChar;
+    //lnurlATMPin = lnurlATMPinChar;
+    lnurlATMPin = "1234";
   }
   paramFile.close();
   Serial.println("Aright");
@@ -427,7 +429,6 @@ void loop()
     while (unConfirmed)
     {
       menuLoop();
-      Serial.println(selection);
       if (selection == "LNPoS")
       {
         lnMain();
@@ -485,7 +486,8 @@ void onchainMain()
       HDPublicKey hd(masterKey);
       String path = String("m/0/") + addressNo;
       qrData = hd.derive(path).address();
-      qrShowCodeOnchain(true, "  A CANCEL       C CHECK");
+      qrShowCodeOnchain(true, "   MENU            CHECK");
+ 
       while (unConfirmed)
       {
         BTNA.read();
@@ -499,7 +501,7 @@ void onchainMain()
           while (unConfirmed)
           {
             qrData = "https://mempool.space/address/" + qrData;
-            qrShowCodeOnchain(false, "  A CANCEL");
+            qrShowCodeOnchain(false, "   MENU");
             while (unConfirmed)
             {
               BTNA.read();
@@ -571,7 +573,7 @@ void lnMain()
       dataIn = "0";
       amountToShow = "0";
     }
-    getKeypad(false, true);
+    getKeypad(false, false, true);
     delay(100);
   }
 }
@@ -584,7 +586,7 @@ void lnurlPoSMain()
     BTNA.read();
     BTNB.read();
     BTNC.read();
-    getKeypad(false, false);
+    getKeypad(false, false, false);
     if (BTNA.wasReleased())
     {
       unConfirmed = false;
@@ -592,7 +594,7 @@ void lnurlPoSMain()
     else if (BTNC.wasReleased())
     {
       makeLNURL();
-      qrShowCodeLNURL("   CLEAR       SHOW PIN");
+      qrShowCodeLNURL("   MENU          SHOW PIN");
       while (unConfirmed)
       {
         BTNC.read();
@@ -627,9 +629,62 @@ void lnurlPoSMain()
 void lnurlATMMain()
 {
   Serial.println("lnurlatm");
+  isATMMoneyNumber(true);
+  while(unConfirmed){
+    getKeypad(true, false, false);
+    BTNA.read();
+    BTNB.read();
+    if (BTNA.wasReleased())
+    {
+      unConfirmed = false;
+    }
+    if (BTNB.wasReleased())
+    {
+      isATMMoneyNumber(true);
+    }
+    if(pinToShow.length() == lnurlATMPin.length() && pinToShow != lnurlATMPin){
+      error("WRONG PIN", "");
+      delay(1500);
+      pinToShow = "";
+      dataIn = "";
+    }
+    else if(pinToShow == lnurlATMPin){
+      inputScreen(false);
+      inputs = "";
+      dataIn = "";
+      while (unConfirmed)
+      {
+        BTNA.read();
+        BTNB.read();
+        BTNC.read();
+        getKeypad(false, false, false);
+        if (BTNA.wasReleased())
+        {
+          unConfirmed = false;
+        }
+        if (BTNB.wasReleased())
+        {
+          isATMMoneyNumber(true);
+        }
+        if (BTNC.wasReleased())
+        {
+          makeLNURL();
+          qrShowCodeLNURL("   MENU");
+          while (unConfirmed)
+          {
+            BTNA.read();
+            if (BTNA.wasReleased())
+            {
+              unConfirmed = false;
+            }
+          }
+        }
+      }  
+    }
+  }
 }
 
-void getKeypad(bool isPin, bool isLN)
+void getKeypad(bool isATMPin, bool isLNPin, bool isLN)
 {
   if (digitalRead(KEYBOARD_INT) == LOW)
   {
@@ -645,6 +700,10 @@ void getKeypad(bool isPin, bool isLN)
           if (isLN)
           {
             isLNMoneyNumber(false);
+          }
+          if (isATMPin)
+          {
+            isATMMoneyNumber(false);
           }
           else
           {
@@ -684,10 +743,10 @@ void isLNMoneyNumber(bool cleared)
   }
   tft.setTextSize(3);
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.setCursor(88, 40);
+  tft.setCursor(88, 100);
   tft.println(amountToShow);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(105, 88);
+  tft.setCursor(105, 148);
   tft.println(noSats.toInt());
 }
 
@@ -705,8 +764,32 @@ void isLNURLMoneyNumber(bool cleared)
   tft.setTextSize(3);
   tft.setCursor(100, 120);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(88, 40);
+  tft.setCursor(88, 100);
   tft.println(amountToShow);
+}
+
+void isATMMoneyNumber(bool cleared)
+{ 
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(2);
+  tft.setCursor(70, 20);
+  tft.print("ENTER SECRET PIN");
+  tft.setTextSize(3);
+  tft.setCursor(20, 100);
+  tft.println("PIN:");
+  tft.setCursor(0, 220);
+  tft.setTextSize(2);
+  tft.println("    MENU   CLEAR");
+  pinToShow = dataIn;
+  tft.setTextSize(3);
+  if(cleared){
+    pinToShow = "";
+    dataIn = "";
+  }
+  tft.setTextColor(TFT_GREEN, TFT_BLACK);
+  tft.setCursor(88, 100);
+  tft.println(pinToShow);
 }
 
 ///////////DISPLAY///////////////
@@ -717,7 +800,7 @@ void inputScreen(bool online)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE);
   tft.setTextSize(3);
-  tft.setCursor(0, 40);
+  tft.setCursor(0, 100);
   tft.println(" " + String(lncurrency) + ": ");
   tft.println("");
   if (online)
@@ -728,14 +811,9 @@ void inputScreen(bool online)
   }
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
-  tft.drawLine(0, 135, 400, 135, TFT_WHITE);
-  tft.setCursor(0, 150);
-  tft.println(" A. Back to menu");
-  tft.println(" B. Clear");
-  tft.println(" C. Generate invoice");
 
   tft.setCursor(0, 220);
-  tft.println("     A       B       C");
+  tft.println("    MENU   CLEAR  INVOICE");
 }
 
 void inputScreenOnChain()
@@ -743,16 +821,12 @@ void inputScreenOnChain()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE);
   tft.setTextSize(2);
-  tft.setCursor(0, 60);
-  tft.println("XPUB ENDING IN ..." + masterKey.substring(masterKey.length() - 5));
+  tft.setCursor(10, 100);
+  tft.println("XPUB ENDING IN '" + masterKey.substring(masterKey.length() - 8) + "'");
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
-  tft.drawLine(0, 135, 400, 135, TFT_WHITE);
-  tft.setCursor(0, 150);
-  tft.println(" A. Back to menu");
-  tft.println(" C. Generate fresh address");
   tft.setCursor(0, 220);
-  tft.println("     A               C");
+  tft.println("   MENU          ADDRESS");
 }
 
 void qrShowCodeln()
@@ -781,7 +855,7 @@ void qrShowCodeln()
   tft.setCursor(0, 220);
   tft.setTextSize(2);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
-  tft.print("  A CANCEL");
+  tft.println("   MENU");
 }
 
 void qrShowCodeOnchain(bool anAddress, String message)
@@ -890,57 +964,7 @@ void complete()
   tft.setCursor(60, 100);
   tft.println("COMPLETE");
 }
-void choiceMenu(String message)
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setCursor(20, 60);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
-  tft.println(message);
-  tft.setTextSize(2);
-  tft.drawLine(0, 135, 400, 135, TFT_WHITE);
-  if (!onchainCheck)
-  {
-    tft.setTextColor(TFT_RED, TFT_BLACK);
-    tft.setCursor(0, 150);
-    tft.println(" A. Onchain");
-  }
-  else
-  {
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setCursor(0, 150);
-    tft.println(" A. Onchain");
-  }
-  if (!lnCheck)
-  {
-    tft.setTextColor(TFT_RED, TFT_BLACK);
-    tft.println(" B. Lightning");
-  }
-  else if (lnCheck && WiFi.status() != WL_CONNECTED)
-  {
-    tft.setTextColor(TFT_RED, TFT_BLACK);
-    tft.println(" B. Lightning (needs WiFi)");
-  }
-  else
-  {
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.println(" B. Lightning");
-  }
-  if (!lnurlCheck)
-  {
-    tft.setTextColor(TFT_RED, TFT_BLACK);
-    tft.println(" C. Lightning Offline");
-  }
-  else
-  {
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.println(" C. Lightning Offline");
-  }
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 220);
-  tft.setTextSize(2);
-  tft.println("     A       B       C");
-}
+
 void showPin()
 {
   tft.fillScreen(TFT_WHITE);
