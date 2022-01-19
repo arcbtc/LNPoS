@@ -1,5 +1,6 @@
 
-# bitcoinPoS <small>- Multi-functional free and open-source bitcoin point-of-sale (includes device portal for easy setup) </small>
+# bitcoinPoS 
+## Free and open-source bitcoin point-of-sale (includes device portal for easy setup)
 
 BitcoinPoS includes LNPoS (for online LN payments), LNRLPoS (for offline LN payments), OnChain (for onchain payments), LNURLATM (for making offline LN withdraw links).
 
