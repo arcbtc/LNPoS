@@ -26,7 +26,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 Use an xPub to generate a fresh address for every payment. Useful for large purchases. Includes a mempool.space QR so the payment can be verified. 
 
 #### Setting up
-Launch portal and enter BIP39 xPub and a pin, to make the funcion secure.
+Launch portal and enter BIP39 xPub and a pin, to make the function secure.
 ![Alt text](images/onchain.png?raw=true "LNPoS")
 
 ### LNURLATM – Meatbag ATM, give refunds, accept cash for sats.
