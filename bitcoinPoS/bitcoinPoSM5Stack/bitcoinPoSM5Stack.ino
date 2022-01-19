@@ -134,6 +134,17 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "label": "LNURLPoS String"
     },
     {
+      "name": "lnurlatm",
+      "type": "ACInput",
+      "label": "LNURLATM String"
+    },
+    {
+      "name": "lnurlatmpin",
+      "type": "ACInput",
+      "value": "878787",
+      "label": "LNURLATM pin String"
+    },
+    {
       "name": "load",
       "type": "ACSubmit",
       "value": "Load",
@@ -261,8 +272,7 @@ void setup()
     lncurrency = lncurrencyChar;
     JsonObject lnurlPoSRoot = doc[5];
     const char *lnurlPoSChar = lnurlPoSRoot["value"];
-    //String lnurlPoS = lnurlPoSChar;
-    String lnurlPoS = "https://legend.lnbits.com/lnurlpos/api/v1/lnurl/SAmYYUJX2b5DCmHAPd5KVV,jyJegcfpyPdRzMSUUUo8Vf,EUR";
+    String lnurlPoS = lnurlPoSChar;
     baseURLPoS = getValue(lnurlPoS,',',0);
     secretPoS = getValue(lnurlPoS,',',1);
     currencyPoS = getValue(lnurlPoS,',',2);
@@ -270,8 +280,9 @@ void setup()
     {
       menuItemCheck[1] = 1;
     }
-    //String lnurlATM = lnurlATMChar;
-    String lnurlATM = "https://legend.lnbits.com/lnurlpos/api/v1/lnurl/SAmYYUJX2b5DCmHAPd5KVV,jyJegcfpyPdRzMSUUUo8Vf,EUR";
+    JsonObject lnurlATMRoot = doc[6];
+    const char *lnurlATMChar = lnurlATMRoot["value"];
+    String lnurlATM = lnurlATMChar;
     baseURLATM = getValue(lnurlATM,',',0);
     secretATM = getValue(lnurlATM,',',1);
     currencyATM = getValue(lnurlATM,',',2);
@@ -279,10 +290,9 @@ void setup()
     {
       menuItemCheck[3] = 1;
     }
-    JsonObject lnurlATMRoot = doc[6];
-    const char *lnurlATMPinChar = lnurlATMRoot["value"];
-    //lnurlATMPin = lnurlATMPinChar;
-    lnurlATMPin = "1234";
+    JsonObject lnurlATMPinRoot = doc[7];
+    const char *lnurlATMPinChar = lnurlATMPinRoot["value"];
+    lnurlATMPin = lnurlATMPinChar;
   }
   paramFile.close();
   Serial.println("Aright");
@@ -299,7 +309,7 @@ void setup()
     File param = FlashFS.open(PARAM_FILE, "r");
     if (param)
     {
-      aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"});
+      aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmpin"});
       param.close();
     }
     if (portal.where() == "/posconfig")
@@ -307,7 +317,7 @@ void setup()
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param)
       {
-        aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"});
+        aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmpin"});
         param.close();
       }
     }
@@ -321,7 +331,7 @@ void setup()
     if (param)
     {
       // Save as a loadable set for parameters.
-      elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "baseurl", "secret", "currency"});
+      elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmpin"});
       param.close();
       // Read the saved elements again to display.
       param = FlashFS.open(PARAM_FILE, "r");
@@ -373,7 +383,6 @@ void setup()
     portal.config(config);
     portal.begin();
   }
-  
 }
 
 void loop()
@@ -390,6 +399,7 @@ void loop()
   for (int i = 0; i < sizeof(menuItems)/sizeof(menuItems[0]); i++){
     if(menuItemCheck[i] == 1){
       menuItemsAmount++;
+      selection = menuItems[i];
     }
   }
   
@@ -400,28 +410,26 @@ void loop()
     delay(100000);
   }
 //If only one payment method available skip menu
-  else if (menuItemsAmount == 1)
+  Serial.println("Aright");
+  Serial.println(menuItemsAmount);
+  if (menuItemsAmount == 1)
   {
-    for (int i = 0; i < sizeof(menuItemCheck); i++){
-      if(menuItemCheck[i] == 1){
-        if (menuItems[i] == "OnChain")
-        {
-          onchainMain();
-        }
-        if (menuItems[i] == "LNPoS")
-        {
-          lnMain();
-        }
-        if (menuItems[i] == "LNURLPoS")
-        {
-          lnurlPoSMain();
-        }
-        if (menuItems[i] == "LNURLATM")
-        {
-          lnurlATMMain();
-        }
+      if (selection == "OnChain")
+      {
+        onchainMain();
       }
-    }
+      if (selection == "LNPoS")
+      {
+        lnMain();
+      }
+      if (selection == "LNURLPoS")
+      {
+        lnurlPoSMain();
+      }
+      if (selection == "LNURLATM")
+      {
+        lnurlATMMain();
+      }
   }
 //If more than one payment method available trigger menu
   else
@@ -629,6 +637,8 @@ void lnurlPoSMain()
 void lnurlATMMain()
 {
   Serial.println("lnurlatm");
+  pinToShow = "";
+  dataIn = "";
   isATMMoneyNumber(true);
   while(unConfirmed){
     getKeypad(true, false, false);
@@ -647,6 +657,7 @@ void lnurlATMMain()
       delay(1500);
       pinToShow = "";
       dataIn = "";
+      isATMMoneyNumber(true);
     }
     else if(pinToShow == lnurlATMPin){
       inputScreen(false);
@@ -1033,7 +1044,7 @@ void menuLoop()
   tft.setCursor(0, 220);
   tft.setTextSize(2);
   tft.println("   NEXT           SELECT");
-  
+  selection = "";
   selected = true;
   while (selected)
   { 
@@ -1283,7 +1294,7 @@ void makeLNURL()
   }
   else{
     size_t payload_len = xor_encrypt(payload, sizeof(payload), (uint8_t *)secretATM.c_str(), secretATM.length(), nonce, sizeof(nonce), randomPin, dataIn.toInt());
-    preparedURL = baseURLATM + "?p=";
+    preparedURL = baseURLATM + "?atm=1&p=";
     preparedURL += toBase64(payload, payload_len, BASE64_URLSAFE | BASE64_NOPADDING);
   }
 
