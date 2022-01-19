@@ -987,6 +987,9 @@ void showPin()
   tft.setTextColor(TFT_GREEN, TFT_WHITE);
   tft.setTextSize(4);
   tft.println(randomPin);
+  tft.setCursor(0, 220);
+  tft.setTextSize(2);
+  tft.println("   MENU");
 }
 
 void lnurlInputScreen()
