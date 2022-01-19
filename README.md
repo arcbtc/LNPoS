@@ -10,7 +10,7 @@ The LNPoS project has been incorporated into bitcoinPoS for online bitcoin light
 
 #### Setting up
 Launch portal and enter an LNbits endpoint and invoice key.
-
+![Alt text](images/lnpos.png?raw=true "LNPoS")
 
 ### LNURLPoS – Offline Lightning Network payments
 The LNURLPoS project has been incorporated into bitcoinPoS. A random pin generated on the device is encrypted and passed trough the payee. When the payment has been made the unencrypted pin is sent as a receipt. This function makes use of LNURL-pay protocol.
