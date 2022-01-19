@@ -17,18 +17,21 @@ The LNURLPoS project has been incorporated into bitcoinPoS. A random pin generat
 
 #### Setting up
 Launch portal and enter the string from the LNURLDevice extension on LNbits
+![Alt text](images/lnurlpos.png?raw=true "LNPoS")
 
 ### OnChain – Generate fresh address using an xPub
 Use an xPub to generate a fresh address for every payment. Useful for large purchases. Includes a mempool.space QR so the payment can be verified. 
 
 #### Setting up
 Launch portal and enter  a Bip39 xPub
+![Alt text](images/onchain.png?raw=true "LNPoS")
 
 ### LNURLATM – Meatbag ATM, give refunds, accept cash for sats.
 Create withdraw/faucet links. Uses more-or-les. This function makes use of LNURL-withdraw protocol.
 
 #### Setting up
 Launch portal and enter the string from the LNURLDevice extension on LNbits
+![Alt text](images/lnurlatm.png?raw=true "LNPoS")
 
 ## Hardware
 
