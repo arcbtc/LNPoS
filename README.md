@@ -22,7 +22,7 @@ The LNURLPoS project has been incorporated into bitcoinPoS. A random pin generat
 Launch portal and enter the string from the LNURLDevice extension on LNbits
 ![Alt text](images/lnurlpos.png?raw=true "LNPoS")
 
-### OnChain – Generate fresh address using an xPub
+### OnChain – Generate fresh addresses using an xPub
 Use an xPub to generate a fresh address for every payment. Useful for large purchases. Includes a mempool.space QR so the payment can be verified. 
 
 #### Setting up
