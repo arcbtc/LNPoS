@@ -12,7 +12,7 @@ BitcoinPoS includes:
 The LNPoS project has been incorporated into bitcoinPoS for online bitcoin lightning network payments. 
 
 #### Setting up
-Launch portal and enter an LNbits endpoint and invoice key.
+Launch portal and enter an LNbits endpoint (ie.legend.lnbits.com), invoice key, and a fiat currency to make things easier for product pricing.
 ![Alt text](images/lnpos.png?raw=true "LNPoS")
 
 ### LNURLPoS – Offline Lightning Network payments
@@ -26,7 +26,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 Use an xPub to generate a fresh address for every payment. Useful for large purchases. Includes a mempool.space QR so the payment can be verified. 
 
 #### Setting up
-Launch portal and enter  a Bip39 xPub
+Launch portal and enter BIP39 xPub and a pin, to make the funcion secure.
 ![Alt text](images/onchain.png?raw=true "LNPoS")
 
 ### LNURLATM – Meatbag ATM, give refunds, accept cash for sats.
