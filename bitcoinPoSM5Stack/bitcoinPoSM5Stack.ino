@@ -420,7 +420,7 @@ void loop()
   if (menuItemsAmount < 1)
   {
     error("NO METHODS", "   RESTART AND RUN PORTAL");
-    delay(100000);
+    delay(10000000);
   }
   //If only one payment method available skip menu
   Serial.println(menuItemsAmount);
