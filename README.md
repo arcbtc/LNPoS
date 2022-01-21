@@ -3,8 +3,8 @@
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup)
 
 bitcoinPoS includes: 
-* <a href="https://github.com/arcbtc/LNPoS">LNPoS</a> (for online LN payments)
-* <a href="https://github.com/arcbtc/LNURLPoS">LNURLPoS</a> (for offline LN payments) 
+* LNPoS (for online LN payments, original <a href="https://github.com/arcbtc/LNPoS">project</a>)
+* LNURLPoS (for offline LN payments, original <a href="https://github.com/arcbtc/LNURLPoS">project</a> ) 
 * OnChain (for onchain payments)
 * LNURLATM (for making offline LN withdraw links).
 
