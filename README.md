@@ -43,6 +43,7 @@ Create withdraw/faucet links. Uses more-or-les. This function makes use of LNURL
 Launch portal and enter the string from the LNURLDevice extension on LNbits
 <img src="images/lnurlatm.png?raw=true" width="75%">
 
+<br></br>
 <h2 align="center">
 ⚡⚡⚡⚡HARDWARE⚡⚡⚡⚡
 </h2>
@@ -59,6 +60,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 #### <a href="bitcoinPoSBareBones">bitcoinPoSBareBones details</a>
 ![Alt text](images/cheap.png?raw=true "tdisplay")
 
+<br></br>
 <h2 align="center">
 ⚡⚡⚡⚡SOFTWARE⚡⚡⚡⚡
 </h2>
