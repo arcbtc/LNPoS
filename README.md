@@ -1,6 +1,6 @@
 ![Alt text](images/banner.png?raw=true "banner")
  
-<h1 align="center">
+<h1>
 bitcoinPoS
 </h1>
 
@@ -12,7 +12,7 @@ bitcoinPoS includes:
 * OnChain (for onchain payments)
 * LNURLATM (for making offline LN withdraw links).
 <br></br>
-<h2 align="center">
+<h2>
 Payment methods
 </h2>
 
@@ -44,7 +44,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 <img src="images/lnurlatm.png?raw=true" width="75%">
 
 <br></br>
-<h2 align="center">
+<h2>
 bitcoinPoS Options
 </h2>
 <h3>
