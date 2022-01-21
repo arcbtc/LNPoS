@@ -12,29 +12,28 @@ bitcoinPoS includes:
 Invoices are generated and checked from LNbits install.
 #### Setting up
 Launch portal and enter an LNbits endpoint (ie.legend.lnbits.com), invoice key, and a fiat currency to make things easier for product pricing.
-![Alt text](images/lnpos.png?raw=true "LNPoS")
-<img src="images/lnpos.png?raw=true" width="50%">
+<img src="images/lnpos.png?raw=true" width="75%">
 
 ### LNURLPoS – Offline Lightning Network payments
 A random pin generated on the device is encrypted and passed trough the payee. When the payment has been made the unencrypted pin is sent as a receipt. This function makes use of LNURL-pay protocol.
 
 #### Setting up
 Launch portal and enter the string from the LNURLDevice extension on LNbits
-![Alt text](images/lnurlpos.png?raw=true "LNURLPoS")
+<img src="images/lnurlpos.png?raw=true" width="75%">
 
 ### OnChain – Generate fresh addresses using an xPub
 Use an xPub to generate a fresh address for every payment. Useful for large purchases. Includes a mempool.space QR so the payment can be verified. 
 
 #### Setting up
 Launch portal and enter BIP39 xPub and a pin, to make the function secure.
-![Alt text](images/onchain.png?raw=true "OnChain")
+<img src="images/onchain.png?raw=true" width="75%">
 
 ### LNURLATM – Meatbag ATM, give refunds, accept cash for sats.
 Create withdraw/faucet links. Uses more-or-les. This function makes use of LNURL-withdraw protocol.
 
 #### Setting up
 Launch portal and enter the string from the LNURLDevice extension on LNbits
-![Alt text](images/lnurlatm.png?raw=true "ATM")
+<img src="images/lnurlatm.png?raw=true" width="75%">
 
 ## Hardware Options
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
