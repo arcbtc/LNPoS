@@ -1001,8 +1001,8 @@ void complete()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setTextSize(4);
-  tft.setCursor(60, 100);
+  tft.setTextSize(2);
+  tft.setCursor(20, 50);
   tft.println("COMPLETE");
 }
 
