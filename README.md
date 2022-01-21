@@ -1,7 +1,7 @@
 ![Alt text](images/banner.png?raw=true "banner")
  
 <h1 align="center">
-⚡⚡⚡⚡bitcoinPoS⚡⚡⚡⚡
+bitcoinPoS
 </h1>
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
@@ -13,7 +13,7 @@ bitcoinPoS includes:
 * LNURLATM (for making offline LN withdraw links).
 <br></br>
 <h2 align="center">
-⚡⚡⚡⚡PAYMENT OPTIONS⚡⚡⚡⚡
+Payment methods
 </h2>
 
 ### LNPoS – Online Lightning Network payments
@@ -45,7 +45,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 
 <br></br>
 <h2 align="center">
-⚡⚡⚡⚡bitcoinPoS Options⚡⚡⚡⚡
+bitcoinPoS Options
 </h2>
 <h3>
  <ul>
