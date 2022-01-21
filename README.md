@@ -12,7 +12,7 @@ bitcoinPoS includes:
 Invoices are generated and checked from LNbits install.
 #### Setting up
 Launch portal and enter an LNbits endpoint (ie.legend.lnbits.com), invoice key, and a fiat currency to make things easier for product pricing.
-![Alt text](images/lnpos.png?raw=true "LNPoS")
+![Alt text](images/lnpos.png?raw=true "LNPoS"){:height="50%" width="50%"}
 
 ### LNURLPoS – Offline Lightning Network payments
 A random pin generated on the device is encrypted and passed trough the payee. When the payment has been made the unencrypted pin is sent as a receipt. This function makes use of LNURL-pay protocol.
