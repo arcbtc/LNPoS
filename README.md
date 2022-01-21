@@ -36,7 +36,6 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 ![Alt text](images/lnurlatm.png?raw=true "ATM")
 
 ## Hardware Options
----
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
 #### <a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay details</a>
 ![Alt text](images/tdisplay.png?raw=true "tdisplay")
