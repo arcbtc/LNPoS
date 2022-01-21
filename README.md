@@ -1,5 +1,9 @@
 
-# bitcoinPoS 
+ 
+<h1 align="center">
+⚡⚡⚡⚡bitcoinPoS⚡⚡⚡⚡
+</h1>
+
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup)
 
 bitcoinPoS includes: 
