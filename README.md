@@ -8,7 +8,9 @@ bitcoinPoS includes:
 * OnChain (for onchain payments)
 * LNURLATM (for making offline LN withdraw links).
 
-## ⚡⚡⚡⚡PAYMENT OPTIONS⚡⚡⚡⚡
+<h2 align="center">
+⚡⚡⚡⚡PAYMENT OPTIONS⚡⚡⚡⚡
+</h2>
 
 ### LNPoS – Online Lightning Network payments
 Invoices are generated and checked from LNbits install.
