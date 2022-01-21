@@ -11,4 +11,4 @@ The <a href="https://shop.m5stack.com/products/face?variant=17290437623898">M5St
 * Select "M5Stack-Core-ESP32" from tools>board
 * Upload to device
 
-> Drunk people giving a terrible demo https://twitter.com/rootzoll/status/1162351526867800064
+> Drunk Germans giving a terrible demo https://twitter.com/rootzoll/status/1162351526867800064
