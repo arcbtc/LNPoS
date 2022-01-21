@@ -310,7 +310,6 @@ void setup()
     lnurlATMPin = lnurlATMPinChar;
   }
   paramFile.close();
-  Serial.println("Aright");
 
   //Handle access point traffic
   server.on("/", []() {
@@ -427,7 +426,6 @@ void loop()
     delay(10000000);
   }
   //If only one payment method available skip menu
-  Serial.println("Aright");
   Serial.println(menuItemsAmount);
   if (menuItemsAmount == 1)
   {
@@ -524,7 +522,7 @@ void onchainMain()
         {
           while (unConfirmed)
           {
-            qrData = "https://mempool.space/address/" + qrData;
+            qrData = "https:/" + lnurlATMMS + "/address/" + qrData;
             qrShowCodeOnchain(false, " *MENU");
             while (unConfirmed)
             {
@@ -716,7 +714,7 @@ void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
     else if (justKey)
     {
     }
-    else if(isATMNum)
+    else if (isATMNum)
     {
       isATMMoneyNumber(false);
     }

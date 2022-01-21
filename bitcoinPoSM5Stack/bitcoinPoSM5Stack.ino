@@ -44,6 +44,7 @@ String currencyPoS;
 String baseURLATM;
 String secretATM;
 String currencyATM;
+String lnurlATMMS;
 String dataIn = "0";
 String amountToShow = "0.00";
 String noSats = "0";
@@ -137,6 +138,12 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "lnurlatm",
       "type": "ACInput",
       "label": "LNURLATM String"
+    },
+    {
+      "name": "lnurlatmms",
+      "type": "ACInput",
+      "value": "mempool.space",
+      "label": "mempool.space server"
     },
     {
       "name": "lnurlatmpin",
@@ -290,12 +297,14 @@ void setup()
     {
       menuItemCheck[3] = 1;
     }
-    JsonObject lnurlATMPinRoot = doc[7];
+    JsonObject lnurlATMMSRoot = doc[7];
+    const char *lnurlATMMSChar = lnurlATMMSRoot["value"];
+    lnurlATMMS = lnurlATMMSChar;
+    JsonObject lnurlATMPinRoot = doc[8];
     const char *lnurlATMPinChar = lnurlATMPinRoot["value"];
     lnurlATMPin = lnurlATMPinChar;
   }
   paramFile.close();
-  Serial.println("Aright");
 
   //Handle access point traffic
   server.on("/", []() {
@@ -309,7 +318,7 @@ void setup()
     File param = FlashFS.open(PARAM_FILE, "r");
     if (param)
     {
-      aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmpin"});
+      aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
       param.close();
     }
     if (portal.where() == "/posconfig")
@@ -317,7 +326,7 @@ void setup()
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param)
       {
-        aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmpin"});
+        aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
         param.close();
       }
     }
@@ -331,7 +340,7 @@ void setup()
     if (param)
     {
       // Save as a loadable set for parameters.
-      elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmpin"});
+      elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
       param.close();
       // Read the saved elements again to display.
       param = FlashFS.open(PARAM_FILE, "r");
@@ -353,6 +362,7 @@ void setup()
   config.psk = apPassword;
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
+  config.title = "bitcoinPoS";
   int timer = 0;
 
   //Give few seconds to trigger portal
@@ -413,7 +423,6 @@ void loop()
     delay(100000);
   }
   //If only one payment method available skip menu
-  Serial.println("Aright");
   Serial.println(menuItemsAmount);
   if (menuItemsAmount == 1)
   {
@@ -511,7 +520,7 @@ void onchainMain()
         {
           while (unConfirmed)
           {
-            qrData = "https://mempool.space/address/" + qrData;
+            qrData = "https:/" + lnurlATMMS + "/address/" + qrData;
             qrShowCodeOnchain(false, "   MENU");
             while (unConfirmed)
             {
@@ -827,10 +836,12 @@ void inputScreen(bool online, bool ATM)
     tft.println("");
     tft.println("");
   }
-  else if (!online && !ATM){
+  else if (!online && !ATM)
+  {
     tft.println(" " + String(currencyPoS) + ": ");
   }
-  else if (!online && ATM){
+  else if (!online && ATM)
+  {
     tft.println(" " + String(currencyATM) + ": ");
   }
   tft.setTextSize(2);
