@@ -36,13 +36,12 @@ Create withdraw/faucet links. Uses more-or-les. This function makes use of LNURL
 Launch portal and enter the string from the LNURLDevice extension on LNbits
 ![Alt text](images/lnurlatm.png?raw=true "ATM")
 
-## Hardware
-There are 3 different hardware options:
-* T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board <a href="https://www.aliexpress.com/item/1005003607005382.html">LilyGo AliExpress shop</a>
+## Hardware OPtions
+#### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board <a href="https://www.aliexpress.com/item/1005003607005382.html">LilyGo AliExpress shop</a>
 ![Alt text](images/tdisplay.png?raw=true "tdisplay")
-* M5Stack ($50), tried and tested in the wild and comes with useful charging dock!
+#### M5Stack ($50), tried and tested in the wild and comes with useful charging dock!
 ![Alt text](images/m5stack.png?raw=true "tdisplay")
-* Super cheap bare bones ESP32/TFT/Keypad ($6), the cheapest of all the options, only costing around $
+#### Super cheap bare bones ESP32/TFT/Keypad ($6), the cheapest of all the options, only costing around $
 ![Alt text](images/cheap.png?raw=true "tdisplay")
 
 ## Software
