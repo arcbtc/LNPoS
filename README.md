@@ -49,10 +49,11 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 </h2>
 <h4>
  <ul>
-  <il><a href="bitcoinPoSM5Stack">bitcoinPoSM5Stack</a> $70</il>
-  <il><a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay</a> $15</il>
-  <il><a href="bitcoinPoSTdisplay">bitcoinPoSBareBones</a> $8</il>
- </h4
+  <li><a href="bitcoinPoSM5Stack">bitcoinPoSM5Stack</a> $70</li>
+  <li><a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay</a> $15</li>
+  <li><a href="bitcoinPoSTdisplay">bitcoinPoSBareBones</a> $8</li>
+  </ul>  
+ </h4>
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
 #### <a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay details</a>
 ![Alt text](images/tdisplay.png?raw=true "tdisplay")
