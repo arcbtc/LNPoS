@@ -45,7 +45,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 
 <br></br>
 <h2 align="center">
-⚡⚡⚡⚡HARDWARE⚡⚡⚡⚡
+⚡⚡⚡⚡HARDWARE (3 OPTIONS)⚡⚡⚡⚡
 </h2>
 
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
