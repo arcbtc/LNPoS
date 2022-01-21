@@ -8,6 +8,8 @@ bitcoinPoS includes:
 * OnChain (for onchain payments)
 * LNURLATM (for making offline LN withdraw links).
 
+## ⚡⚡⚡⚡PAYMENT OPTIONS⚡⚡⚡⚡
+
 ### LNPoS – Online Lightning Network payments
 Invoices are generated and checked from LNbits install.
 #### Setting up
@@ -35,7 +37,8 @@ Create withdraw/faucet links. Uses more-or-les. This function makes use of LNURL
 Launch portal and enter the string from the LNURLDevice extension on LNbits
 <img src="images/lnurlatm.png?raw=true" width="75%">
 
-## Hardware Options
+## ⚡⚡⚡⚡HARDWARE OPTIONS⚡⚡⚡⚡
+
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
 #### <a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay details</a>
 ![Alt text](images/tdisplay.png?raw=true "tdisplay")
@@ -48,4 +51,4 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 #### <a href="bitcoinPoSBareBones">bitcoinPoSBareBones details</a>
 ![Alt text](images/cheap.png?raw=true "tdisplay")
 
-## Software
+## ⚡⚡⚡⚡SOFTWARE⚡⚡⚡⚡
