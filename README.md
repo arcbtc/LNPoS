@@ -45,22 +45,18 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 
 <br></br>
 <h2 align="center">
-⚡⚡⚡⚡HARDWARE (3 OPTIONS)⚡⚡⚡⚡
+⚡⚡⚡⚡bitcoinPoS options⚡⚡⚡⚡
 </h2>
-
+<h4>
+ <ul>
+  <il><a href="bitcoinPoSM5Stack">bitcoinPoSM5Stack</a> $70</il>
+  <il><a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay</a> $15</il>
+  <il><a href="bitcoinPoSTdisplay">bitcoinPoSBareBones</a> $8</il>
+ </h4
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
 #### <a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay details</a>
 ![Alt text](images/tdisplay.png?raw=true "tdisplay")
----
-### M5Stack ($50), tried and tested in the wild and comes with useful charging dock!
-#### <a href="bitcoinPoSM5Stack">bitcoinPoSM5Stack details</a>
-![Alt text](images/m5stack.png?raw=true "tdisplay")
----
-### Super cheap bare bones ESP32/TFT/Keypad ($6), the cheapest of all the options, only costing around $8
-#### <a href="bitcoinPoSBareBones">bitcoinPoSBareBones details</a>
-![Alt text](images/cheap.png?raw=true "tdisplay")
 
-<br></br>
-<h2 align="center">
-⚡⚡⚡⚡SOFTWARE⚡⚡⚡⚡
-</h2>
+![Alt text](images/m5stack.png?raw=true "tdisplay")
+
+![Alt text](images/cheap.png?raw=true "tdisplay")
