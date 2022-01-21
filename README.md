@@ -11,7 +11,7 @@ bitcoinPoS includes:
 * LNURLPoS (for offline LN payments, original <a href="https://github.com/arcbtc/LNURLPoS">project</a> ) 
 * OnChain (for onchain payments)
 * LNURLATM (for making offline LN withdraw links).
-
+<br></br>
 <h2 align="center">
 ⚡⚡⚡⚡PAYMENT OPTIONS⚡⚡⚡⚡
 </h2>
