@@ -1,4 +1,4 @@
-<img src="images/m5stack.png?raw=true">
+<img src="../images/m5stack.png?raw=true">
 
 <h2 align="center">
 ⚡⚡⚡⚡bitcoinPoSM5Stack⚡⚡⚡⚡
