@@ -4,7 +4,7 @@
 ⚡⚡⚡⚡bitcoinPoS⚡⚡⚡⚡
 </h1>
 
-## Free and open-source bitcoin point-of-sale (includes device portal for easy setup)
+## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
 
 bitcoinPoS includes: 
 * LNPoS (for online LN payments, original <a href="https://github.com/arcbtc/LNPoS">project</a>)
@@ -43,7 +43,9 @@ Create withdraw/faucet links. Uses more-or-les. This function makes use of LNURL
 Launch portal and enter the string from the LNURLDevice extension on LNbits
 <img src="images/lnurlatm.png?raw=true" width="75%">
 
-## ⚡⚡⚡⚡HARDWARE OPTIONS⚡⚡⚡⚡
+<h2 align="center">
+⚡⚡⚡⚡HARDWARE⚡⚡⚡⚡
+</h2>
 
 ### T-Display ($10-$20), either bare bones using a membrane keypad, and thanks to the success of LNURLPoS an official board.
 #### <a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay details</a>
@@ -57,4 +59,6 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 #### <a href="bitcoinPoSBareBones">bitcoinPoSBareBones details</a>
 ![Alt text](images/cheap.png?raw=true "tdisplay")
 
-## ⚡⚡⚡⚡SOFTWARE⚡⚡⚡⚡
+<h2 align="center">
+⚡⚡⚡⚡SOFTWARE⚡⚡⚡⚡
+</h2>
