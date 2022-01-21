@@ -42,7 +42,7 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 #### M5Stack ($50), tried and tested in the wild and comes with useful charging dock!
 ![Alt text](images/m5stack.png?raw=true "tdisplay")
 #### Super cheap bare bones ESP32/TFT/Keypad ($6), the cheapest of all the options, only costing around $8
-* Project page <a href="">Cheap option</a>
+#### <a href="">Project page</a>
 ![Alt text](images/cheap.png?raw=true "tdisplay")
 
 ## Software
