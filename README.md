@@ -1,4 +1,4 @@
-
+![Alt text](images/banner.png?raw=true "banner")
  
 <h1 align="center">
 ⚡⚡⚡⚡bitcoinPoS⚡⚡⚡⚡
@@ -54,9 +54,3 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
   <li><a href="bitcoinPoSBareBones">bitcoinPoSBareBones</a> $8</li>
   </ul>  
  </h3>
-
-![Alt text](images/tdisplay.png?raw=true "tdisplay")
-
-![Alt text](images/m5stack.png?raw=true "tdisplay")
-
-![Alt text](images/cheap.png?raw=true "tdisplay")
