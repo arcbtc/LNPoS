@@ -368,6 +368,7 @@ void setup()
   config.psk = apPassword;
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
+  config.title = "bitcoinPoS";
   int timer = 0;
 
   //Give few seconds to trigger portal
@@ -1001,8 +1002,8 @@ void complete()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setCursor(20, 50);
+  tft.setTextSize(3);
+  tft.setCursor(45, 30);
   tft.println("COMPLETE");
 }
 
@@ -1152,7 +1153,7 @@ void getSats()
     delay(3000);
   }
 
-  String toPost = "{\"amount\" : 1, \"unit\" :\"" + String(lncurrencyChar) + "\"}";
+  String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
   String url = "/api/v1/conversion";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + String(lnbitsServerChar) + "\r\n" +
@@ -1176,8 +1177,16 @@ void getSats()
       break;
     }
   }
-  String convertedStr = client.readString();
-  converted = convertedStr.toInt();
+  String line = client.readString();
+  StaticJsonDocument<150> doc;
+  DeserializationError error = deserializeJson(doc, line);
+  if (error)
+  {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.f_str());
+    return;
+  }
+  converted = doc["sats"];
 }
 
 void getInvoice()
