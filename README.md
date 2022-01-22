@@ -17,6 +17,7 @@ Payment methods
 </h2>
 
 > Press "*" on TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
+> Default password is "ToTheMoon1"
 
 ### LNPoS – Online Lightning Network payments
 Invoices are generated and checked from LNbits install.
