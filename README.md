@@ -12,6 +12,9 @@ bitcoinPoS includes:
 * OnChain (for onchain payments)
 * LNURLATM (for making offline LN withdraw links).
 <br></br>
+
+Join our telegram group <a href="https://t.me/makerbits">MakerBits</a>
+
 <h2>
 Payment methods
 </h2>
