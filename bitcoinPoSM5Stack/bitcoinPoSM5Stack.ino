@@ -358,7 +358,7 @@ void setup()
   config.authScope = AC_AUTHSCOPE_AUX;
   config.ticker = true;
   config.autoReconnect = true;
-  config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
+  config.apid = "PoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
   config.psk = apPassword;
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
