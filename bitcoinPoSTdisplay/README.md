@@ -14,6 +14,4 @@ The Lilygo <a href="https://www.aliexpress.com/item/33048962331.html">Tdisplay</
 - Select "TTGO-LoRa32-OLED-V1" from tools>board
 - Upload to device
 
-> *Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers*
-
-> *Note: You may need to roll your ESP32 boards back to an earlier version in the Arduino IDE, by using tools>boards>boards manager, searching for esp. I use v1.0.5(rc6), and have also used v1.0.4 which worked.*
+> _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_

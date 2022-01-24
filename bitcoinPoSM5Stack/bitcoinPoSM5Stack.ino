@@ -13,7 +13,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #include <TFT_eSPI.h>
 #include <Hash.h>
 #include <ArduinoJson.h>
-#include "qrcode.h"
+#include "qrcoded.h"
 #include "Bitcoin.h"
 #include "esp_adc_cal.h"
 
@@ -867,15 +867,15 @@ void qrShowCodeln()
   tft.fillScreen(TFT_WHITE);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
-  QRCode qrcode;
+  QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-  qrcode_initText(&qrcode, qrcodeData, 11, 0, qrDataChar);
-  for (uint8_t y = 0; y < qrcode.size; y++)
+  qrcode_initText(&qrcoded, qrcodeData, 11, 0, qrDataChar);
+  for (uint8_t y = 0; y < qrcoded.size; y++)
   {
     // Each horizontal module
-    for (uint8_t x = 0; x < qrcode.size; x++)
+    for (uint8_t x = 0; x < qrcoded.size; x++)
     {
-      if (qrcode_getModule(&qrcode, x, y))
+      if (qrcode_getModule(&qrcoded, x, y))
       {
         tft.fillRect(65 + 3 * x, 20 + 3 * y, 3, 3, TFT_BLACK);
       }
@@ -899,7 +899,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
     qrData.toUpperCase();
   }
   const char *qrDataChar = qrData.c_str();
-  QRCode qrcode;
+  QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
   int pixSize = 0;
   tft.setCursor(0, 200);
@@ -907,22 +907,22 @@ void qrShowCodeOnchain(bool anAddress, String message)
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
   if (anAddress)
   {
-    qrcode_initText(&qrcode, qrcodeData, 2, 0, qrDataChar);
+    qrcode_initText(&qrcoded, qrcodeData, 2, 0, qrDataChar);
     pixSize = 6;
     tft.println("     onchain address");
   }
   else
   {
-    qrcode_initText(&qrcode, qrcodeData, 6, 0, qrDataChar);
+    qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
     pixSize = 4;
     tft.println("     mempool.space link");
   }
-  for (uint8_t y = 0; y < qrcode.size; y++)
+  for (uint8_t y = 0; y < qrcoded.size; y++)
   {
     // Each horizontal module
-    for (uint8_t x = 0; x < qrcode.size; x++)
+    for (uint8_t x = 0; x < qrcoded.size; x++)
     {
-      if (qrcode_getModule(&qrcode, x, y))
+      if (qrcode_getModule(&qrcoded, x, y))
       {
         tft.fillRect(80 + pixSize * x, 20 + pixSize * y, pixSize, pixSize, TFT_BLACK);
       }
@@ -940,15 +940,15 @@ void qrShowCodeLNURL(String message)
   tft.fillScreen(TFT_WHITE);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
-  QRCode qrcode;
+  QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-  qrcode_initText(&qrcode, qrcodeData, 6, 0, qrDataChar);
-  for (uint8_t y = 0; y < qrcode.size; y++)
+  qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
+  for (uint8_t y = 0; y < qrcoded.size; y++)
   {
     // Each horizontal module
-    for (uint8_t x = 0; x < qrcode.size; x++)
+    for (uint8_t x = 0; x < qrcoded.size; x++)
     {
-      if (qrcode_getModule(&qrcode, x, y))
+      if (qrcode_getModule(&qrcoded, x, y))
       {
         tft.fillRect(80 + 4 * x, 20 + 4 * y, 4, 4, TFT_BLACK);
       }
