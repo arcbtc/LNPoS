@@ -1,0 +1,2385 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ESP8266/ESP32 WLAN configuration at run time with web interface">
+      
+      
+        <meta name="author" content="Hieromon Ikasamo">
+      
+      
+        <link rel="canonical" href="https://Hieromon.github.io/AutoConnect/apiconfig.html">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+    
+    
+      
+        <title>AutoConnectConfig API - AutoConnect for ESP8266/ESP32</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/paragraph.css">
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    
+    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EHK8XV10VE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-EHK8XV10VE",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHK8XV10VE"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#constructor" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-header__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoConnect for ESP8266/ESP32
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AutoConnectConfig API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-nav__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    AutoConnect for ESP8266/ESP32
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gettingstarted.html" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menu.html" class="md-nav__link">
+        AutoConnect menu
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="basicusage.html" class="md-nav__link">
+        Basic usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Advanced usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Advanced usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="advancedusage.html" class="md-nav__link">
+        Advanced usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adconnection.html" class="md-nav__link">
+        AutoConnect WiFi connection control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcpcontrol.html" class="md-nav__link">
+        Captive portal control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adnetwork.html" class="md-nav__link">
+        Settings and controls for network and WiFi
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adauthentication.html" class="md-nav__link">
+        Authentication settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcredential.html" class="md-nav__link">
+        Credential accesses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adexterior.html" class="md-nav__link">
+        Customizing page appearance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adothers.html" class="md-nav__link">
+        Other operation settings and controls
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Custom Web pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Custom Web pages" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Custom Web pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acintro.html" class="md-nav__link">
+        Custom Web pages with AutoConnect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acelements.html" class="md-nav__link">
+        AutoConnectElements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acjson.html" class="md-nav__link">
+        Custom Web pages with JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="achandling.html" class="md-nav__link">
+        Handling the custom Web pages
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          OTA Updates
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="OTA Updates" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          OTA Updates
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaupdate.html" class="md-nav__link">
+        OTA Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otabrowser.html" class="md-nav__link">
+        Using Web Browser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaserver.html" class="md-nav__link">
+        Using Update Server
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="filesystem.html" class="md-nav__link">
+        Using Filesystem
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Library APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Library APIs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Library APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        AutoConnect API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiaux.html" class="md-nav__link">
+        AutoConnectAux API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          AutoConnectConfig API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="apiconfig.html" class="md-nav__link md-nav__link--active">
+        AutoConnectConfig API
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+     Constructor
+  </a>
+  
+    <nav class="md-nav" aria-label=" Constructor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autoconnectconfig" class="md-nav__link">
+    AutoConnectConfig
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-member-variables" class="md-nav__link">
+     Public member variables
+  </a>
+  
+    <nav class="md-nav" aria-label=" Public member variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apid" class="md-nav__link">
+     apid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apip" class="md-nav__link">
+     apip
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+     auth
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authscope" class="md-nav__link">
+     authScope
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autoreconnect" class="md-nav__link">
+     autoReconnect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autoreset" class="md-nav__link">
+     autoReset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autorise" class="md-nav__link">
+     autoRise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autosave" class="md-nav__link">
+     autoSave
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#begintimeout" class="md-nav__link">
+     beginTimeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booturi" class="md-nav__link">
+     bootUri
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boundaryoffset" class="md-nav__link">
+     boundaryOffset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel" class="md-nav__link">
+     channel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns1" class="md-nav__link">
+     dns1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns2" class="md-nav__link">
+     dns2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateway" class="md-nav__link">
+     gateway
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden" class="md-nav__link">
+     hidden
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homeuri" class="md-nav__link">
+     homeUri
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostname" class="md-nav__link">
+     hostName
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#immediatestart" class="md-nav__link">
+     immediateStart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#menuitems" class="md-nav__link">
+     menuItems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minrssi" class="md-nav__link">
+     minRSSI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netmask" class="md-nav__link">
+     netmask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ota" class="md-nav__link">
+     ota
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otaextracaption" class="md-nav__link">
+     otaExtraCaption
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password" class="md-nav__link">
+     password
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portaltimeout" class="md-nav__link">
+     portalTimeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preserveapmode" class="md-nav__link">
+     preserveAPMode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+     principle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psk" class="md-nav__link">
+     psk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconnectinterval" class="md-nav__link">
+     reconnectInterval
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retainportal" class="md-nav__link">
+     retainPortal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staip" class="md-nav__link">
+     staip
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stagateway" class="md-nav__link">
+     staGateway
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stanetmask" class="md-nav__link">
+     staNetmask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ticker" class="md-nav__link">
+     ticker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tickerport" class="md-nav__link">
+     tickerPort
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tickeron" class="md-nav__link">
+     tickerOn
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#title" class="md-nav__link">
+     title
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uptime" class="md-nav__link">
+     uptime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#username" class="md-nav__link">
+     username
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectconfig-initial-values" class="md-nav__link">
+     AutoConnectConfig Initial values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectconfig-example" class="md-nav__link">
+     AutoConnectConfig example
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apielements.html" class="md-nav__link">
+        AutoConnectElements API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiupdate.html" class="md-nav__link">
+        AutoConnectUpdate API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiextra.html" class="md-nav__link">
+        Something extra
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="howtoembed.html" class="md-nav__link">
+        How to embed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="datatips.html" class="md-nav__link">
+        Tips for data conversion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menuize.html" class="md-nav__link">
+        Attach the menus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wojson.html" class="md-nav__link">
+        Custom Web pages w/o JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esp32cam.html" class="md-nav__link">
+        Works with ESP32-CAM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lsbegin.html" class="md-nav__link">
+        Inside AutoConnect::begin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="credit.html" class="md-nav__link">
+        Saved credentials access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acupload.html" class="md-nav__link">
+        File upload handler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="colorized.html" class="md-nav__link">
+        Custom colorized
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelabel.html" class="md-nav__link">
+        Change label text
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="faq.html" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        Change log
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+     Constructor
+  </a>
+  
+    <nav class="md-nav" aria-label=" Constructor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autoconnectconfig" class="md-nav__link">
+    AutoConnectConfig
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-member-variables" class="md-nav__link">
+     Public member variables
+  </a>
+  
+    <nav class="md-nav" aria-label=" Public member variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apid" class="md-nav__link">
+     apid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apip" class="md-nav__link">
+     apip
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+     auth
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authscope" class="md-nav__link">
+     authScope
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autoreconnect" class="md-nav__link">
+     autoReconnect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autoreset" class="md-nav__link">
+     autoReset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autorise" class="md-nav__link">
+     autoRise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autosave" class="md-nav__link">
+     autoSave
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#begintimeout" class="md-nav__link">
+     beginTimeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booturi" class="md-nav__link">
+     bootUri
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boundaryoffset" class="md-nav__link">
+     boundaryOffset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel" class="md-nav__link">
+     channel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns1" class="md-nav__link">
+     dns1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns2" class="md-nav__link">
+     dns2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateway" class="md-nav__link">
+     gateway
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden" class="md-nav__link">
+     hidden
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homeuri" class="md-nav__link">
+     homeUri
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostname" class="md-nav__link">
+     hostName
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#immediatestart" class="md-nav__link">
+     immediateStart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#menuitems" class="md-nav__link">
+     menuItems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minrssi" class="md-nav__link">
+     minRSSI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netmask" class="md-nav__link">
+     netmask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ota" class="md-nav__link">
+     ota
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otaextracaption" class="md-nav__link">
+     otaExtraCaption
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password" class="md-nav__link">
+     password
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portaltimeout" class="md-nav__link">
+     portalTimeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preserveapmode" class="md-nav__link">
+     preserveAPMode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+     principle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psk" class="md-nav__link">
+     psk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconnectinterval" class="md-nav__link">
+     reconnectInterval
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retainportal" class="md-nav__link">
+     retainPortal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staip" class="md-nav__link">
+     staip
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stagateway" class="md-nav__link">
+     staGateway
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stanetmask" class="md-nav__link">
+     staNetmask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ticker" class="md-nav__link">
+     ticker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tickerport" class="md-nav__link">
+     tickerPort
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tickeron" class="md-nav__link">
+     tickerOn
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#title" class="md-nav__link">
+     title
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uptime" class="md-nav__link">
+     uptime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#username" class="md-nav__link">
+     username
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectconfig-initial-values" class="md-nav__link">
+     AutoConnectConfig Initial values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoconnectconfig-example" class="md-nav__link">
+     AutoConnectConfig example
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+  <h1>AutoConnectConfig API</h1>
+
+<h2 id="constructor"><i class="fa fa-code"></i> Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<h3 id="autoconnectconfig">AutoConnectConfig<a class="headerlink" href="#autoconnectconfig" title="Permanent link">&para;</a></h3>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectConfig()</span>
+</code></pre></div>
+<p></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectConfig(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> ap, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> password)</span>
+</code></pre></div>
+<p></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectConfig(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> ap, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> password, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">unsigned</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">long</span><span style="color: #f8f8f2"> timeout)</span>
+</code></pre></div>
+<p></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectConfig(</span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> ap, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">char</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> password, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">unsigned</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">long</span><span style="color: #f8f8f2"> timeout, </span><span style="color: #66d9ef">const</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">uint8_t</span><span style="color: #f8f8f2"> channel)</span>
+</code></pre></div>
+<dl class="apidl">
+    <dt><strong>Parameters</strong></dt>
+    <dd><span class="apidef">ap</span><span class="apidesc">SSID for SoftAP. The length should be up to 31. The default value is <strong>esp8266ap</strong> for ESP8266, <strong>esp32ap</strong> for ESP32.</span></dd>
+    <dd><span class="apidef">password</span><span class="apidesc">Password for SoftAP. The length should be from 8 to up to 63. The default value is <strong>12345678</strong>.</span></dd>
+    <dd><span class="apidef">timeout</span><span class="apidesc">The timeout value of the captive portal in [ms] units. The default value is 0.</span></dd>
+    <dd><span class="apidef">channel</span><span class="apidesc">The channel number of WIFi when SoftAP starts. The default values is 1.</span></dd>
+</dl>
+
+<h2 id="public-member-variables"><i class="fa fa-code"></i> Public member variables<a class="headerlink" href="#public-member-variables" title="Permanent link">&para;</a></h2>
+<h3 id="apid"><i class="fa fa-caret-right"></i> apid<a class="headerlink" href="#apid" title="Permanent link">&para;</a></h3>
+<p>SoftAP's SSID.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">String</span><span class="apidesc">The default value is <strong>esp8266ap</strong> for ESP8266, <strong>esp32ap</strong> for ESP32.</span></dd></dl></p>
+<h3 id="apip"><i class="fa fa-caret-right"></i> apip<a class="headerlink" href="#apip" title="Permanent link">&para;</a></h3>
+<p>Sets IP address for Soft AP in captive portal. When AutoConnect fails the initial WiFi.begin, it starts the captive portal with the IP address specified this.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">IPAddress</span><span class="apidesc">The default value is <strong>172.217.28.1</strong></span></dd></dl></p>
+<h3 id="auth"><i class="fa fa-caret-right"></i> auth<a class="headerlink" href="#auth" title="Permanent link">&para;</a></h3>
+<p>Apply HTTP authentication with the AutoConnect web page. This This setting allows the Sketch to authenticate with "BASIC" or "DIGEST" scheme. It is given as an enumeration value of <strong>AC_AUTH_t</strong> that indicates the authentication scheme.<br />
+This setting determines the default scheme for HTTP authentication with AutoConnect. When the <a href="#authscope"><strong>AutoConnectConfig::authScope</strong></a> is <strong>AC_AUTHSCOPE_PARTIAL</strong>, each <a href="apiaux.html#authentication">AutoConnectAux authentication</a> scheme has priority.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>AC_AUTH_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_AUTH_NONE</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">No authentication. This is the default.</span></dd>
+    <dd><span class="apidef">AC_AUTH_DIGEST</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Use the <a href="https://tools.ietf.org/html/rfc2617#section-3">digest scheme</a>.</span></dd>
+    <dd><span class="apidef">AC_AUTH_BASIC</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Use the <a href="https://tools.ietf.org/html/rfc2617#section-2">basic scheme</a>.</span></dd></dl></p>
+<h3 id="authscope"><i class="fa fa-caret-right"></i> authScope<a class="headerlink" href="#authscope" title="Permanent link">&para;</a></h3>
+<p>Specifies the authentication scope of AutoConnect Web pages. The Sketch will be able to expand or narrow the range of authentication by this setting, which can be either as <strong>AC_AUTHSCOPE_t</strong> enumeration value.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>AC_AUTHSCOPE_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_AUTHSCOPE_AUX</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Require authentication to access for all custom Web pages, excepting AutoConnect's pages. This is the Default.</span></dd>
+    <dd><span class="apidef">AC_AUTHSCOPE_PARTIAL</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Authenticate only specific custom Web pages which are specified by <a href="apiaux.html#authentication">AutoConnectAux::authentication</a> function or JSON description.</span></dd>
+    <dd><span class="apidef">AC_AUTHSCOPE_PORTAL</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Require authentication to access for all AutoConnect's pages, including custom Web pages.</span></dd>
+</dl></p>
+<p>This setting is available only when <a href="#auth">AutoConnectConfig::auth</a> is other than <strong>AC_AUTH_NONE</strong>. Ignored if it is AC_AUTH_NONE.</p>
+<p>Also, the authScope setting has another bit that indicates to allow authentication in the captive portal state. Its enum value cannot be used alone and is always for qualifying the above three enum values.<dl class="apidl">
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_AUTHSCOPE_WITHCP</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Allow authentication with the captive portal state. This value cannot be used alone to declare an authentication scope. It indicates to enable authentication in the captive portal by the logical OR operator with one of the AC_AUTHSCOPE_t values above.</span></dd></dl></p>
+<h3 id="autoreconnect"><i class="fa fa-caret-right"></i> autoReconnect<a class="headerlink" href="#autoreconnect" title="Permanent link">&para;</a></h3>
+<p>Automatically will try to reconnect with the past established access point (BSSID) when the current configured SSID in ESP8266/ESP32 could not be connected. By enabling this option, <em>AutoConnect::begin()</em> function will attempt to reconnect to a known access point using credentials stored in the flash, even if the connection failed by current SSID.<br />
+If the connection fails, starts the captive portal in SoftAP+STA mode.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">Reconnect automatically.</span></dd>
+    <dd><span class="apidef">false</span><span class="apidesc">Starts Captive Portal in SoftAP + STA mode without trying to reconnect. This is the default.</span></dd></dl></p>
+<p>When the autoReconnect option is enabled, an automatic connection will behave if the following conditions are satisfied.</p>
+<ul>
+<li>Invokes <em>AutoConnect::begin</em> without user name and password parameter as <code>begin()</code>.</li>
+<li>If one of the saved credentials matches the BSSID (or SSID) detected by the network scan.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Either BSSID or SSID to aim the access point</p>
+<p>Whether or not it points to the target access point is determined by matching the <strong>SSID</strong> or <strong>BSSID</strong>. The default key to collate is <strong>BSSID</strong>.<br />
+The BSSID is usually fixed to the MAC address unique to its access point device, but when using some mobile hotspots, the BSSID may change even for the same access point. If you operate inconvenience in aiming at the access point by BSSID, you can change the collation key to SSID by uncomment the below line in <code>AutoConnectDefs.h</code>:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #75715e">#define AUTOCONNECT_APKEY_SSID</span>
+</code></pre></div>
+<p>If <code>AUTOCONNECT_APKEY_SSID</code> macro is defined when the library is compiled, the access points are collated by the SSID.</p>
+</div>
+<h3 id="autoreset"><i class="fa fa-caret-right"></i> autoReset<a class="headerlink" href="#autoreset" title="Permanent link">&para;</a></h3>
+<p>Reset ESP8266 module automatically after WLAN disconnected.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">Reset after WiFi disconnected automatically.</span></dd>
+    <dd><span class="apidef">false</span><span class="apidesc">No reset.</span></dd></dl></p>
+<h3 id="autorise"><i class="fa fa-caret-right"></i> autoRise<a class="headerlink" href="#autorise" title="Permanent link">&para;</a></h3>
+<p>Captive portal activation switch. False for disabling the captive portal. It prevents starting the captive portal even if the connection at the 1<sup>st</sup>-WiFi.begin fails.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">Enable the captive portal. This is the default.</span></dd>
+    <dd><span class="apidef">false</span><span class="apidesc">Disable the captive portal.</span></dd></dl></p>
+<h3 id="autosave"><i class="fa fa-caret-right"></i> autoSave<a class="headerlink" href="#autosave" title="Permanent link">&para;</a></h3>
+<p>The credential saved automatically at the connection establishment.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>AC_SAVECREDENTIAL_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_SAVECREDENTIAL_AUTO</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">The credential saved automatically. This is the default.</span></dd>
+    <dd><span class="apidef">AC_SAVECREDENTIAL_ALWAYS</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Save specified SSID and Password always even if a specified credential has been rejected.</span></dd>
+    <dd><span class="apidef">AC_SAVECREDENTIAL_NEVER</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">The credential no saved.</span></dd></dl></p>
+<h3 id="begintimeout"><i class="fa fa-caret-right"></i> beginTimeout<a class="headerlink" href="#begintimeout" title="Permanent link">&para;</a></h3>
+<p>Specify the limit time to attempt WiFi connection to the access point. AutoConnect uses this value to abort the connection attempt at <strong>WiFi.begin</strong>. Its actual value specified in milliseconds unit.<br />
+The default value is <code>AUTOCONNECT_TIMEOUT</code> defined in <a href="https://github.com/Hieromon/AutoConnect/blob/master/src/AutoConnectDefs.h#L132"><code>AutoConnectDefs.h</code></a> and the initial value is 30 seconds.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>unsigned long</dd></dl></p>
+<h3 id="booturi"><i class="fa fa-caret-right"></i> bootUri<a class="headerlink" href="#booturi" title="Permanent link">&para;</a></h3>
+<p>Specify the location to be redirected after module reset in the AutoConnect menu. It is given as an enumeration value of <strong>AC_ONBOOTURI_t</strong> indicating either the AutoConnect root path or the user screen home path.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>AC_ONBOOTURI_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_ONBOOTURI_ROOT</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Resetting the module redirects it to the AutoConnect root path. The root path is assumed to be AUTOCONNECT_URI defined in <a href="api.html#defined-macros"><code>AutoConnectDefs.h</code></a>.</span></dd>
+    <dd><span class="apidef">AC_ONBOOTURI_HOME</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">It is redirected to the URI specified by <a href="apiconfig.html#homeuri"><strong>AutoConnectConfig::homeUri</strong></a>.</span></dd></dl></p>
+<h3 id="boundaryoffset"><i class="fa fa-caret-right"></i> boundaryOffset<a class="headerlink" href="#boundaryoffset" title="Permanent link">&para;</a></h3>
+<p>Sets the offset address of the credential storage area for EEPROM. This value must be between greater than 4 and less than flash sector size. (4096 by SDK)<br />
+The default value is 0.<br />
+This option is valid only for ESP8266 or ESP32 arduino core 1.0.2 earlier.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>uint16_t</dd></dl></p>
+<div class="admonition warning">
+<p class="admonition-title">It will conflict with user data.</p>
+<p>If the Sketch leaves this offset at zero, it will conflict the storage area of credentials with the user sketch owned data. It needs to use the behind of credential area.</p>
+</div>
+<h3 id="channel"><i class="fa fa-caret-right"></i> channel<a class="headerlink" href="#channel" title="Permanent link">&para;</a></h3>
+<p>The channel number of WIFi when SoftAP starts.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>uint8_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd>1 ~ 14. The default value is 1.</dd></dl></p>
+<div class="admonition info">
+<p class="admonition-title">How do I choose Channel</p>
+<p>Espressif Systems had announced the <a href="https://www.espressif.com/sites/default/files/esp8266_wi-fi_channel_selection_guidelines.pdf">application note</a> about Wi-Fi channel selection.</p>
+</div>
+<h3 id="dns1"><i class="fa fa-caret-right"></i> dns1<a class="headerlink" href="#dns1" title="Permanent link">&para;</a></h3>
+<p>Set primary DNS server address when using static IP address.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>IPAddress</dd></dl></p>
+<h3 id="dns2"><i class="fa fa-caret-right"></i> dns2<a class="headerlink" href="#dns2" title="Permanent link">&para;</a></h3>
+<p>Set secondary DNS server address when using static IP address.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>IPAddress</dd></dl></p>
+<h3 id="gateway"><i class="fa fa-caret-right"></i> gateway<a class="headerlink" href="#gateway" title="Permanent link">&para;</a></h3>
+<p>Sets gateway address for Soft AP in captive portal. When AutoConnect fails the initial WiFi.begin, it starts the captive portal with the IP address specified this.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">IPAddress</span><span class="apidesc">The default value is <strong>172.217.28.1</strong></span></dd></dl></p>
+<h3 id="hidden"><i class="fa fa-caret-right"></i> hidden<a class="headerlink" href="#hidden" title="Permanent link">&para;</a></h3>
+<p>Sets SoftAP to hidden SSID.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>uint8_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">0</span><span class="aidesc">SSID will be appeared. This is the default.</span></dd>
+    <dd><span class="apidef">1</span><span class="apidesc">SSID will be hidden.</span></dd></dl></p>
+<h3 id="homeuri"><i class="fa fa-caret-right"></i> homeUri<a class="headerlink" href="#homeuri" title="Permanent link">&para;</a></h3>
+<p>Sets the home path of user sketch. This path would be linked from 'HOME' in the AutoConnect menu. The default for homeUri is "/".<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>String</dd></dl></p>
+<h3 id="hostname"><i class="fa fa-caret-right"></i> hostName<a class="headerlink" href="#hostname" title="Permanent link">&para;</a></h3>
+<p>Sets the station host name of ESP8266/ESP32.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>String</dd></dl></p>
+<h3 id="immediatestart"><i class="fa fa-caret-right"></i> immediateStart<a class="headerlink" href="#immediatestart" title="Permanent link">&para;</a></h3>
+<p>Disable the 1<sup>st</sup>-WiFi.begin and start the captive portal. If this option is enabled, the module will be in AP_STA mode and the captive portal. The evaluation rank of this parameter is lower than the <a href="apiconfig.html#autorise"><strong>AutoConnectConfig::autoRise</strong></a>. Even if immediateStart is true, the captive portal will not launch if autoRise is false.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">Start the captive portal with <a href="api.html#begin"><strong>AutoConnect::begin</strong></a>.</span></dd>
+    <dd><span class="apidef">false</span><span class="apidesc">Enable the 1<sup>st</sup>-WiFi.begin and it will start captive portal when connection failed. This is default.</span></dd></dl></p>
+<h3 id="menuitems"><i class="fa fa-caret-right"></i> menuItems<a class="headerlink" href="#menuitems" title="Permanent link">&para;</a></h3>
+<p>Configure applying items of the <a href="menu.html">AutoConnect menu</a>. You can arbitrarily combine valid menus by coordinating the menuItems value.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">uint16_t</span><span class="apidesc">It provides the combined <strong>AC_MENUITEM_t</strong> value of the item to apply to the AutoConnect menu.<br>Specify the value calculated from the <strong>logical OR</strong> by the AC_MENUITEM_t value of each item applied as a menu.  It affects not only disappear the items from the menu also invalidates the URI they have. As a consequence, even if it accesses the URL directly will occur a 404 error.<br>The default value is logical OR of AC_MENUITEM_CONFIGNEW, AC_MENUITEM_OPENSSIDS, AC_MENUITEM_DISCONNECT, AC_MENUITEM_RESET, AC_MENUITEM_UPDATE and AC_MENUITEM_HOME.</span></dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_MENUITEM_NONE</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">No assign items except for the AutoConnectAux page item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_CONFIGNEW</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends <a href="menu.html#config-new-ap">Configure new AP</a> item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_OPENSSIDS</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends <a href="menu.html#open-ssids">Open SSIDs</a> item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_DISCONNECT</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends <a href="menu.html#disconnect">Disconnect</a> item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_RESET</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends <a href="menu.html#reset">Reset...</a> item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_UPDATE</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends <a href="menu.html#update">Update</a> item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_HOME</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends <a href="menu.html#home">HOME</a> item.</span></dd>
+    <dd><span class="apidef">AC_MENUITEM_DEVINFO</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Appends the <strong>Device info</strong> item which links to <a href="menu.html##where-the-from">AutoConnect statistics page</a>.</span></dd></dl></p>
+<div class="admonition info">
+<p class="admonition-title">How to specify the value of the menu items</p>
+<p>An menuItems accepts the logical OR of AC_MENUITEM_t type value. For example, to enable only Open SSIDs and HOME items, specify:
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnectConfig config;</span>
+<span style="color: #f8f8f2">config.menuItems </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> AC_MENUITEM_OPENSSIDS </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> AC_MENUITEM_HOME;</span>
+</code></pre></div>
+However, even if you specify like the above, the AutoConnectAux page items still display on the menu. To remove the AutoConnectAux items, use the <a href="apiaux.html#menu">AutoConnectAux::menu</a> function.</p>
+</div>
+<h3 id="minrssi"><i class="fa fa-caret-right"></i> minRSSI<a class="headerlink" href="#minrssi" title="Permanent link">&para;</a></h3>
+<p>Specify the lower limit of the WiFi signal strength allowed to use as an access point. This value should be greater than -120 as RSSI. Generally, a data link will not be established unless it exceeds -90 dBm. Also, packet transmission is not reliable below -70 dBm to -80 dBm.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">int16_t</span><span class="apidesc">The default value is -120</span></dd></dl></p>
+<h3 id="netmask"><i class="fa fa-caret-right"></i> netmask<a class="headerlink" href="#netmask" title="Permanent link">&para;</a></h3>
+<p>Sets subnet mask for Soft AP in captive portal. When AutoConnect fails the initial WiFi.begin, it starts the captive portal with the IP address specified this.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">IPAddress</span><span class="apidesc">The default value is <strong>255.255.255.0</strong></span></dd></dl></p>
+<h3 id="ota"><i class="fa fa-caret-right"></i> ota<a class="headerlink" href="#ota" title="Permanent link">&para;</a></h3>
+<p>Specifies to import the built-in OTA update class into the Sketch. When this option is enabled, an <strong>Update</strong> item will appear in the AutoConnect menu, and the OTA update via Web browser will be automatically embedded to the Sketch.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>AC_OTA_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_OTA_EXTRA</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">AutoConnect does not import AutoConnectOTA. This is the default.</span></dd>
+    <dd><span class="apidef">AC_OTA_BUILTIN</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Specifies to include AutoConnectOTA in the Sketch.</span></dd></dl></p>
+<h3 id="otaextracaption"><i class="fa fa-caret-right"></i> otaExtraCaption<a class="headerlink" href="#otaextracaption" title="Permanent link">&para;</a></h3>
+<p>Specifies the caption to be displayed as an extra on the <a href="otabrowser.html#display-an-extra-string-on-the-update-screenenhanced-wv130">OTA update screen</a>. The extra caption you specified will be displayed in the upper right corner of the OTA update screen. Also, you can only specify the caption string, and you cannot specify the style individually. An extra caption will draw up with the default style of AutoConnect.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">const char*</span><span class="apidesc"> An extra caption string pointer.</span></dd></dl></p>
+<h3 id="password"><i class="fa fa-caret-right"></i> password<a class="headerlink" href="#password" title="Permanent link">&para;</a></h3>
+<p>Set the password for authentication.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">String</span><span class="apidesc"> The default value is same as <a href="#psk">psk</a>.</span></dd></dl></p>
+<h3 id="portaltimeout"><i class="fa fa-caret-right"></i> portalTimeout<a class="headerlink" href="#portaltimeout" title="Permanent link">&para;</a></h3>
+<p>Specify the timeout value of the captive portal in [ms] units. It is valid when the station is not connected and does not time out if the station is connected to the ESP module in SoftAP mode (i.e. Attempting WiFi connection with the portal function). If 0, the captive portal will not be timed-out.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">unsigned long</span><span class="apidesc">Captive portal timeout value. The default value is 0.</span></dd></dl></p>
+<h3 id="preserveapmode"><i class="fa fa-caret-right"></i> preserveAPMode<a class="headerlink" href="#preserveapmode" title="Permanent link">&para;</a></h3>
+<p>Specifies starting the STA while maintaining the state of the SoftAP mode in the <a href="api.html#begin"><strong>AutoConnect::begin</strong></a>. This setting only applies when the <a href="apiconfig.html#autorise"><strong>AutoConnectConfig::autoRise</strong></a> is false.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">AutoConnect::begin keeps AP mode.</span></dd>
+    <dd><span class="apidef">false</span>AutoConnect::begin will stop SoftAP at the beginning of the process.<span class="apidesc"></span></dd></dl></p>
+<p>Note that this option is not for starting the SoftAP forcibly in <a href="api.html#begin"><strong>AutoConnect::begin</strong></a> and only keeps AP mode, SoftAP initiation is left to the Sketch.</p>
+<h3 id="principle"><i class="fa fa-caret-right"></i> principle<a class="headerlink" href="#principle" title="Permanent link">&para;</a></h3>
+<p>Specify the connection order will attempt to connect to one of the highest RSSI values among multiple available access points. It is given as an enumeration value of <strong>AC_PRINCIPLE_t</strong> indicating.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>AC_PRINCIPLE_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">AC_PRINCIPLE_RECENT</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Attempts to connect in the order of the saved credentials entries. The entry order is generally a time series connected in the past.</span></dd>
+    <dd><span class="apidef">AC_PRINCIPLE_RSSI</span><span class="apidesc"></span><span class="apidef">&nbsp;</span><span class="apidesc">Attempts to connect to one of the highest RSSI values among multiple available access points.</span></dd></dl></p>
+<h3 id="psk"><i class="fa fa-caret-right"></i> psk<a class="headerlink" href="#psk" title="Permanent link">&para;</a></h3>
+<p>Sets password for SoftAP. The length should be from 8 to up to 63. The default value is <strong>12345678</strong>.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>String</dd></dl></p>
+<h3 id="reconnectinterval"><i class="fa fa-caret-right"></i> reconnectInterval<a class="headerlink" href="#reconnectinterval" title="Permanent link">&para;</a></h3>
+<p>Specifies the number of units for interval time to attempt automatic reconnection when <a href="#autoreconnect"><strong>AutoConnectConfig::autoReconnect</strong></a> is enabled. This value is specified by the number of unit times from 0 to 255, and one unit time is macro-defined as <code>AUTOCONNECT_UNITTIME</code> in <code>AutoConnectDefs.h</code> file of library source code, and its initial value is 30[s].<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>uint8_t</dd></dl></p>
+<p>WiFi connection retry is repeated inside <a href="api.html#handleClient"><strong>AutoConnect::handleClient</strong></a> after the number of seconds that the reconnectInterval value is multiplied by <code>AUTOCONNECT_UNITTIME</code> from the previous attempt. Then, when the connection with one of the saved credentials is established, the automatic reconnection will stop. And while <a href="#autoreconnect"><strong>AutoConnectConfig::autoReconnect</strong></a> is enabled, if the WiFi connection is lost, it will start to auto-reconnect again inside <a href="api.html#handleclient"><strong>AutoConnect::handleClient</strong></a>.</p>
+<p>If <strong>0</strong> is specified for the reconnectInterval, background reconnection attempt repeatedly will not be made, and only once at the 1<sup>st</sup>-WiFi.begin failure in <a href="api.html#begin"><strong>AutoConnect::begin</strong></a>. (Only when <a href="#autoreconnect"><strong>AutoConnectConfig::autoReconnect</strong></a> is enabled) The default value is 0.</p>
+<div class="admonition info">
+<p class="admonition-title">AUTOCONNECT_UNITTIME</p>
+<p><strong><code>AUTOCONNECT_UNITTIME</code></strong> as macro defined in <code>AutoConnectDefs.h</code> file of library source code as the below:
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #75715e">// Number of seconds in uint time [s]</span>
+<span style="color: #75715e">#ifndef AUTOCONNECT_UNITTIME</span>
+<span style="color: #75715e">#define AUTOCONNECT_UNITTIME    30</span>
+<span style="color: #75715e">#endif</span>
+</code></pre></div></p>
+</div>
+<h3 id="retainportal"><i class="fa fa-caret-right"></i> retainPortal<a class="headerlink" href="#retainportal" title="Permanent link">&para;</a></h3>
+<p>Specify whether to continue the portal function even if the captive portal timed out. If the true, when a timeout occurs, the <a href="api.html#begin"><strong>AutoConnect::begin</strong></a> function is exited with returns false, but the portal facility remains alive. So SoftAP remains alive and you can invoke AutoConnect while continuing sketch execution. The default is false.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">Continue the portal function even if the captive portal times out. The STA + SoftAP mode of the ESP module continues and accepts the connection request to the AP.</span></dd>
+    <dd><span class="apidef">false</span><span class="apidesc">When the captive portal times out, STA + SoftAP mode of the ESP module is stopped. This is default.</span></dd></dl></p>
+<div class="admonition hint">
+<p class="admonition-title">Connection request after timed-out</p>
+<p>With the <strong>retainPortal</strong>, even if AutoConnect::begin in the setup() is timed out, you can execute the Sketch and the portal function as a WiFi connection attempt by calling AutoConnect::handleClient in the loop().</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">All unresolved addresses redirects to /_ac</p>
+<p>If you enable the <strong>retainPortal</strong> option, <strong>all unresolved URIs will be redirected to <code>SoftAPIP/_ac</code></strong>. It happens frequently as client devices repeat captive portal probes in particular. To avoid this, you need to exit from the WiFi connection Apps on your device once.</p>
+</div>
+<h3 id="staip"><i class="fa fa-caret-right"></i> staip<a class="headerlink" href="#staip" title="Permanent link">&para;</a></h3>
+<p>Set a static IP address. The IP will behave with STA mode.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>IPAddress</dd></dl></p>
+<h3 id="stagateway"><i class="fa fa-caret-right"></i> staGateway<a class="headerlink" href="#stagateway" title="Permanent link">&para;</a></h3>
+<p>Set the gateway address when using static IP address.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>IPAddress</dd></dl></p>
+<h3 id="stanetmask"><i class="fa fa-caret-right"></i> staNetmask<a class="headerlink" href="#stanetmask" title="Permanent link">&para;</a></h3>
+<p>Set the subnetmask when using static IP address.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>IPAddress</dd></dl></p>
+<h3 id="ticker"><i class="fa fa-caret-right"></i> ticker<a class="headerlink" href="#ticker" title="Permanent link">&para;</a></h3>
+<p>Set flicker signal output according to WiFi connection status during AutoConnect::begin behavior.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>bool</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">true</span><span class="apidesc">Output the flicker signal while <a href="api.html#begin">AutoConnect::begin</a> operation. The <code>AUTOCONNECT_TICKER_PORT</code> macro in the <code>AutoConnectDefs.h</code> header file assigns pins for signal output. The default pin is arduino valiant's <code>LED_BUILTIN</code>. For boards without the LED_BUILTIN pin, assume pin <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/2" title="GitHub Issue: Hieromon/AutoConnect #2">#2</a>.</span></dd>
+    <dd><span class="apidef">false</span>No flicker signal output.<span class="apidesc"></span></dd></dl></p>
+<h3 id="tickerport"><i class="fa fa-caret-right"></i> tickerPort<a class="headerlink" href="#tickerport" title="Permanent link">&para;</a></h3>
+<p>Specifies the GPIO port number to output the flicker signal of the ticker. The default assumes on the board dependent definition LED_BUILTIN macro redefined by <strong><code>AUTOCONNECT_TICKER_PORT</code></strong> in <a href="api.html#defined-macros"><code>AutoConnectDefs.h</code></a>.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>uint8_t</dd></dl></p>
+<h3 id="tickeron"><i class="fa fa-caret-right"></i> tickerOn<a class="headerlink" href="#tickeron" title="Permanent link">&para;</a></h3>
+<p>Specifies the active logic level of the flicker signal. This value indicates the active signal level when driving the ticker.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>uint8_t</dd>
+    <dt><strong>Value</strong></dt>
+    <dd><span class="apidef">LOW</span>A flicker signal is an active-high.<span class="apidesc"></span></dd>
+    <dd><span class="apidef">HIGH</span>A flicker signal is an active-low.<span class="apidesc"></span></dd></dl></p>
+<h3 id="title"><i class="fa fa-caret-right"></i> title<a class="headerlink" href="#title" title="Permanent link">&para;</a></h3>
+<p>Set the menu title.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd>String</dd></dl></p>
+<h3 id="uptime"><i class="fa fa-caret-right"></i> uptime<a class="headerlink" href="#uptime" title="Permanent link">&para;</a></h3>
+<p>Specifies the waiting time for the module to reboot.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">int</span><span class="apidesc">The default value is AUTOCONNECT_TIMEOUT/1000.</span></dd></dl></p>
+<h3 id="username"><i class="fa fa-caret-right"></i> username<a class="headerlink" href="#username" title="Permanent link">&para;</a></h3>
+<p>Set the username for authentication.<dl class="apidl">
+    <dt><strong>Type</strong></dt>
+    <dd><span class="apidef">String</span><span class="apidesc">The default value is same as <a href="#apid">apid</a>.</span></dd></dl></p>
+<h2 id="autoconnectconfig-initial-values"><i class="fa fa-code"></i> AutoConnectConfig Initial values<a class="headerlink" href="#autoconnectconfig-initial-values" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Public member</th>
+<th>Data type</th>
+<th>Initial value definition</th>
+<th>Defined symbol <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#apid">apid</a></td>
+<td>String</td>
+<td><code>esp8266ap</code><br><code>esp32ap</code></td>
+<td>AUTOCONNECT_APID</td>
+</tr>
+<tr>
+<td><a href="#apip">apip</a></td>
+<td>IPAddress</td>
+<td>172.217.28.1</td>
+<td>AUTOCONNECT_AP_IP</td>
+</tr>
+<tr>
+<td><a href="#auth">auth</a></td>
+<td>AC_AUTH_t</td>
+<td>AC_AUTH_NONE</td>
+<td>AC_AUTH_NONE<br>AC_AUTH_DIGEST<br>AC_AUTH_BASIC</td>
+</tr>
+<tr>
+<td><a href="#authscope">authScope</a></td>
+<td>AC_AUTHSCOPE_t</td>
+<td>AC_AUTHSCOPE_AUX</td>
+<td>AC_AUTHSCOPE_PARTIAL<br>AC_AUTHSCOPE_AUX<br>AC_AUTHSCOPE_AC<br>AC_AUTHSCOPE_PORTAL<br>AC_AUTHSCOPE_WITHCP</td>
+</tr>
+<tr>
+<td><a href="#autoreconnect">autoReconnect</a></td>
+<td>bool</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#autoreset">autoReset</a></td>
+<td>bool</td>
+<td>true</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#autorise">autoRise</a></td>
+<td>bool</td>
+<td>true</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#autosave">autoSave</a></td>
+<td>AC_SAVECREDENTIAL_t</td>
+<td>AC_SAVECREDENTIAL_AUTO</td>
+<td>AC_SAVECREDENTIAL_AUTO<br>AC_SAVECREDENTIAL_ALWAYS<br>AC_SAVECREDENTIAL_NEVER</td>
+</tr>
+<tr>
+<td><a href="#begintimeout">beginTimeout</a></td>
+<td>unsinged long</td>
+<td>30000UL</td>
+<td>AUTOCONNECT_TIMEOUT</td>
+</tr>
+<tr>
+<td><a href="#booturi">bootUri</a></td>
+<td>AC_ONBOOTURI_t</td>
+<td>AC_ONBOOTURI_ROOT</td>
+<td>AC_ONBOOTURI_ROOT<br>AC_ONBOOTURI_HOME</td>
+</tr>
+<tr>
+<td><a href="#boundaryoffset">boundaryOffset</a></td>
+<td>uint16_t</td>
+<td>0</td>
+<td>AC_IDENTIFIER_OFFSET</td>
+</tr>
+<tr>
+<td><a href="#channel">channel</a></td>
+<td>uint8_t</td>
+<td>1</td>
+<td>AUTOCONNECT_AP_CH</td>
+</tr>
+<tr>
+<td><a href="#dns1">dns1</a></td>
+<td>IPAddress</td>
+<td>0UL</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#dns2">dns2</a></td>
+<td>IPAddress</td>
+<td>0UL</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#gateway">gateway</a></td>
+<td>IPAddress</td>
+<td>172.217.28.1</td>
+<td>AUTOCONNECT_AP_GW</td>
+</tr>
+<tr>
+<td><a href="#hidden">hidden</a></td>
+<td>uint8_t</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#homeuri">homeUri</a></td>
+<td>String</td>
+<td><code>/</code></td>
+<td>AUTOCONNECT_HOMEURI</td>
+</tr>
+<tr>
+<td><a href="#hostname">hostName</a></td>
+<td>String</td>
+<td>NULL</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#immediatestart">immediateStart</a></td>
+<td>bool</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#menuIiems">menuItems</a></td>
+<td>uint16_t</td>
+<td>AC_MENUITEM_CONFIGNEW<br>+ AC_MENUITEM_OPENSSIDS<br>+ AC_MENUITEM_DISCONNECT<br>+ AC_MENUITEM_RESET<br>+ AC_MENUITEM_UPDATE<br>+ AC_MENUITEM_HOME</td>
+<td>AC_MENUITEM_CONFIGNEW<br>AC_MENUITEM_OPENSSIDS<br>AC_MENUITEM_DISCONNECT<br>AC_MENUITEM_RESET<br>AC_MENUITEM_UPDATE<br>AC_MENUITEM_HOME</td>
+</tr>
+<tr>
+<td><a href="#minrssi">minRSSI</a></td>
+<td>int16_t</td>
+<td>-120</td>
+<td>AUTOCONNECT_MIN_RSSI</td>
+</tr>
+<tr>
+<td><a href="#netmask">netmask</a></td>
+<td>IPAddress</td>
+<td>172.217.28.1</td>
+<td>AUTOCONNECT_AP_NM</td>
+</tr>
+<tr>
+<td><a href="#ota">ota</a></td>
+<td>AC_OTA_t</td>
+<td>AC_OTA_EXTRA</td>
+<td>AC_OTA_EXTRA<br>AC_OTA_BUILTIN</td>
+</tr>
+<tr>
+<td><a href="#otaextracaption">otaExtraCaption</a></td>
+<td>const char*</td>
+<td>nullptr</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#password">password</a></td>
+<td>String</td>
+<td>Follow <a href="#psk">psk</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#portaltimeout">portalTimeout</a></td>
+<td>unsigned long</td>
+<td>0UL</td>
+<td>AUTOCONNECT_CAPTIVEPORTAL_TIMEOUT</td>
+</tr>
+<tr>
+<td><a href="#preserveapmode">preserveAPMode</a></td>
+<td>bool</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#principle">principle</a></td>
+<td>AC_PRINCIPLE_t</td>
+<td>AC_PRINCIPLE_RECENT</td>
+<td>AC_PRINCIPLE_RECENT<br>AC_PRINCIPLE_RSSI</td>
+</tr>
+<tr>
+<td><a href="#psk">psk</a></td>
+<td>String</td>
+<td><code>12345678</code></td>
+<td>AUTOCONNECT_PSK</td>
+</tr>
+<tr>
+<td><a href="#reconnectinterval">reconnectInterval</a></td>
+<td>uint8_t</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#retainportal">retainPortal</a></td>
+<td>bool</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#stagateway">staGateway</a></td>
+<td>IPAddress</td>
+<td>0UL</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#staip">staip</a></td>
+<td>IPAddress</td>
+<td>0UL</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#stanetmask">staNetmask</a></td>
+<td>IPAddress</td>
+<td>0UL</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#ticker">ticker</a></td>
+<td>bool</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#tickeron">tickerOn</a></td>
+<td>uint8_t</td>
+<td>LOW</td>
+<td>AUTOCONNECT_UPDATE_LEDON</td>
+</tr>
+<tr>
+<td><a href="#tickerport">tickerPort</a></td>
+<td>uint8_t</td>
+<td>LED_BUILTIN</td>
+<td>AUTOCONNECT_TICKER_PORT</td>
+</tr>
+<tr>
+<td><a href="#title">title</a></td>
+<td>String</td>
+<td><code>AutoConnect</code></td>
+<td>AUTOCONNECT_MENU_TITLE</td>
+</tr>
+<tr>
+<td><a href="#uptime">uptime</a></td>
+<td>int</td>
+<td>AUTOCONNECT_TIMEOUT/1000</td>
+<td>AUTOCONNECT_STARTUPTIME</td>
+</tr>
+<tr>
+<td><a href="#username">username</a></td>
+<td>String</td>
+<td>Follow <a href="#apid">apid</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="autoconnectconfig-example"><i class="fa fa-code"></i> AutoConnectConfig example<a class="headerlink" href="#autoconnectconfig-example" title="Permanent link">&para;</a></h2>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f8f8f2">AutoConnect        Portal;</span>
+<span style="color: #f8f8f2">AutoConnectConfig  </span><span style="color: #a6e22e">Config</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;&quot;</span><span style="color: #f8f8f2">, </span><span style="color: #e6db74">&quot;passpass&quot;</span><span style="color: #f8f8f2">);    </span><span style="color: #75715e">// SoftAp name is determined at runtime</span>
+<span style="color: #f8f8f2">Config.apid </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> ESP.hostname();                 </span><span style="color: #75715e">// Retrieve host name to SotAp identification</span>
+<span style="color: #f8f8f2">Config.apip </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">192</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">168</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">101</span><span style="color: #f8f8f2">);      </span><span style="color: #75715e">// Sets SoftAP IP address</span>
+<span style="color: #f8f8f2">Config.gateway </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">192</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">168</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">);     </span><span style="color: #75715e">// Sets WLAN router IP address</span>
+<span style="color: #f8f8f2">Config.netmask </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">255</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">255</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">255</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">);    </span><span style="color: #75715e">// Sets WLAN scope</span>
+<span style="color: #f8f8f2">Config.autoReconnect </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> true;                  </span><span style="color: #75715e">// Enable auto-reconnect</span>
+<span style="color: #f8f8f2">Config.autoSave </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> AC_SAVECREDENTIAL_NEVER;    </span><span style="color: #75715e">// No save credential</span>
+<span style="color: #f8f8f2">Config.boundaryOffset </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #ae81ff">64</span><span style="color: #f8f8f2">;                   </span><span style="color: #75715e">// Reserve 64 bytes for the user data in EEPROM.</span>
+<span style="color: #f8f8f2">Config.portalTimeout </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #ae81ff">60000</span><span style="color: #f8f8f2">;                 </span><span style="color: #75715e">// Sets timeout value for the captive portal</span>
+<span style="color: #f8f8f2">Config.retainPortal </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> true;                   </span><span style="color: #75715e">// Retains the portal function after timed-out</span>
+<span style="color: #f8f8f2">Config.homeUri </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&quot;/index.html&quot;</span><span style="color: #f8f8f2">;               </span><span style="color: #75715e">// Sets home path of Sketch application</span>
+<span style="color: #f8f8f2">Config.title </span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;My menu&quot;</span><span style="color: #f8f8f2">;                      </span><span style="color: #75715e">// Customize the menu title</span>
+<span style="color: #f8f8f2">Config.staip </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">192</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">168</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">);      </span><span style="color: #75715e">// Sets static IP</span>
+<span style="color: #f8f8f2">Config.staGateway </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">192</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">168</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">);  </span><span style="color: #75715e">// Sets WiFi router address</span>
+<span style="color: #f8f8f2">Config.staNetmask </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">255</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">255</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">255</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">); </span><span style="color: #75715e">// Sets WLAN scope</span>
+<span style="color: #f8f8f2">Config.dns1 </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> IPAddress(</span><span style="color: #ae81ff">192</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">168</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">);        </span><span style="color: #75715e">// Sets primary DNS address</span>
+<span style="color: #f8f8f2">Portal.config(Config);                        </span><span style="color: #75715e">// Configure AutoConnect</span>
+<span style="color: #f8f8f2">Portal.begin();                               </span><span style="color: #75715e">// Starts and behaves captive portal</span>
+</code></pre></div>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Those symbols are defined in <a href="https://github.com/Hieromon/AutoConnect/blob/master/src/AutoConnectDefs.h"><code>AutoConnectDefs.h</code></a>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="apiaux.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: AutoConnectAux API" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              AutoConnectAux API
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="apielements.html" class="md-footer__link md-footer__link--next" aria-label="Next: AutoConnectElements API" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              AutoConnectElements API
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2018-2021 Hieromon Ikasamo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/Hieromon" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hieromon" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      
+        <script src="js/gifffer.min.js"></script>
+      
+    
+  </body>
+</html>

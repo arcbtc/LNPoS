@@ -1,0 +1,1350 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ESP8266/ESP32 WLAN configuration at run time with web interface">
+      
+      
+        <meta name="author" content="Hieromon Ikasamo">
+      
+      
+        <link rel="canonical" href="https://Hieromon.github.io/AutoConnect/changelabel.html">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+    
+    
+      
+        <title>Change label text - AutoConnect for ESP8266/ESP32</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/paragraph.css">
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    
+    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EHK8XV10VE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-EHK8XV10VE",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHK8XV10VE"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#change-the-items-label-text" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-header__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoConnect for ESP8266/ESP32
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Change label text
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-nav__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    AutoConnect for ESP8266/ESP32
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gettingstarted.html" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menu.html" class="md-nav__link">
+        AutoConnect menu
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="basicusage.html" class="md-nav__link">
+        Basic usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Advanced usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Advanced usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="advancedusage.html" class="md-nav__link">
+        Advanced usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adconnection.html" class="md-nav__link">
+        AutoConnect WiFi connection control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcpcontrol.html" class="md-nav__link">
+        Captive portal control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adnetwork.html" class="md-nav__link">
+        Settings and controls for network and WiFi
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adauthentication.html" class="md-nav__link">
+        Authentication settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcredential.html" class="md-nav__link">
+        Credential accesses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adexterior.html" class="md-nav__link">
+        Customizing page appearance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adothers.html" class="md-nav__link">
+        Other operation settings and controls
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Custom Web pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Custom Web pages" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Custom Web pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acintro.html" class="md-nav__link">
+        Custom Web pages with AutoConnect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acelements.html" class="md-nav__link">
+        AutoConnectElements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acjson.html" class="md-nav__link">
+        Custom Web pages with JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="achandling.html" class="md-nav__link">
+        Handling the custom Web pages
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          OTA Updates
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="OTA Updates" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          OTA Updates
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaupdate.html" class="md-nav__link">
+        OTA Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otabrowser.html" class="md-nav__link">
+        Using Web Browser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaserver.html" class="md-nav__link">
+        Using Update Server
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="filesystem.html" class="md-nav__link">
+        Using Filesystem
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Library APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Library APIs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Library APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        AutoConnect API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiaux.html" class="md-nav__link">
+        AutoConnectAux API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiconfig.html" class="md-nav__link">
+        AutoConnectConfig API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apielements.html" class="md-nav__link">
+        AutoConnectElements API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiupdate.html" class="md-nav__link">
+        AutoConnectUpdate API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiextra.html" class="md-nav__link">
+        Something extra
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="howtoembed.html" class="md-nav__link">
+        How to embed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="datatips.html" class="md-nav__link">
+        Tips for data conversion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menuize.html" class="md-nav__link">
+        Attach the menus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wojson.html" class="md-nav__link">
+        Custom Web pages w/o JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esp32cam.html" class="md-nav__link">
+        Works with ESP32-CAM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lsbegin.html" class="md-nav__link">
+        Inside AutoConnect::begin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="credit.html" class="md-nav__link">
+        Saved credentials access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acupload.html" class="md-nav__link">
+        File upload handler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="colorized.html" class="md-nav__link">
+        Custom colorized
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Change label text
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="changelabel.html" class="md-nav__link md-nav__link--active">
+        Change label text
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#change-the-items-label-text" class="md-nav__link">
+    Change the item's label text
+  </a>
+  
+    <nav class="md-nav" aria-label="Change the item's label text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    Preparation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-change-the-label-text" class="md-nav__link">
+    How to change the label text
+  </a>
+  
+    <nav class="md-nav" aria-label="How to change the label text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#label-text-replacement-header-file" class="md-nav__link">
+    Label text replacement header file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-of-platformioini" class="md-nav__link">
+    Configuration of platformio.ini
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="faq.html" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        Change log
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#change-the-items-label-text" class="md-nav__link">
+    Change the item's label text
+  </a>
+  
+    <nav class="md-nav" aria-label="Change the item's label text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    Preparation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-change-the-label-text" class="md-nav__link">
+    How to change the label text
+  </a>
+  
+    <nav class="md-nav" aria-label="How to change the label text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#label-text-replacement-header-file" class="md-nav__link">
+    Label text replacement header file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-of-platformioini" class="md-nav__link">
+    Configuration of platformio.ini
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+  <h1>Change label text</h1>
+
+<h2 id="change-the-items-label-text">Change the item's label text<a class="headerlink" href="#change-the-items-label-text" title="Permanent link">&para;</a></h2>
+<p>You can change the text of AutoConnect menu items. The easiest way is to rewrite the header file directly in the library that defines the menu label. <a href="advancedusage.html#change-the-menu-labels">Advanced Usage</a> section describes the detailed how to change the label text directly.</p>
+<p>However, this way is less preferred as it modifies the library code and further affects the entire Arduino project you compile. So, here's how to change the label text for each Arduino project without directly modifying the library code. Using this method, you can also display the label text and fixed text on AutoConnect pages in your national language.</p>
+<p>(e.g. in Japanese)
+<img src="images/localize.png"></p>
+<h3 id="preparation">Preparation<a class="headerlink" href="#preparation" title="Permanent link">&para;</a></h3>
+<p>AutoConnect needs a definition file as c++ header (.h) to change the label text. It is used when your Arduino project is compiled, and there is no additional memory consumption due to changing the label text. This header file describes each fixed text of AutoConnect with the <code>#define</code> preprocessor directive.</p>
+<p>The next thing you need is <a href="https://platformio.org/">PlatformIO</a>. <a href="https://docs.platformio.org/en/latest/what-is-platformio.html#overview">PlatformIO</a> is a very powerful environment for embedded development with multi-platform and multi-architecture build systems. And you can easily set up a PlatformIO for the Arduino development system as follows on your host machine.</p>
+<ul>
+<li><a href="https://platformio.org/install/ide?install=vscode">Microsoft Visual Studio Code</a></li>
+<li><a href="https://platformio.org/platformio-ide">PlatformIO IDE</a> (included PlatformIO core)</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Install PlatformIO and VSCode</p>
+<p>Please refer to <a href="https://docs.platformio.org/en/latest/ide/vscode.html#installation">the official documentation</a> for PlatformIO and VSCode installation.</p>
+</div>
+<p>The rest of this section assumes that you have a PlatformIO environment with VSCode as the front end that has installed on your host machine.</p>
+<h2 id="how-to-change-the-label-text">How to change the label text<a class="headerlink" href="#how-to-change-the-label-text" title="Permanent link">&para;</a></h2>
+<h3 id="label-text-replacement-header-file">Label text replacement header file<a class="headerlink" href="#label-text-replacement-header-file" title="Permanent link">&para;</a></h3>
+<p>AutoConnect label texts are pre-assigned with a fixed string so that it can be determined at compile time. Their default definitions are in the <a href="https://github.com/Hieromon/AutoConnect/blob/master/src/AutoConnectLabels.h"><code>AutoConnectLabels.h</code></a> file that has all the replaceable label text defined by the <code>#define</code> directive.</p>
+<table>
+    <tr><th>Label placed</th><th>Pre-defined text</th><th>ID (#define macro)</th></tr>
+    <tr><td rowspan="7">Menu item</td><td>Configure new AP</td><td>AUTOCONNECT_MENULABEL_CONFIGNEW</td></tr>
+    <tr><td>Open SSIDs</td><td>AUTOCONNECT_MENULABEL_OPENSSIDS</td></tr>
+    <tr><td>Disconnect</td><td>AUTOCONNECT_MENULABEL_DISCONNECT</td></tr>
+    <tr><td>Reset...</td><td>AUTOCONNECT_MENULABEL_RESET</td></tr>
+    <tr><td>HOME</td><td>AUTOCONNECT_MENULABEL_HOME</td></tr>
+    <tr><td>Update</td><td>AUTOCONNECT_MENULABEL_UPDATE</td></tr>
+    <tr><td>Device info</td><td>AUTOCONNECT_MENULABEL_DEVINFO</td></tr>
+    <tr><td rowspan="2">Button label</td><td>RESET</td><td>AUTOCONNECT_BUTTONLABEL_RESET</td></tr>
+    <tr><td>UPDATE</td><td>AUTOCONNECT_BUTTONLABEL_UPDATE</td></tr>
+    <tr><td rowspan="8">Page title</td><td>Page not found</td><td>AUTOCONNECT_PAGETITLE_NOTFOUND</td></tr>
+    <tr><td>AutoConnect config</td><td>AUTOCONNECT_PAGETITLE_CONFIG</td></tr>
+    <tr><td>AutoConnect connecting</td><td>AUTOCONNECT_PAGETITLE_CONNECTING</td></tr>
+    <tr><td>AutoConnect connection failed</td><td>AUTOCONNECT_PAGETITLE_CONNECTIONFAILED</td></tr>
+    <tr><td>AutoConnect credentials</td><td>AUTOCONNECT_PAGETITLE_CREDENTIALS</td></tr>
+    <tr><td>AutoConnect disconnected</td><td>AUTOCONNECT_PAGETITLE_DISCONNECTED</td></tr>
+    <tr><td>AutoConnect resetting</td><td>AUTOCONNECT_PAGETITLE_RESETTING</td></tr>
+    <tr><td>AutoConnect statistics</td><td>AUTOCONNECT_PAGETITLE_STATISTICS</td></tr>
+    <tr><td rowspan="14">Page:[statistics] row</td><td>Established connection</td><td>AUTOCONNECT_PAGESTATS_ESTABLISHEDCONNECTION</td></tr>
+    <tr><td>Mode</td><td>AUTOCONNECT_PAGESTATS_MODE</td></tr>
+    <tr><td>IP</td><td>AUTOCONNECT_PAGESTATS_IP</td></tr>
+    <tr><td>GW</td><td>AUTOCONNECT_PAGESTATS_GATEWAY</td></tr>
+    <tr><td>Subnet mask</td><td>AUTOCONNECT_PAGESTATS_SUBNETMASK</td></tr>
+    <tr><td>SoftAP IP</td><td>AUTOCONNECT_PAGESTATS_SOFTAPIP</td></tr>
+    <tr><td>AP MAC</td><td>AUTOCONNECT_PAGESTATS_APMAC</td></tr>
+    <tr><td>STA MAC</td><td>AUTOCONNECT_PAGESTATS_STAMAC</td></tr>
+    <tr><td>Channel</td><td>AUTOCONNECT_PAGESTATS_CHANNEL</td></tr>
+    <tr><td>dBm</td><td>AUTOCONNECT_PAGESTATS_DBM</td></tr>
+    <tr><td>Chip ID</td><td>AUTOCONNECT_PAGESTATS_CHIPID</td></tr>
+    <tr><td>CPU Freq.</td><td>AUTOCONNECT_PAGESTATS_CPUFREQ</td></tr>
+    <tr><td>Flash size</td><td>AUTOCONNECT_PAGESTATS_FLASHSIZE</td></tr>
+    <tr><td>Free memory</td><td>AUTOCONNECT_PAGESTATS_FREEMEM</td></tr>
+    <tr><td rowspan="6">Page:[config] text</td><td>Total:</td><td>AUTOCONNECT_PAGECONFIG_TOTAL</td></tr>
+    <tr><td>Hidden:</td><td>AUTOCONNECT_PAGECONFIG_HIDDEN</td></tr>
+    <tr><td>SSID</td><td>AUTOCONNECT_PAGECONFIG_SSID</td></tr>
+    <tr><td>Passphrase</td><td>AUTOCONNECT_PAGECONFIG_PASSPHRASE</td></tr>
+    <tr><td>Enable DHCP</td><td>AUTOCONNECT_PAGECONFIG_ENABLEDHCP</td></tr>
+    <tr><td>Apply</td><td>AUTOCONNECT_PAGECONFIG_APPLY</td></tr>
+    <tr><td rowspan="4">Page:[update] text</td><td>Updating firmware</td><td>AUTOCONNECT_TEXT_UPDATINGFIRMWARE</td></tr>
+    <tr><td>Select firmware:</td><td>AUTOCONNECT_TEXT_SELECTFIRMWARE</td></tr>
+    <tr><td>Successfully updated, rebooting...</td><td>AUTOCONNECT_TEXT_OTASUCCESS</td></tr>
+    <tr><td>Failed to update:</td><td>AUTOCONNECT_TEXT_OTAFAILURE</td></tr>
+    <tr><td>Page:[connection failed]</td><td>Connection Failed</td><td>AUTOCONNECT_PAGECONNECTIONFAILED_CONNECTIONFAILED</td></tr>
+    <tr><td>Text</td><td>No saved credentials.</td><td>AUTOCONNECT_TEXT_NOSAVEDCREDENTIALS</td></tr>
+    <tr><td rowspan="3">Menu Text</td><td>Connecting</td><td>AUTOCONNECT_MENUTEXT_CONNECTING</td></tr>
+    <tr><td>Disconnect</td><td>AUTOCONNECT_MENUTEXT_DISCONNECT</td></tr>
+    <tr><td>Failed</td><td>AUTOCONNECT_MENUTEXT_FAILED</td></tr>
+</table>
+
+<p>The definition of label text must conform to a certain coding pattern. Undefine with <code>#undef</code> the <code>#define</code> directive corresponding to the above IDs, and then redefine the ID with the replacement text. And surround it with <code>#ifdef</code> ~ <code>#endif</code>.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #75715e">#ifdef AUTOCONNECT_MENULABEL_CONFIGNEW</span>
+<span style="color: #75715e">#undef AUTOCONNECT_MENULABEL_CONFIGNEW</span>
+<span style="color: #75715e">#define AUTOCONNECT_MENULABEL_CONFIGNEW   &quot;NEW_STRING_YOU_WISH&quot;</span>
+<span style="color: #75715e">#endif</span>
+</code></pre></div>
+<p>You may not need to rewrite all definitions. It depends on your wishes and is sufficient that the above the include file contains only the labels you need.</p>
+<h3 id="configuration-of-platformioini">Configuration of platformio.ini<a class="headerlink" href="#configuration-of-platformioini" title="Permanent link">&para;</a></h3>
+<p>You prepare its header file and place it in the <code>src</code> folder of the project folder. You can name the file whatever you like, but for the sake of explanation, let's say <code>mylabels.h</code>.</p>
+<p>When you store <code>mylabels.h</code> containing the new label text definition in the <code>src</code> folder, your Arduino project folder structure should look like this:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #f92672">&lt;</span><span style="color: #a6e22e">Project</span> <span style="color: #a6e22e">folder</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|--</span> <span style="color: #f92672">&lt;</span><span style="color: #a6e22e">pio</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|--</span> <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">vscode</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|--</span> <span style="color: #f92672">&lt;</span><span style="color: #a6e22e">include</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|--</span> <span style="color: #f92672">&lt;</span><span style="color: #a6e22e">lib</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|--</span> <span style="color: #f92672">&lt;</span><span style="color: #a6e22e">src</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|</span>   <span style="color: #f92672">|--</span> <span style="color: #a6e22e">main</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">cpp</span>
+<span style="color: #f92672">|</span>   <span style="color: #f92672">|--</span> <span style="color: #a6e22e">mylabels</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">h</span>  <span style="color: #f92672">&lt;--</span> <span style="color: #a6e22e">Depends</span> <span style="color: #a6e22e">on</span> <span style="color: #a6e22e">the</span> <span style="color: #a6e22e">project</span>
+<span style="color: #f92672">|--</span> <span style="color: #f92672">&lt;</span><span style="color: #a6e22e">test</span><span style="color: #f92672">&gt;</span>
+<span style="color: #f92672">|--</span> <span style="color: #f8f8f2">.</span><span style="color: #a6e22e">gitignore</span>
+<span style="color: #f92672">|--</span> <span style="color: #f8f8f2">.</span><span style="color: #a6e22e">travis</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">yml</span>
+<span style="color: #f92672">|--</span> <span style="color: #a6e22e">platformio</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">ini</span>
+</code></pre></div>
+<p>Then, open <a href="https://docs.platformio.org/en/latest/projectconf.html"><code>platformio.ini</code></a> file and add new <a href="https://docs.platformio.org/en/latest/projectconf/section_env_build.html#build-flags"><code>build_flags</code></a> for including <code>mylabels.h</code> to override the label text.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%;"><span></span><code><span style="color: #a6e22e">build_flags</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">=</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">-DAC_LABELS=&#39;&quot;${PROJECT_SRC_DIR}/mylabels.h&quot;&#39;</span><span style="color: #f8f8f2"></span>
+</code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title">Just change the <code>mylabels.h</code></p>
+<p>Keep <code>-DAC_LABELS='"${PROJECT_SRC_DIR}/YOUR_FILE_NAME"'</code> when changing the above <code>build_flags</code> item to match your labels header file name.</p>
+</div>
+<p>After placing the <code>mylabels.h</code> file and add the <code>build_flags</code>, build the project with the replaced label text. You will see the AutoConnect screen with the new text replaced by <code>mylabels.h</code>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Need clean-up before re-build with updated <code>mylabels.h</code></p>
+<p>When you have updated <code>mylabels.h</code>, you need deleting compiled library object files before build. Use <code>Clean</code> of a PlatformIO task on VSCode status bar.
+<p><img src="images/vscode_clean.png"></p>
+<p><img src="images/vscode_statusbar.png"></p></p>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="colorized.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Custom colorized" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Custom colorized
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="faq.html" class="md-footer__link md-footer__link--next" aria-label="Next: FAQ" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              FAQ
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2018-2021 Hieromon Ikasamo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/Hieromon" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hieromon" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      
+        <script src="js/gifffer.min.js"></script>
+      
+    
+  </body>
+</html>

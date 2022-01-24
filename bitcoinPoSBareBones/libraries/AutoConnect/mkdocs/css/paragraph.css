@@ -1,0 +1,79 @@
+.lead {
+	color: gray;
+	font-size: 15px;
+}
+
+.md-typeset h2 {
+	border-bottom: solid 1px #d3d3d3;
+	padding-bottom: 5px;
+}
+
+.md-typeset pre, .highlight code {
+  background-color: #272822 !important;
+  font-size: 12px;
+}
+
+.md-typeset .highlighttable .codehilitetable {
+  margin-left:-20px;
+  margin-right: -20px;
+  border-radius: 0;
+}
+
+.md-typeset .highlighttable .codehilitetable .linenodiv {
+  background-color: #222 !important;
+}
+
+.md-typeset .highlighttable .codehilitetable .linenodiv pre {
+  background-color: #222 !important;
+  color: #aaa;
+  margin: 0;
+}
+
+.md-typeset .codehilitetable .md-clipboard:before {
+  color: rgba(240,240,240,.8);
+}
+.md-typeset .codehilitetable .md-clipboard:hover:before {
+  color: rgba(102,217,224,1);
+}
+
+.apidl {
+  margin-left: 20px;
+}
+
+.apidef {
+  display: block;
+  float: left;
+  width: 100px;
+}
+
+.apidesc {
+  display: inline-block;
+  width: calc(100% - 100px);
+}
+
+.horizontal-list {
+  list-style-type: none;
+  overflow: hidden;
+}
+
+.horizontal-list > li {
+  float: left;
+  display: block;
+}
+
+table.achandling {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 60%;
+  color: black;
+}
+
+table.achandling th, table.achandling td {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+table.achandling tr:nth-child(even) {
+  background-color: #dddddd;
+}

@@ -1,0 +1,2972 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ESP8266/ESP32 WLAN configuration at run time with web interface">
+      
+      
+        <meta name="author" content="Hieromon Ikasamo">
+      
+      
+        <link rel="canonical" href="https://Hieromon.github.io/AutoConnect/changelog.html">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+    
+    
+      
+        <title>Change log - AutoConnect for ESP8266/ESP32</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/paragraph.css">
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    
+    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EHK8XV10VE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-EHK8XV10VE",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHK8XV10VE"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#132-jan-1-2022" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-header__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoConnect for ESP8266/ESP32
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Change log
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="AutoConnect for ESP8266/ESP32" class="md-nav__button md-logo" aria-label="AutoConnect for ESP8266/ESP32" data-md-component="logo">
+      
+  <img src="images/arduino-logo.svg" alt="logo">
+
+    </a>
+    AutoConnect for ESP8266/ESP32
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Hieromon/AutoConnect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Hieromon/AutoConnect
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gettingstarted.html" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menu.html" class="md-nav__link">
+        AutoConnect menu
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="basicusage.html" class="md-nav__link">
+        Basic usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Advanced usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Advanced usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="advancedusage.html" class="md-nav__link">
+        Advanced usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adconnection.html" class="md-nav__link">
+        AutoConnect WiFi connection control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcpcontrol.html" class="md-nav__link">
+        Captive portal control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adnetwork.html" class="md-nav__link">
+        Settings and controls for network and WiFi
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adauthentication.html" class="md-nav__link">
+        Authentication settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adcredential.html" class="md-nav__link">
+        Credential accesses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adexterior.html" class="md-nav__link">
+        Customizing page appearance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adothers.html" class="md-nav__link">
+        Other operation settings and controls
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Custom Web pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Custom Web pages" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Custom Web pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acintro.html" class="md-nav__link">
+        Custom Web pages with AutoConnect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acelements.html" class="md-nav__link">
+        AutoConnectElements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acjson.html" class="md-nav__link">
+        Custom Web pages with JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="achandling.html" class="md-nav__link">
+        Handling the custom Web pages
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          OTA Updates
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="OTA Updates" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          OTA Updates
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaupdate.html" class="md-nav__link">
+        OTA Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otabrowser.html" class="md-nav__link">
+        Using Web Browser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="otaserver.html" class="md-nav__link">
+        Using Update Server
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="filesystem.html" class="md-nav__link">
+        Using Filesystem
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Library APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Library APIs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Library APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        AutoConnect API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiaux.html" class="md-nav__link">
+        AutoConnectAux API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiconfig.html" class="md-nav__link">
+        AutoConnectConfig API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apielements.html" class="md-nav__link">
+        AutoConnectElements API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiupdate.html" class="md-nav__link">
+        AutoConnectUpdate API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apiextra.html" class="md-nav__link">
+        Something extra
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="howtoembed.html" class="md-nav__link">
+        How to embed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="datatips.html" class="md-nav__link">
+        Tips for data conversion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="menuize.html" class="md-nav__link">
+        Attach the menus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wojson.html" class="md-nav__link">
+        Custom Web pages w/o JSON
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esp32cam.html" class="md-nav__link">
+        Works with ESP32-CAM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lsbegin.html" class="md-nav__link">
+        Inside AutoConnect::begin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="credit.html" class="md-nav__link">
+        Saved credentials access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acupload.html" class="md-nav__link">
+        File upload handler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="colorized.html" class="md-nav__link">
+        Custom colorized
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelabel.html" class="md-nav__link">
+        Change label text
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="faq.html" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Change log
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="changelog.html" class="md-nav__link md-nav__link--active">
+        Change log
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#132-jan-1-2022" class="md-nav__link">
+    [1.3.2] Jan. 1, 2022
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.3.2] Jan. 1, 2022">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fix" class="md-nav__link">
+    Fix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#131-oct-09-2021" class="md-nav__link">
+    [1.3.1] Oct. 09, 2021
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.3.1] Oct. 09, 2021">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#130-sep-25-2021" class="md-nav__link">
+    [1.3.0] Sep. 25, 2021
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.3.0] Sep. 25, 2021">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_1" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_1" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-jan-3-2021" class="md-nav__link">
+    [1.2.3] Jan. 3, 2021
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.3] Jan. 3, 2021">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_2" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-dec-13-2020" class="md-nav__link">
+    [1.2.2] Dec. 13, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.2] Dec. 13, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix_1" class="md-nav__link">
+    Fix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#121-dec-5-2020" class="md-nav__link">
+    [1.2.1] Dec. 5, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.1] Dec. 5, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix_2" class="md-nav__link">
+    Fix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#120-dec-3-2020" class="md-nav__link">
+    [1.2.0] Dec. 3, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.0] Dec. 3, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_3" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_2" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#117-apr-19-2020" class="md-nav__link">
+    [1.1.7] Apr. 19, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.7] Apr. 19, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_3" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#116-apr-17-2020" class="md-nav__link">
+    [1.1.6] Apr. 17, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.6] Apr. 17, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_4" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115-apr-15-2020" class="md-nav__link">
+    [1.1.5] Apr. 15, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.5] Apr. 15, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_1" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_4" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-feb-14-2020" class="md-nav__link">
+    [1.1.4] Feb. 14, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.4] Feb. 14, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_2" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_5" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-jan-1-2020" class="md-nav__link">
+    [1.1.3] Jan. 1, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.3] Jan. 1, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_5" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_6" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-oct-22-2019" class="md-nav__link">
+    [1.1.2] Oct. 22, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.2] Oct. 22, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_7" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111-oct-17-2019" class="md-nav__link">
+    [1.1.1] Oct. 17, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.1] Oct. 17, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_8" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110-oct-15-2019" class="md-nav__link">
+    [1.1.0] Oct. 15, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.0] Oct. 15, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_6" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_9" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-sept-30-2019" class="md-nav__link">
+    [1.0.3] Sept. 30, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.3] Sept. 30, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_10" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-sept-19-2019" class="md-nav__link">
+    [1.0.2] Sept. 19, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.2] Sept. 19, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_11" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-sept-13-2019" class="md-nav__link">
+    [1.0.1] Sept. 13, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.1] Sept. 13, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_7" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-sept-7-2019" class="md-nav__link">
+    [1.0.0] Sept. 7, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.0] Sept. 7, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_3" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_8" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0912-aug-18-2019" class="md-nav__link">
+    [0.9.12] Aug. 18, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.12] Aug. 18, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_12" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0911-july-13-2019" class="md-nav__link">
+    [0.9.11] July 13, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.11] July 13, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_4" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_9" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_13" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0910-june-12-2019" class="md-nav__link">
+    [0.9.10] June 12, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.10] June 12, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_14" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#099-may-25-2019" class="md-nav__link">
+    [0.9.9] May 25, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.9] May 25, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_10" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_15" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#098-may-3-2019" class="md-nav__link">
+    [0.9.8] May 3, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.8] May 3, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_5" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_11" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_16" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#097-jan-25-2019" class="md-nav__link">
+    [0.9.7] Jan. 25, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.7] Jan. 25, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_6" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_12" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_17" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#096-sept27-2018" class="md-nav__link">
+    [0.9.6] Sept.27, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.6] Sept.27, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_13" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_18" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#095-aug27-2018" class="md-nav__link">
+    [0.9.5] Aug.27, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.5] Aug.27, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_14" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_19" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#094-may-5-2018" class="md-nav__link">
+    [0.9.4] May 5, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.4] May 5, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_7" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_15" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#093-march-23-2018" class="md-nav__link">
+    [0.9.3] March 23, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.3] March 23, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_16" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#092-march-19-2018" class="md-nav__link">
+    [0.9.2] March 19, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.2] March 19, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_17" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#091-march-13-2018" class="md-nav__link">
+    [0.9.1] March 13, 2018.
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#132-jan-1-2022" class="md-nav__link">
+    [1.3.2] Jan. 1, 2022
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.3.2] Jan. 1, 2022">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fix" class="md-nav__link">
+    Fix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#131-oct-09-2021" class="md-nav__link">
+    [1.3.1] Oct. 09, 2021
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.3.1] Oct. 09, 2021">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#130-sep-25-2021" class="md-nav__link">
+    [1.3.0] Sep. 25, 2021
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.3.0] Sep. 25, 2021">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_1" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_1" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-jan-3-2021" class="md-nav__link">
+    [1.2.3] Jan. 3, 2021
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.3] Jan. 3, 2021">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_2" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-dec-13-2020" class="md-nav__link">
+    [1.2.2] Dec. 13, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.2] Dec. 13, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix_1" class="md-nav__link">
+    Fix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#121-dec-5-2020" class="md-nav__link">
+    [1.2.1] Dec. 5, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.1] Dec. 5, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix_2" class="md-nav__link">
+    Fix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#120-dec-3-2020" class="md-nav__link">
+    [1.2.0] Dec. 3, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.2.0] Dec. 3, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_3" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_2" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#117-apr-19-2020" class="md-nav__link">
+    [1.1.7] Apr. 19, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.7] Apr. 19, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_3" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#116-apr-17-2020" class="md-nav__link">
+    [1.1.6] Apr. 17, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.6] Apr. 17, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_4" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115-apr-15-2020" class="md-nav__link">
+    [1.1.5] Apr. 15, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.5] Apr. 15, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_1" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_4" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-feb-14-2020" class="md-nav__link">
+    [1.1.4] Feb. 14, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.4] Feb. 14, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_2" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_5" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-jan-1-2020" class="md-nav__link">
+    [1.1.3] Jan. 1, 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.3] Jan. 1, 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_5" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_6" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-oct-22-2019" class="md-nav__link">
+    [1.1.2] Oct. 22, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.2] Oct. 22, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_7" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111-oct-17-2019" class="md-nav__link">
+    [1.1.1] Oct. 17, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.1] Oct. 17, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_8" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110-oct-15-2019" class="md-nav__link">
+    [1.1.0] Oct. 15, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.0] Oct. 15, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_6" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_9" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-sept-30-2019" class="md-nav__link">
+    [1.0.3] Sept. 30, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.3] Sept. 30, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_10" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-sept-19-2019" class="md-nav__link">
+    [1.0.2] Sept. 19, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.2] Sept. 19, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_11" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-sept-13-2019" class="md-nav__link">
+    [1.0.1] Sept. 13, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.1] Sept. 13, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_7" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-sept-7-2019" class="md-nav__link">
+    [1.0.0] Sept. 7, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.0] Sept. 7, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_3" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_8" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0912-aug-18-2019" class="md-nav__link">
+    [0.9.12] Aug. 18, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.12] Aug. 18, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_12" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0911-july-13-2019" class="md-nav__link">
+    [0.9.11] July 13, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.11] July 13, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_4" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_9" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_13" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0910-june-12-2019" class="md-nav__link">
+    [0.9.10] June 12, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.10] June 12, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes_14" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#099-may-25-2019" class="md-nav__link">
+    [0.9.9] May 25, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.9] May 25, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_10" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_15" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#098-may-3-2019" class="md-nav__link">
+    [0.9.8] May 3, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.8] May 3, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_5" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_11" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_16" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#097-jan-25-2019" class="md-nav__link">
+    [0.9.7] Jan. 25, 2019
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.7] Jan. 25, 2019">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_6" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_12" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_17" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#096-sept27-2018" class="md-nav__link">
+    [0.9.6] Sept.27, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.6] Sept.27, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_13" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_18" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#095-aug27-2018" class="md-nav__link">
+    [0.9.5] Aug.27, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.5] Aug.27, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_14" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes_19" class="md-nav__link">
+    Fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#094-may-5-2018" class="md-nav__link">
+    [0.9.4] May 5, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.4] May 5, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features_7" class="md-nav__link">
+    New features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_15" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#093-march-23-2018" class="md-nav__link">
+    [0.9.3] March 23, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.3] March 23, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_16" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#092-march-19-2018" class="md-nav__link">
+    [0.9.2] March 19, 2018.
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.9.2] March 19, 2018.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhancements_17" class="md-nav__link">
+    Enhancements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#091-march-13-2018" class="md-nav__link">
+    [0.9.1] March 13, 2018.
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+  <h1>Change log</h1>
+
+<h3 id="132-jan-1-2022">[1.3.2] Jan. 1, 2022<a class="headerlink" href="#132-jan-1-2022" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements">Enhancements<a class="headerlink" href="#enhancements" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports an <a href="acelements.html#autoconnectrange">AutoConnectRange</a> as a new AutoConnectElement.</li>
+<li>Adds the <a href="achandling.html#an-http-response-from-the-custom-web-page-handler"><code>responsive</code></a> parameter with AutoConnectAux.</li>
+<li>Adds an <a href="apiaux.html#redirect"><code>AutoConnectAux::redirect</code></a> function.</li>
+<li>Adds an example for using AutoConnect with the <a href="https://github.com/espressif/esp32-camera">ESP32 camera driver</a> as WebCamServer.</li>
+</ul>
+<h4 id="fix">Fix<a class="headerlink" href="#fix" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed an issue where a password is lost when SoftAP is stopped.</li>
+</ul>
+<hr />
+<h3 id="131-oct-09-2021">[1.3.1] Oct. 09, 2021<a class="headerlink" href="#131-oct-09-2021" title="Permanent link">&para;</a></h3>
+<h4 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed an issue that was incompatible with ArduinoJson version 5.</li>
+<li>Fixed LittleFS mount check not working with ESP32.</li>
+<li>Fixed autoReconnect not being able to restore a static IP setting.</li>
+<li>Fixed that static IP settings were not cleared when loading credential.</li>
+</ul>
+<hr />
+<h3 id="130-sep-25-2021">[1.3.0] Sep. 25, 2021<a class="headerlink" href="#130-sep-25-2021" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_1">Enhancements<a class="headerlink" href="#enhancements_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports ESP8266 3.0.0 Arduino core.</li>
+<li>Supports ESP32 Arduino core 2.0.0.</li>
+<li>Supports LittleFS with ESP32.</li>
+<li>Supports AutoConnectOTA status notifications.</li>
+<li>Supports AutoConnectConfigAux. (Preview)</li>
+<li>Supports to save credentials always.</li>
+<li>Adds a <code>style</code> attribute with AutoConnectInput.</li>
+<li>Adds the <code>div</code> tag generation with the AutoConnectElement.</li>
+<li>Adds <code>[]</code> operator with const char for AutoConnectAux.</li>
+<li>Adds <code>[]</code> operator with <code>__FlashStringHelper</code> for AutoConnectAux.</li>
+<li>Adds <code>AutoConnectAux::content</code> function to get a number of AutoConnectElements.</li>
+<li>Adds <code>AutoConnect::getConfig</code> function to get an actual instance of AutoConnectConfig.</li>
+</ul>
+<h4 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed CSS attribute missing of AutoConnectInput with the number type.</li>
+<li>Fixed garbage being mixed in a loaded credential.</li>
+<li>Fixed the output place of Posterior attribute for AutoConnectRadio.</li>
+<li>Improved the the calculation for the size of ArduinoJson document.</li>
+<li>Fixed Incomplete deletion with AutoConnectCredential.</li>
+<li>Fixed credentials not erased correctly.</li>
+<li>Fixed AutoConnectText posterior being unavailable.</li>
+</ul>
+<hr />
+<h3 id="123-jan-3-2021">[1.2.3] Jan. 3, 2021<a class="headerlink" href="#123-jan-3-2021" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_2">Enhancements<a class="headerlink" href="#enhancements_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Improved memory management.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">PageBuilder v1.5.0 is required</p>
+<p>Since AutoConnect v1.2.3, <a href="https://github.com/Hieromon/PageBuilder">PageBuilder</a> v1.5.0 or later is required. Please update PageBuilder to latest version.</p>
+</div>
+<hr />
+<h3 id="122-dec-13-2020">[1.2.2] Dec. 13, 2020<a class="headerlink" href="#122-dec-13-2020" title="Permanent link">&para;</a></h3>
+<h4 id="fix_1">Fix<a class="headerlink" href="#fix_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed an issue where OTA updates would crash on the ESP32 platform. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/284" title="GitHub Issue: Hieromon/AutoConnect #284">#284</a>)<br />
+  With this fix, <code>AUTOCONNECT_UPLOAD_ASFIRMWARE_USE_REGEXP</code> must be enabled for regular expressions to be enabled in <code>AUTOCONNECT_UPLOAD_ASFIRMWARE</code>.</li>
+</ul>
+<hr />
+<h3 id="121-dec-5-2020">[1.2.1] Dec. 5, 2020<a class="headerlink" href="#121-dec-5-2020" title="Permanent link">&para;</a></h3>
+<h4 id="fix_2">Fix<a class="headerlink" href="#fix_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed that not declared error with <code>AUTOCONNECT_NOUSE_JSON</code>. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/282" title="GitHub Issue: Hieromon/AutoConnect #282">#282</a>)</li>
+</ul>
+<hr />
+<h3 id="120-dec-3-2020">[1.2.0] Dec. 3, 2020<a class="headerlink" href="#120-dec-3-2020" title="Permanent link">&para;</a></h3>
+<h4 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports a <a href="adcpcontrol.html#sketch-execution-during-the-captive-portal-loop">whileCaptivePortal</a> exit. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/149" title="GitHub Issue: Hieromon/AutoConnect #149">#149</a>, issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/244" title="GitHub Issue: Hieromon/AutoConnect #244">#244</a>)</li>
+<li>Supports an <a href="adconnection.html#detects-connection-establishment-to-ap">onConnect</a> exit.</li>
+<li>Supports <a href="adauthentication.html">HTTP authentication</a>. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/171" title="GitHub Issue: Hieromon/AutoConnect #171">#171</a>)</li>
+</ul>
+<h4 id="enhancements_3">Enhancements<a class="headerlink" href="#enhancements_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Added <code>AUTOCONNECT_APKEY_SSID</code> definition to <a href="adconnection.html#match-with-known-access-points-by-ssid">seek access points by SSID</a>. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/251" title="GitHub Issue: Hieromon/AutoConnect #251">#251</a>)</li>
+<li>Added <a href="api.html#append">AutoConnect::append</a> and <a href="api.html#detach">AutoConnect::detach</a> function that can be dynamically AutoConnectAux attaching and detaching. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/230" title="GitHub Issue: Hieromon/AutoConnect #230">#230</a>)</li>
+<li>Added <a href="adcredential.html#move-the-saving-area-of-eeprom-for-the-credentials">AutoConnect::getEEPROMUsedSize</a> that notifies the occupied size of the credential storage area. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/209" title="GitHub Issue: Hieromon/AutoConnect #209">#209</a>)</li>
+<li>Added <a href="adconnection.html#timeout-settings-for-a-connection-attempt">AutoConnectConfig::beginTimeout</a> setting. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/247" title="GitHub Issue: Hieromon/AutoConnect #247">#247</a>)</li>
+<li>Added <a href="adconnection.html#preserve-ap-mode">AutoConnectConfig::preserveAPMode</a> setting. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/210" title="GitHub Issue: Hieromon/AutoConnect #210">#210</a>)</li>
+<li>Enable support for the <a href="adothers.html#choice-of-the-filesystem-for-esp8266"><em>LittleFS</em></a> as <a href="https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html#spiffs-and-littlefs">filesystem</a> with ESP8266 platform.</li>
+<li>Enhanced <a href="acelements.html#autoconnectinput">AutoConnectInput</a> to allow accepts <a href="acelements.html#apply">password</a> and <a href="acelements.html#apply">number</a> type. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/237" title="GitHub Issue: Hieromon/AutoConnect #237">#237</a>, issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/255" title="GitHub Issue: Hieromon/AutoConnect #255">#255</a>)</li>
+<li>Enhanced handleClient to <a href="adcpcontrol.html#launch-the-captive-portal-on-demand-at-losing-wifi">dynamically launch the captive portal</a> when losing WiFi connection.</li>
+<li>Enhanced the ability to upload a regular file with <a href="otabrowser.html#regular-file-uploading-using-autoconnectotaenhanced-wv120">AutoConnectOTA</a>. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/236" title="GitHub Issue: Hieromon/AutoConnect #236">#236</a>)</li>
+<li>Enhanced ticker to work even in handleClient loop.</li>
+<li>Improved <a href="adconnection.html#automatic-reconnect-background">autoReconnect</a> to work even in handleClient loop. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/234" title="GitHub Issue: Hieromon/AutoConnect #234">#234</a>, issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/251" title="GitHub Issue: Hieromon/AutoConnect #251">#251</a>)</li>
+</ul>
+<h4 id="fixes_2">Fixes<a class="headerlink" href="#fixes_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Avoids an empty-body warning when <code>AC_DEBUG</code> is disabled. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/218" title="GitHub Issue: Hieromon/AutoConnect #218">#218</a>)</li>
+<li>Fixed a core panic in the regex with ESP32.</li>
+<li>Fixed an exception in the AutoConnect::end function.</li>
+<li>Fixed an invalid SPIFFS compile error with ESP32.</li>
+<li>Fixed deficiently forward references with HandleClient.ino example. (PR <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/275" title="GitHub Issue: Hieromon/AutoConnect #275">#275</a>)</li>
+<li>Fixed incorrect connection wait time. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/216" title="GitHub Issue: Hieromon/AutoConnect #216">#216</a>)</li>
+<li>Fixed not being able to specify channel ID with a mqttRSSI.ino example. (issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/Hieromon/AutoConnect/issues/262" title="GitHub Issue: Hieromon/AutoConnect #262">#262</a>)</li>
+<li>Fixed posterior being disabled in AutoConnectElement.</li>
+</ul>
+<hr />
+<h3 id="117-apr-19-2020">[1.1.7] Apr. 19, 2020<a class="headerlink" href="#117-apr-19-2020" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_3">Fixes<a class="headerlink" href="#fixes_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed Apply button not work.</li>
+</ul>
+<hr />
+<h3 id="116-apr-17-2020">[1.1.6] Apr. 17, 2020<a class="headerlink" href="#116-apr-17-2020" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_4">Fixes<a class="headerlink" href="#fixes_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed OTA page translation not work.</li>
+</ul>
+<hr />
+<h3 id="115-apr-15-2020">[1.1.5] Apr. 15, 2020<a class="headerlink" href="#115-apr-15-2020" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_1">New features<a class="headerlink" href="#new-features_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports AutoConnect <a href="menu.html#applying-the-active-menu-items">menu configuration</a>.</li>
+<li>Supports the built-in OTA feature as <a href="otabrowser.html#updates-with-the-web-browserupdated-wv115">AutoConnectOTA</a>.</li>
+</ul>
+<h4 id="enhancements_4">Enhancements<a class="headerlink" href="#enhancements_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Enhanced allows the AutoConnect::begin to connect to the access point in order of signal strength. This option can specify the order of <a href="adconnection.html#connects-depending-on-the-wifi-signal-strength">connection attempting according to the WiFi signal strength</a> indicated with RSSI.</li>
+<li>Changed the <a href="advancedusage.html#assign-user-sketchs-home-path">bootUri behavior</a> to be an automatic pop-up at the captive portal.</li>
+</ul>
+<hr />
+<h3 id="114-feb-14-2020">[1.1.4] Feb. 14, 2020<a class="headerlink" href="#114-feb-14-2020" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_2">New features<a class="headerlink" href="#new-features_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports for overriding text of the menu items with user-defined labels.</li>
+</ul>
+<h4 id="fixes_5">Fixes<a class="headerlink" href="#fixes_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed the compiler warning with experimental WiFi mode of ESP8266.</li>
+</ul>
+<hr />
+<h3 id="113-jan-1-2020">[1.1.3] Jan. 1, 2020<a class="headerlink" href="#113-jan-1-2020" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_5">Enhancements<a class="headerlink" href="#enhancements_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Improved Config New button behavior.</li>
+<li>Added <code>AUTOCONNECT_NOUSE_JSON</code> directive</li>
+</ul>
+<h4 id="fixes_6">Fixes<a class="headerlink" href="#fixes_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed relocate Config New menu URI inability.</li>
+<li>Removed compiler warning of unused.</li>
+</ul>
+<hr />
+<h3 id="112-oct-22-2019">[1.1.2] Oct. 22, 2019<a class="headerlink" href="#112-oct-22-2019" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_7">Fixes<a class="headerlink" href="#fixes_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed a crash when no SSID found.</li>
+<li>Fixed memory leak on destruction.</li>
+</ul>
+<hr />
+<h3 id="111-oct-17-2019">[1.1.1] Oct. 17, 2019<a class="headerlink" href="#111-oct-17-2019" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_8">Fixes<a class="headerlink" href="#fixes_8" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed crash with unique_ptr deleting reference content.</li>
+<li>Fixed disconnection request initialization missing.</li>
+</ul>
+<hr />
+<h3 id="110-oct-15-2019">[1.1.0] Oct. 15, 2019<a class="headerlink" href="#110-oct-15-2019" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_6">Enhancements<a class="headerlink" href="#enhancements_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Enhanced to be able to specify static IP in the <a href="menu.html#configure-new-ap"><strong>Configure new AP</strong></a> menu.</li>
+</ul>
+<h4 id="fixes_9">Fixes<a class="headerlink" href="#fixes_9" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed compilation error that no member named 'printTo' with ArduinoJson version 5.</li>
+</ul>
+<hr />
+<h3 id="103-sept-30-2019">[1.0.3] Sept. 30, 2019<a class="headerlink" href="#103-sept-30-2019" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_10">Fixes<a class="headerlink" href="#fixes_10" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed a return of AutoConnectCredential::entries().</li>
+</ul>
+<hr />
+<h3 id="102-sept-19-2019">[1.0.2] Sept. 19, 2019<a class="headerlink" href="#102-sept-19-2019" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_11">Fixes<a class="headerlink" href="#fixes_11" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed compilation error that no member named 'success' with ArduinoJson version 5.</li>
+<li>Fixed SSID non termination.</li>
+<li>Fixed compilation error that getBytesLength missing with ESP32.</li>
+<li>Added #include directive restriction for EEPROM and ESP8266httpUpdate to FAQ.</li>
+</ul>
+<hr />
+<h3 id="101-sept-13-2019">[1.0.1] Sept. 13, 2019<a class="headerlink" href="#101-sept-13-2019" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_7">Enhancements<a class="headerlink" href="#enhancements_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Added an example sketch for ESP32 boards that migrates credentials stored in EEPROM partition to the Preferences.</li>
+</ul>
+<hr />
+<h3 id="100-sept-7-2019">[1.0.0] Sept. 7, 2019<a class="headerlink" href="#100-sept-7-2019" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_3">New features<a class="headerlink" href="#new-features_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports AutoConnectUpdate for the <a href="otaupdate.html">OTA update</a>.</li>
+</ul>
+<h4 id="enhancements_8">Enhancements<a class="headerlink" href="#enhancements_8" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supported Arduino core for ESP32 1.0.3.</li>
+<li>Added <a href="apiaux.html#isvalid">AutoConnectAux::isValid</a> function.</li>
+<li>Added the <a href="achandling.html#transfer-of-input-values-across-pages"><code>global</code></a> attribute with all AutoConnectElements.</li>
+<li>Changed the credential storage area to Preferences with ESP32 core 1.0.3 and later. <strong>In ESP32, the credentials stored past in EEPROM will lose</strong>.</li>
+</ul>
+<hr />
+<h3 id="0912-aug-18-2019">[0.9.12] Aug. 18, 2019<a class="headerlink" href="#0912-aug-18-2019" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_12">Fixes<a class="headerlink" href="#fixes_12" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed missing captive portal notifications on the newer mobile OS client. As a result of this fix, the SoftAP default IP address and gateway have been changed to <code>172.217.28.1</code>.</li>
+</ul>
+<hr />
+<h3 id="0911-july-13-2019">[0.9.11] July 13, 2019<a class="headerlink" href="#0911-july-13-2019" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_4">New features<a class="headerlink" href="#new-features_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports new element as AutoConnectSytle that can insert the custom CSS into AutoConnectAux page.</li>
+</ul>
+<h4 id="enhancements_9">Enhancements<a class="headerlink" href="#enhancements_9" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports that <code>&lt;br&gt;</code> tags can now be added to each element.</li>
+<li>Supports that able to place the checkbox label forward or backward.</li>
+<li>Supports flicker signal output according to the status of WiFi_mode.</li>
+<li>Supports <a href="apiaux.html#fetchelement">AutoConnectAux::fetchElement</a> function to retrieve inputted element values via a custom Web page.</li>
+</ul>
+<h4 id="fixes_13">Fixes<a class="headerlink" href="#fixes_13" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed bug in AutoConnectCredential when offset is &gt;256.</li>
+</ul>
+<hr />
+<h3 id="0910-june-12-2019">[0.9.10] June 12, 2019<a class="headerlink" href="#0910-june-12-2019" title="Permanent link">&para;</a></h3>
+<h4 id="fixes_14">Fixes<a class="headerlink" href="#fixes_14" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed the unable to get AutoConnectElemets values ​​in the sketch with ESP8266 arduino core 2.5.2.</li>
+</ul>
+<hr />
+<h3 id="099-may-25-2019">[0.9.9] May 25, 2019<a class="headerlink" href="#099-may-25-2019" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_10">Enhancements<a class="headerlink" href="#enhancements_10" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports ESP8266 Arduino core 2.5.2.</li>
+<li>Menu text/background color can be statically customized.</li>
+<li>Added the <a href="achandling.html#enable-autoconnectelements-during-the-sketch-execution">enable</a>  attribute to the AutoConnectElements. This attribute gives dynamically change to the element activation during the sketch executing.</li>
+<li>Added ID attribute to HTML tag generated from AutoConnectText.</li>
+</ul>
+<h4 id="fixes_15">Fixes<a class="headerlink" href="#fixes_15" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed the input box layout collapsed.</li>
+<li>Fixed that the decoration of AutoConnectButton was disabled.</li>
+<li>Fixed that the value remains even after clearing the option with AutoConnectSelect.</li>
+<li>Fixed that an alignment violation exception occurred when loading AutoConnectAux described by JSON with PROGMEM attribute.</li>
+</ul>
+<hr />
+<h3 id="098-may-3-2019">[0.9.8] May 3, 2019<a class="headerlink" href="#098-may-3-2019" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_5">New features<a class="headerlink" href="#new-features_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports new element type <a href="acelements.html#autoconnectfile">AutoConnectFile</a> and built-in file uploader.</li>
+</ul>
+<h4 id="enhancements_11">Enhancements<a class="headerlink" href="#enhancements_11" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Enhanced to support ArduinoJson 6.9.1 or later.</li>
+<li>Enhanced to use PSRAM on ESP32 module as the buffer allocation destination of JsonDocument with ArduinoJson 6.10.0 or later.</li>
+<li>Added an <a href="apiaux.html#operator">operator<code>[]</code></a> as a shortcut for AutoConnectAux::getElement function.</li>
+<li>Added an <a href="apielements.html#ast62">AutoConnectElement::as&lt;T></a> function to easily coding for conversion from an AutoConnectElement to an actual type.</li>
+<li>Added a <a href="acelements.html#format">format</a> attribute with the AutoConnectText element.</li>
+<li>Added a <a href="acelements.html#selected">selected</a> attribute with the AutoConnectSelect element.</li>
+<li>Enhanced <a href="apiaux.html#loadelement">AutoConnectAux::loadElement</a> with multiple elements loading.</li>
+<li>Changed menu labels placement in source files structure.</li>
+<li>Changed API interface of <a href="api.html#where">AutoConnect::where</a> function.</li>
+</ul>
+<h4 id="fixes_16">Fixes<a class="headerlink" href="#fixes_16" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed blank page responds with Configure new.</li>
+<li>Fixed loading elements value missing.</li>
+<li>Fixed losing elements in saveElement with ArduinoJson version 6.</li>
+<li>Fixed compile error with older than ESP8266 core 2.5.0.</li>
+</ul>
+<hr />
+<h3 id="097-jan-25-2019">[0.9.7] Jan. 25, 2019<a class="headerlink" href="#097-jan-25-2019" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_6">New features<a class="headerlink" href="#new-features_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports AutoConnect menu extension by user sketch with <a href="acintro.html">AutoConnectAux</a>.</li>
+<li>Supports loading and saving of user-defined parameters with JSON format.</li>
+</ul>
+<h4 id="enhancements_12">Enhancements<a class="headerlink" href="#enhancements_12" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Improved the WiFi connection sequence at the first WiFi.begin. Even if <a href="apiconfig.html#autoreconnect">AutoConnectConfig::autoReconnect</a> is disabled when SSID and PSK are not specified, it will use the information of the last established access point. The autoReconnect option will achieve trying the connect after a previous connection failed.</li>
+<li>Added the <a href="apiconfig.html#immediatestart">AutoConnectConfig::immediateStart</a> option and immediately starts the portal without first trying WiFi.begin. You can start the captive portal at any time in combination with the <a href="apiconfig.html#autorise">AutoConnectConfig::autoRise</a> option.</li>
+<li>Improved boot uri after reset. <a href="apiconfig.html#booturi">AutoConnectConfig::bootUri</a> can be specified either /_ac or HOME path as the uri to be accessed after invoking Reset from AutoConnect menu.</li>
+<li>Improved source code placement of predefined macros. Defined common macros have been moved to <code>AutoConnectDefs.h</code>.</li>
+<li>Added <a href="apiconfig.html#hostname">AutoConnectConfig::hostName</a>. It activates <code>WiFi.hostname()</code>/<code>WiFi.setHostName()</code>.</li>
+<li>Added the captive portal time-out. It can be controlled by <a href="apiconfig.html#portaltimeout">AutoConnectConfig::portalTimeout</a> and <a href="apiconfig.html#retainportal">AutoConnectConfig::retainPortal</a>.</li>
+</ul>
+<hr />
+<h4 id="fixes_17">Fixes<a class="headerlink" href="#fixes_17" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed crash in some environments. Thank you <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/ageurtse" title="GitHub User: ageurtse">@ageurtse</a></li>
+</ul>
+<h3 id="096-sept27-2018">[0.9.6] Sept.27, 2018.<a class="headerlink" href="#096-sept27-2018" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_13">Enhancements<a class="headerlink" href="#enhancements_13" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Improvement of RSSI detection for saved SSIDs.</li>
+</ul>
+<h4 id="fixes_18">Fixes<a class="headerlink" href="#fixes_18" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed disconnection SoftAP completely at the first connection phase of the <a href="api.html#begin">AutoConnect::begin</a>.</li>
+</ul>
+<hr />
+<h3 id="095-aug27-2018">[0.9.5] Aug.27, 2018.<a class="headerlink" href="#095-aug27-2018" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_14">Enhancements<a class="headerlink" href="#enhancements_14" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports ESP32.</li>
+</ul>
+<h4 id="fixes_19">Fixes<a class="headerlink" href="#fixes_19" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed that crash may occur if the number of stored credentials in the EEPROM is smaller than the number of found WiFi networks.</li>
+</ul>
+<hr />
+<h3 id="094-may-5-2018">[0.9.4] May 5, 2018.<a class="headerlink" href="#094-may-5-2018" title="Permanent link">&para;</a></h3>
+<h4 id="new-features_7">New features<a class="headerlink" href="#new-features_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports <a href="apiconfig.html#autoreconnect">AutoConnectConfig::autoReconnect</a> option, it will scan the WLAN when it can not connect to the default SSID, apply the applicable credentials if it is saved, and try reconnecting.</li>
+</ul>
+<h4 id="enhancements_15">Enhancements<a class="headerlink" href="#enhancements_15" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Automatically focus Passphrase after selecting SSID with Configure New AP.</li>
+</ul>
+<hr />
+<h3 id="093-march-23-2018">[0.9.3] March 23, 2018.<a class="headerlink" href="#093-march-23-2018" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_16">Enhancements<a class="headerlink" href="#enhancements_16" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Supports a static IP address assignment.</li>
+</ul>
+<hr />
+<h3 id="092-march-19-2018">[0.9.2] March 19, 2018.<a class="headerlink" href="#092-march-19-2018" title="Permanent link">&para;</a></h3>
+<h4 id="enhancements_17">Enhancements<a class="headerlink" href="#enhancements_17" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Improvement of string literal declaration with the examples, no library change.</li>
+</ul>
+<hr />
+<h3 id="091-march-13-2018">[0.9.1] March 13, 2018.<a class="headerlink" href="#091-march-13-2018" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A release of the stable.</li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="faq.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: FAQ" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              FAQ
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="license.html" class="md-footer__link md-footer__link--next" aria-label="Next: License" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              License
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2018-2021 Hieromon Ikasamo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/Hieromon" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hieromon" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      
+        <script src="js/gifffer.min.js"></script>
+      
+    
+  </body>
+</html>
