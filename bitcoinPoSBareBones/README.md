@@ -4,4 +4,18 @@
 ⚡⚡⚡⚡bitcoinPoSBareBones⚡⚡⚡⚡
 </h2>
 
-Coming very soon...
+This is the cheap version of the project, with a litte bulk buying you can easily get the price down to $8ish off the shelf:
+
+- <a href="https://www.aliexpress.com/item/1005002363389886.html">ESP32 dev board</a>
+- <a href="https://www.aliexpress.com/item/1005003505032992.html">TFT 1,4inch</a>
+- <a href="https://www.aliexpress.com/item/32993999306.html">keypad membrane</a>
+
+* Install <a href="https://www.arduino.cc/en/software">Arduino IDE 1.8.19</a>
+* Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
+* Download this repo
+* Copy these <a href="libraries">libraries</a> into your Arduino install "libraries" folder
+* Open this <a href="bitcoinPoSBareBones.ino">bitcoinPoSBareBones.ino</a> file in the Arduino IDE
+* Select "ESP32 Dev Module" from tools>board
+* Upload to device
+
+> _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_
