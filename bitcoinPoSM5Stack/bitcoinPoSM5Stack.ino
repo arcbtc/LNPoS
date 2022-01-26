@@ -1134,7 +1134,7 @@ void getSats()
     Serial.println(lnbitsServer.substring(8, lnbitsServer.length()));
     lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
-  //client.setInsecure(); //Some versions of WiFiClientSecure need this
+  client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
   const char *lncurrencyChar = lncurrency.c_str();
@@ -1182,7 +1182,7 @@ void getInvoice()
   {
     lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
-  //client.setInsecure(); //Some versions of WiFiClientSecure need this
+  client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
 
@@ -1239,7 +1239,7 @@ void getInvoice()
 bool checkInvoice()
 {
   WiFiClientSecure client;
-  //client.setInsecure(); //Some versions of WiFiClientSecure need this
+  client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
   if (!client.connect(lnbitsServerChar, 443))
