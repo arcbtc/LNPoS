@@ -118,7 +118,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
     {
       "name": "lncurrency",
       "type": "ACInput",
-      "label": "PoS Currency"
+      "label": "PoS Currency ie EUR"
     },
     {
       "name": "heading2",

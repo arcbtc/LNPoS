@@ -121,7 +121,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
     {
       "name": "lncurrency",
       "type": "ACInput",
-      "label": "PoS Currency"
+      "label": "PoS Currency ie EUR"
     },
     {
       "name": "lightning2",
@@ -386,7 +386,7 @@ void setup()
     timer = timer + 200;
     delay(200);
   }
-  if (lnCheck)
+  if (menuItemCheck[0])
   {
     portal.join({elementsAux, saveAux});
     config.autoRise = false;
@@ -1146,7 +1146,7 @@ void getSats()
     delay(3000);
   }
 
-  String toPost = "{\"amount\" : 1, \"unit\" :\"" + String(lncurrencyChar) + "\"}";
+  String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
   String url = "/api/v1/conversion";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + String(lnbitsServerChar) + "\r\n" +
@@ -1170,9 +1170,18 @@ void getSats()
       break;
     }
   }
-  String convertedStr = client.readString();
-  converted = convertedStr.toInt();
+  String line = client.readString();
+  StaticJsonDocument<150> doc;
+  DeserializationError error = deserializeJson(doc, line);
+  if (error)
+  {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.f_str());
+    return;
+  }
+  converted = doc["sats"];
 }
+
 
 void getInvoice()
 {
