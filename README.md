@@ -19,7 +19,7 @@ Original <a href="https://twitter.com/arcbtc/status/1484942260013838336">demo</a
 Join our telegram group <a href="https://t.me/makerbits">MakerBits</a>
 
 <h2>
-Payment methods
+Configuring
 </h2>
 
 > Press "\*" on TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
