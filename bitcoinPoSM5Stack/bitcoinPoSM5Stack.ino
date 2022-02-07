@@ -520,7 +520,7 @@ void onchainMain()
         {
           while (unConfirmed)
           {
-            qrData = "https:/" + lnurlATMMS + "/address/" + qrData;
+            qrData = "https://" + lnurlATMMS + "/address/" + qrData;
             qrShowCodeOnchain(false, "   MENU");
             while (unConfirmed)
             {
