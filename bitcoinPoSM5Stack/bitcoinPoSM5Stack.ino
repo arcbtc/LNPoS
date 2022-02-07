@@ -227,7 +227,6 @@ void setup()
 
   //Load screen
   tft.init();
-  tft.invertDisplay(false);
   tft.setRotation(1);
   tft.invertDisplay(true);
   logo();
