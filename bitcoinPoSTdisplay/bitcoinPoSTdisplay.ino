@@ -1072,7 +1072,10 @@ void menuLoop()
   tft.print("   PAYMENT METHODS");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
-  tft.println(" *NEXT #SELECT");
+  tft.print("*NEXT #SELECT ");
+  tft.setTextColor(TFT_ORANGE, TFT_BLACK);
+  tft.print(getBatteryPercentage());
+  
   selection = "";
   selected = true;
   while (selected)
@@ -1400,4 +1403,26 @@ int xor_encrypt(uint8_t *output, size_t outlen, uint8_t *key, size_t keylen, uin
   cur += 8;
   // return number of bytes written to the output
   return cur;
+}
+
+String getBatteryPercentage()
+{
+  const float batteryMaxVoltage = 4.2;
+  const float batteryMinVoltage = 3.73;
+
+  const float batteryAllowedRange = batteryMaxVoltage - batteryMinVoltage;
+  const float batteryCurVAboveMin = getInputVoltage() - batteryMinVoltage;
+
+  const int batteryPercentage = (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
+  if(batteryPercentage > 99) {
+    return "CHARGE";
+  }
+
+  return "   " + String(batteryPercentage) + "%";
+}
+
+float getInputVoltage()
+{
+  const uint16_t v1 = analogRead(34);
+  return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
 }
