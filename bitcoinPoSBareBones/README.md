@@ -9,6 +9,8 @@ This is the cheap version of the project, with a litte bulk buying you can easil
 - <a href="https://www.aliexpress.com/item/1005002363389886.html">ESP32 dev board</a>
 - <a href="https://www.aliexpress.com/item/1005003505032992.html">TFT 1,4inch</a>
 - <a href="https://www.aliexpress.com/item/32993999306.html">keypad membrane</a>
+- Case:
+  - <a href="https://www.cryptocloaks.com/download/9142/">Quickening-Box</a> from <a href="https://www.cryptocloaks.com/file-factory/">CryptoCloaks FileFactory</a>
 
 * Install <a href="https://www.arduino.cc/en/software">Arduino IDE 1.8.19</a>
 * Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
