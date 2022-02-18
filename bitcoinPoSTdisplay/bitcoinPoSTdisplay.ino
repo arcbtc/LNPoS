@@ -359,8 +359,8 @@ void setup()
     return String();
   });
 
-  config.auth = AC_AUTH_BASIC;
-  config.authScope = AC_AUTHSCOPE_AUX;
+  //config.auth = AC_AUTH_BASIC;
+  //config.authScope = AC_AUTHSCOPE_AUX;
   config.ticker = true;
   config.autoReconnect = true;
   config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
