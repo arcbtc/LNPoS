@@ -558,18 +558,27 @@ void lnMain()
     if (key_val == "#")
     {
       processing("FETCHING INVOICE");
-      getInvoice();
-      delay(1000);
+      if(!getInvoice()) {
+        error("INVOICE DATA MALFORMED", "");
+        delay(3000);
+        return;
+      }
       qrShowCodeln();
+      delay(3000);
       while (unConfirmed)
       {
         int timer = 0;
         unConfirmed = checkInvoice();
         if (!unConfirmed)
         {
-          complete();
+          paymentSuccess();
           timer = 5000;
-          delay(3000);
+
+          while(key_val != "*") {
+            key_val = "";
+            getKeypad(false, true, false, false);
+            delay(100);
+          }
         }
         while (timer < 4000)
         {
@@ -992,17 +1001,20 @@ void processing(String message)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
-  tft.setCursor(20, 50);
+  tft.setCursor(20, 60);
   tft.println(message);
 }
 
-void complete()
+void paymentSuccess()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setTextSize(3);
-  tft.setCursor(45, 30);
-  tft.println("COMPLETE");
+  tft.setCursor(70, 50);
+  tft.println("PAYED");
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(2);
+  tft.println("  PRESS * FOR MENU");
 }
 
 void showPin()
@@ -1190,7 +1202,7 @@ void getSats()
   converted = doc["sats"];
 }
 
-void getInvoice()
+bool getInvoice()
 {
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
@@ -1207,7 +1219,7 @@ void getInvoice()
     Serial.println("failed");
     error("SERVER DOWN", "");
     delay(3000);
-    return;
+    return false;
   }
 
   String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"bitcoinPoS-" + String(random(1, 1000)) + "\"}";
@@ -1243,13 +1255,14 @@ void getInvoice()
   {
     Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
-    return;
+    return false;
   }
   const char *payment_hash = doc["checking_id"];
   const char *payment_request = doc["payment_request"];
   qrData = payment_request;
   dataId = payment_hash;
   Serial.println(qrData);
+  return true;
 }
 
 bool checkInvoice()
