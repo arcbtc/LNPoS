@@ -1087,6 +1087,7 @@ void menuLoop()
     tft.setCursor(0, 30);
     tft.setTextSize(2);
     int current = 0;
+    int menuItemCount = 0;    
     for (int i = 0; i < sizeof(menuItems) / sizeof(menuItems[0]); i++)
     {
       if (menuItemCheck[i] == 1)
@@ -1094,14 +1095,15 @@ void menuLoop()
         if (menuItems[i] == menuItems[menuItemNo])
         {
           tft.setTextColor(TFT_GREEN, TFT_BLACK);
-          tft.println(menuItems[i]);
           selection = menuItems[i];
         }
         else
         {
           tft.setTextColor(TFT_WHITE, TFT_BLACK);
-          tft.println(menuItems[i]);
         }
+
+        tft.println(menuItems[i]);
+        menuItemCount++;
       }
     }
     bool btnloop = true;
