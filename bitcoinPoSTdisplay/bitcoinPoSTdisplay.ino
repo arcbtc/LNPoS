@@ -698,7 +698,7 @@ void lnurlATMMain()
 
 void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
 {
-  char key = keypad.getKey();
+  const char key = keypad.getKey();
   if (key != NO_KEY)
   {
     key_val = String(key);
@@ -925,7 +925,6 @@ void qrShowCodeOnchain(bool anAddress, String message)
   }
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
-    // Each horizontal module
     for (uint8_t x = 0; x < qrcoded.size; x++)
     {
       if (qrcode_getModule(&qrcoded, x, y))
@@ -952,7 +951,6 @@ void qrShowCodeLNURL(String message)
   qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
-    // Each horizontal module
     for (uint8_t x = 0; x < qrcoded.size; x++)
     {
       if (qrcode_getModule(&qrcoded, x, y))
@@ -1059,10 +1057,6 @@ void to_upper(char *arr)
   }
 }
 
-void callback()
-{
-}
-
 void menuLoop()
 {
   tft.fillScreen(TFT_BLACK);
@@ -1073,9 +1067,27 @@ void menuLoop()
   tft.setCursor(0, 120);
   tft.setTextSize(2);
   tft.print("*NEXT #SELECT ");
-  tft.setTextColor(TFT_ORANGE, TFT_BLACK);
-  tft.print(getBatteryPercentage());
+
+  const int batteryPercentage = getBatteryPercentage();
+  String batteryPercentageText = "";
+  if(batteryPercentage > 99) {
+    tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    batteryPercentageText = "CHARGE";
+
+  } else {
+    tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    if(batteryPercentage <= 75) {
+      tft.setTextColor(TFT_ORANGE, TFT_BLACK);
+      
+    } else if (batteryPercentage <= 50) {
+      tft.setTextColor(TFT_RED, TFT_BLACK);
+    }
+ 
+    batteryPercentageText = "   " + String(batteryPercentage) + "%";
+  }
   
+  tft.print(batteryPercentageText);
+
   selection = "";
   selected = true;
   while (selected)
@@ -1135,21 +1147,21 @@ void menuLoop()
 void getSats()
 {
   WiFiClientSecure client;
+  client.setInsecure(); //Some versions of WiFiClientSecure need this
+  
   lnbitsServer.toLowerCase();
-  Serial.println(lnbitsServer);
   if (lnbitsServer.substring(0, 8) == "https://")
   {
-    Serial.println(lnbitsServer.substring(8, lnbitsServer.length()));
     lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
-  client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
   const char *lncurrencyChar = lncurrency.c_str();
 
+  Serial.println("connecting to LNbits server " + lnbitsServer);
   if (!client.connect(lnbitsServerChar, 443))
   {
-    Serial.println("failed");
+    Serial.println("failed to connect to LNbits server " + lnbitsServer);
     error("SERVER DOWN", "");
     delay(3000);
   }
@@ -1173,17 +1185,13 @@ void getSats()
     {
       break;
     }
-    if (line == "\r")
-    {
-      break;
-    }
   }
   String line = client.readString();
   StaticJsonDocument<150> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
-    Serial.print(F("deserializeJson() failed: "));
+    Serial.print("deserializeJson() failed: ");
     Serial.println(error.f_str());
     return;
   }
@@ -1230,10 +1238,6 @@ void getInvoice()
     {
       break;
     }
-    if (line == "\r")
-    {
-      break;
-    }
   }
   String line = client.readString();
 
@@ -1241,7 +1245,7 @@ void getInvoice()
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
-    Serial.print(F("deserializeJson() failed: "));
+    Serial.print("deserializeJson() failed: ");
     Serial.println(error.f_str());
     return;
   }
@@ -1279,10 +1283,6 @@ bool checkInvoice()
     {
       break;
     }
-    if (line == "\r")
-    {
-      break;
-    }
   }
   String line = client.readString();
   Serial.println(line);
@@ -1290,12 +1290,11 @@ bool checkInvoice()
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
-    Serial.print(F("deserializeJson() failed: "));
+    Serial.print("deserializeJson() failed: ");
     Serial.println(error.f_str());
     return false;
   }
-  bool boolPaid = doc["paid"];
-  if (boolPaid)
+  if (doc["paid"])
   {
     unConfirmed = false;
   }
@@ -1405,7 +1404,7 @@ int xor_encrypt(uint8_t *output, size_t outlen, uint8_t *key, size_t keylen, uin
   return cur;
 }
 
-String getBatteryPercentage()
+int getBatteryPercentage()
 {
   const float batteryMaxVoltage = 4.2;
   const float batteryMinVoltage = 3.73;
@@ -1413,16 +1412,12 @@ String getBatteryPercentage()
   const float batteryAllowedRange = batteryMaxVoltage - batteryMinVoltage;
   const float batteryCurVAboveMin = getInputVoltage() - batteryMinVoltage;
 
-  const int batteryPercentage = (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
-  if(batteryPercentage > 99) {
-    return "CHARGE";
-  }
-
-  return "   " + String(batteryPercentage) + "%";
+  return (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
 }
 
 float getInputVoltage()
 {
+  delay(100);
   const uint16_t v1 = analogRead(34);
-  return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
+  return ((float)v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
 }
