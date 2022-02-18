@@ -571,7 +571,7 @@ void lnMain()
           timer = 5000;
           delay(3000);
         }
-        while (timer < 4000)
+        while (timer < 3000)
         {
           key_val = "";
           getKeypad(false, true, false, false);
@@ -583,7 +583,7 @@ void lnMain()
             unConfirmed = false;
             timer = 5000;
           }
-          delay(200);
+          delay(100);
           timer = timer + 100;
         }
       }
