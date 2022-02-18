@@ -1142,7 +1142,7 @@ void menuLoop()
         {
           menuItemNo = menuItemNo + 1;
         }
-        if (menuItemNo >= (sizeof(menuItems) / sizeof(menuItems[0])))
+        if (menuItemNo >= menuItemCount)
         {
           menuItemNo = 0;
         }
