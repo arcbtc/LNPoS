@@ -20,7 +20,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/thekey.txt"
 
-//Variables
+// variables
 String inputs;
 String thePin;
 String nosats;
@@ -67,7 +67,8 @@ bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
 String lnurlATMPin;
 
-//Custom access point pages
+// custom access point pages
+static const String style = "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;";
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
   "uri": "/posconfig",
@@ -78,7 +79,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "text",
       "type": "ACText",
       "value": "bitcoinPoS options",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": style
     },
     {
       "name": "password",
@@ -91,7 +92,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "offline",
       "type": "ACText",
       "value": "Onchain *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": style
     },
     {
       "name": "masterkey",
@@ -103,7 +104,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "heading1",
       "type": "ACText",
       "value": "Lightning *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": style
     },
     {
       "name": "server",
@@ -124,7 +125,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "heading2",
       "type": "ACText",
       "value": "Offline Lightning *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": style
     },
     {
       "name": "lnurlpos",
@@ -135,7 +136,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "heading3",
       "type": "ACText",
       "value": "Offline Lightning *optional",
-      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
+      "style": style
     },
     {
       "name": "lnurlatm",
@@ -209,8 +210,8 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
-const byte rows = 4; //four rows
-const byte cols = 3; //three columns
+const byte rows = 4;
+const byte cols = 3;
 char keys[rows][cols] = {
     {'1', '2', '3'},
     {'4', '5', '6'},
@@ -236,25 +237,26 @@ void setup()
   pinMode(4, OUTPUT);
   digitalWrite(4, HIGH);
 
-  //Load screen
+  // load screen
   tft.init();
   tft.setRotation(1);
   tft.invertDisplay(true);
+
   logo();
 
-  //Load buttons
+  // load buttons
   h.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
   SPIFFS.begin(true);
 
-  //Get the saved details and store in global variables
+  // get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
   {
     StaticJsonDocument<2500> doc;
     DeserializationError error = deserializeJson(doc, paramFile.readString());
 
-    JsonObject passRoot = doc[0];
+    const JsonObject passRoot = doc[0];
     const char *apPasswordChar = passRoot["value"];
     const char *apNameChar = passRoot["name"];
     if (String(apPasswordChar) != "" && String(apNameChar) == "password")
@@ -262,7 +264,7 @@ void setup()
       apPassword = apPasswordChar;
     }
 
-    JsonObject maRoot = doc[1];
+    const JsonObject maRoot = doc[1];
     const char *masterKeyChar = maRoot["value"];
     masterKey = masterKeyChar;
     if (masterKey != "")
@@ -270,11 +272,11 @@ void setup()
       menuItemCheck[2] = 1;
     }
 
-    JsonObject serverRoot = doc[2];
+    const JsonObject serverRoot = doc[2];
     const char *serverChar = serverRoot["value"];
     lnbitsServer = serverChar;
 
-    JsonObject invoiceRoot = doc[3];
+    const JsonObject invoiceRoot = doc[3];
     const char *invoiceChar = invoiceRoot["value"];
     invoice = invoiceChar;
     if (invoice != "")
@@ -282,14 +284,13 @@ void setup()
       menuItemCheck[0] = 1;
     }
 
-    JsonObject lncurrencyRoot = doc[4];
+    const JsonObject lncurrencyRoot = doc[4];
     const char *lncurrencyChar = lncurrencyRoot["value"];
     lncurrency = lncurrencyChar;
 
-    JsonObject lnurlPoSRoot = doc[5];
+    const JsonObject lnurlPoSRoot = doc[5];
     const char *lnurlPoSChar = lnurlPoSRoot["value"];
-    String lnurlPoS = lnurlPoSChar;
-
+    const String lnurlPoS = lnurlPoSChar;
     baseURLPoS = getValue(lnurlPoS, ',', 0);
     secretPoS = getValue(lnurlPoS, ',', 1);
     currencyPoS = getValue(lnurlPoS, ',', 2);
@@ -298,9 +299,9 @@ void setup()
       menuItemCheck[1] = 1;
     }
 
-    JsonObject lnurlATMRoot = doc[6];
+    const JsonObject lnurlATMRoot = doc[6];
     const char *lnurlATMChar = lnurlATMRoot["value"];
-    String lnurlATM = lnurlATMChar;
+    const String lnurlATM = lnurlATMChar;
     baseURLATM = getValue(lnurlATM, ',', 0);
     secretATM = getValue(lnurlATM, ',', 1);
     currencyATM = getValue(lnurlATM, ',', 2);
@@ -309,14 +310,15 @@ void setup()
       menuItemCheck[3] = 1;
     }
 
-    JsonObject lnurlATMMSRoot = doc[7];
+    const JsonObject lnurlATMMSRoot = doc[7];
     const char *lnurlATMMSChar = lnurlATMMSRoot["value"];
     lnurlATMMS = lnurlATMMSChar;
 
-    JsonObject lnurlATMPinRoot = doc[8];
+    const JsonObject lnurlATMPinRoot = doc[8];
     const char *lnurlATMPinChar = lnurlATMPinRoot["value"];
     lnurlATMPin = lnurlATMPinChar;
   }
+
   paramFile.close();
 
   // general WiFi setting
@@ -326,7 +328,7 @@ void setup()
   config.beginTimeout = 10000UL;
 
   // start portal (any key pressed on startup)
-  char key = keypad.getKey();
+  const char key = keypad.getKey();
   if (key != NO_KEY)
   {
     // handle access point traffic
@@ -344,6 +346,7 @@ void setup()
         aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
         param.close();
       }
+
       if (portal.where() == "/posconfig")
       {
         File param = FlashFS.open(PARAM_FILE, "r");
@@ -360,12 +363,14 @@ void setup()
     saveAux.on([](AutoConnectAux &aux, PageArgument &arg) {
       aux["caption"].value = PARAM_FILE;
       File param = FlashFS.open(PARAM_FILE, "w");
+
       if (param)
       {
-        // Save as a loadable set for parameters.
+        // save as a loadable set for parameters.
         elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
         param.close();
-        // Read the saved elements again to display.
+
+        // read the saved elements again to display.
         param = FlashFS.open(PARAM_FILE, "r");
         aux["echo"].value = param.readString();
         param.close();
@@ -374,6 +379,7 @@ void setup()
       {
         aux["echo"].value = "Filesystem failed to open.";
       }
+
       return String();
     });
 
@@ -434,61 +440,44 @@ void loop()
     }
   }
 
-  //If no methods available
+  // no methods available
   if (menuItemsAmount < 1)
   {
     error("  NO METHODS", "RESTART & RUN PORTAL");
     delay(10000000);
   }
 
-  //If only one payment method available skip menu
-  if (menuItemsAmount == 1)
+  // select menu item
+  while (unConfirmed)
   {
-    if (selection == "OnChain")
-    {
-      onchainMain();
+    if (menuItemsAmount > 1) {
+      menuLoop();
     }
+
     if (selection == "LNPoS")
     {
       lnMain();
     }
-    if (selection == "LNURLPoS")
+    else if (selection == "OnChain")
+    {
+      onchainMain();
+    }
+    else if (selection == "LNURLPoS")
     {
       lnurlPoSMain();
     }
-    if (selection == "LNURLATM")
+    else if (selection == "LNURLATM")
     {
       lnurlATMMain();
     }
-  }
-  //If more than one payment method available trigger menu
-  else
-  {
-    while (unConfirmed)
-    {
-      menuLoop();
 
-      if (selection == "LNPoS")
-      {
-        lnMain();
-      }
-      if (selection == "OnChain")
-      {
-        onchainMain();
-      }
-      if (selection == "LNURLPoS")
-      {
-        lnurlPoSMain();
-      }
-      if (selection == "LNURLATM")
-      {
-        lnurlATMMain();
-      }
+    if (menuItemsAmount == 1) {
+      unConfirmed = false;
     }
   }
 }
 
-//Onchain payment method
+// on-chain payment method
 void onchainMain()
 {
   File file = SPIFFS.open(KEY_FILE);
@@ -680,12 +669,13 @@ void lnurlPoSMain()
         if (key_val == "#")
         {
           showPin();
+
           while (unConfirmed)
           {
             key_val = "";
             getKeypad(false, true, false, false);
 
-            if (key_val == "*")
+            if (key_val == "*" || key_val == "#")
             {
               unConfirmed = false;
             }
@@ -697,6 +687,7 @@ void lnurlPoSMain()
         }
       }
     }
+
     delay(100);
   }
 }
@@ -725,6 +716,7 @@ void lnurlATMMain()
     {
       error("  WRONG PIN");
       delay(1500);
+
       pinToShow = "";
       dataIn = "";
       isATMMoneyPin(true);
@@ -937,7 +929,6 @@ void isATMMoneyPin(bool cleared)
   tft.println(pinToShow);
 }
 
-/////Lightning//////
 void inputScreenOnChain()
 {
   tft.fillScreen(TFT_BLACK);
@@ -991,6 +982,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
   {
     qrData.toUpperCase();
   }
+
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
@@ -1187,6 +1179,7 @@ void menuLoop()
   // menu items
   selection = "";
   selected = true;
+
   while (selected)
   {
     if (menuItemCheck[0] <= 0 && menuItemNo == 0)
@@ -1289,14 +1282,14 @@ bool getSats()
 
   while (client.connected())
   {
-    String line = client.readStringUntil('\n');
+    const String line = client.readStringUntil('\n');
     if (line == "\r")
     {
       break;
     }
   }
 
-  String line = client.readString();
+  const String line = client.readString();
   StaticJsonDocument<150> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
@@ -1331,8 +1324,8 @@ bool getInvoice()
     return false;
   }
 
-  String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"bitcoinPoS-" + String(random(1, 1000)) + "\"}";
-  String url = "/api/v1/payments";
+  const String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"bitcoinPoS-" + String(random(1, 1000)) + "\"}";
+  const String url = "/api/v1/payments";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +
                "User-Agent: ESP32\r\n" +
@@ -1345,14 +1338,14 @@ bool getInvoice()
 
   while (client.connected())
   {
-    String line = client.readStringUntil('\n');
-    Serial.println(line);
+    const String line = client.readStringUntil('\n');
+
     if (line == "\r")
     {
       break;
     }
   }
-  String line = client.readString();
+  const String line = client.readString();
 
   StaticJsonDocument<1000> doc;
   DeserializationError error = deserializeJson(doc, line);
@@ -1386,7 +1379,7 @@ bool checkInvoice()
     return false;
   }
 
-  String url = "/api/v1/payments/";
+  const String url = "/api/v1/payments/";
   client.print(String("GET ") + url + dataId + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +
                "User-Agent: ESP32\r\n" +
@@ -1395,14 +1388,14 @@ bool checkInvoice()
                "Connection: close\r\n\r\n");
   while (client.connected())
   {
-    String line = client.readStringUntil('\n');
+    const String line = client.readStringUntil('\n');
     if (line == "\r")
     {
       break;
     }
   }
 
-  String line = client.readString();
+  const String line = client.readString();
   Serial.println(line);
   StaticJsonDocument<500> doc;
 
