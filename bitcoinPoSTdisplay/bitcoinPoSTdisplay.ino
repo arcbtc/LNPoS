@@ -1173,11 +1173,13 @@ void menuLoop()
         menuItemCount++;
       }
     }
+
     bool btnloop = true;
     while (btnloop)
     {
       key_val = "";
       getKeypad(false, true, false, false);
+
       if (key_val == "*")
       {
         menuItemNo = menuItemNo + 1;
@@ -1188,13 +1190,19 @@ void menuLoop()
         if (menuItemNo >= menuItemCount)
         {
           menuItemNo = 0;
+          return loop();
         }
+
         btnloop = false;
       }
-      if (key_val == "#")
+      else if (key_val == "#") 
       {
         selected = false;
         btnloop = false;
+      }
+      else
+      {
+        delay(100);
       }
     }
   }
