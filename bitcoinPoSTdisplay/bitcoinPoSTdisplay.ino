@@ -554,6 +554,7 @@ void lnMain()
     getSats();
   }
   isLNMoneyNumber(true);
+
   while (unConfirmed)
   {
     key_val = "";
@@ -562,6 +563,7 @@ void lnMain()
     {
       unConfirmed = false;
     }
+
     if (key_val == "#")
     {
       processing("FETCHING INVOICE");
@@ -570,11 +572,15 @@ void lnMain()
         delay(3000);
         return;
       }
+
       qrShowCodeln();
       delay(3000);
+
       while (unConfirmed)
       {
         int timer = 0;
+
+        // check invoice
         unConfirmed = checkInvoice();
         if (!unConfirmed)
         {
@@ -584,12 +590,15 @@ void lnMain()
           while(key_val != "*") {
             key_val = "";
             getKeypad(false, true, false, false);
-            delay(100);
+            if(key_val != "*") {
+              delay(100);              
+            }
           }
         }
-        while (timer < 3000)
+        
+        // abort on * press
+        while (timer < 2000)
         {
-          key_val = "";
           getKeypad(false, true, false, false);
           if (key_val == "*")
           {
@@ -598,15 +607,18 @@ void lnMain()
             amountToShow = "0";
             unConfirmed = false;
             timer = 5000;
+            break;
           }
           delay(100);
           timer = timer + 100;
         }
       }
+
       noSats = "0";
       dataIn = "0";
       amountToShow = "0";
     }
+
     delay(100);
   }
 }
