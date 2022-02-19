@@ -562,7 +562,7 @@ void lnMain()
   {
     processing("FETCHING FIAT RATE");
     if(!getSats()) {
-      error("FETCHING FIAT RATE FAILED", "");
+      error("FETCHING FIAT RATE FAILED");
       delay(3000);
       return;
     }
@@ -583,7 +583,7 @@ void lnMain()
     {
       processing("FETCHING INVOICE");
       if(!getInvoice()) {
-        error("INVOICE DATA MALFORMED", "");
+        error("INVOICE DATA MALFORMED");
         delay(3000);
         return;
       }
@@ -706,7 +706,7 @@ void lnurlATMMain()
     }
     if (pinToShow.length() == lnurlATMPin.length() && pinToShow != lnurlATMPin)
     {
-      error("  WRONG PIN", "");
+      error("  WRONG PIN");
       delay(1500);
       pinToShow = "";
       dataIn = "";
@@ -1021,6 +1021,11 @@ void qrShowCodeLNURL(String message)
   tft.println(message);
 }
 
+void error(String message)
+{
+  error(message, "");
+}
+
 void error(String message, String additional)
 {
   tft.fillScreen(TFT_BLACK);
@@ -1280,7 +1285,7 @@ bool getInvoice()
   if (!client.connect(lnbitsServerChar, 443))
   {
     Serial.println("failed");
-    error("SERVER DOWN", "");
+    error("SERVER DOWN");
     delay(3000);
     return false;
   }
@@ -1332,7 +1337,7 @@ bool checkInvoice()
   const char *invoiceChar = invoice.c_str();
   if (!client.connect(lnbitsServerChar, 443))
   {
-    error("SERVER DOWN", "");
+    error("SERVER DOWN");
     delay(3000);
     return false;
   }
