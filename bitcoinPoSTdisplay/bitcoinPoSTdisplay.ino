@@ -232,14 +232,12 @@ AutoConnectAux saveAux;
 
 void setup()
 {
-
   Serial.begin(115200);
   pinMode(4, OUTPUT);
   digitalWrite(4, HIGH);
 
   //Load screen
   tft.init();
-  tft.invertDisplay(false);
   tft.setRotation(1);
   tft.invertDisplay(true);
   logo();
@@ -486,7 +484,6 @@ void loop()
       {
         lnurlATMMain();
       }
-      delay(100);
     }
   }
 }
@@ -809,12 +806,12 @@ void portalLaunch()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.setTextSize(3);
-  tft.setCursor(15, 50);
+  tft.setCursor(20, 50);
   tft.println("AP LAUNCHED");
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 100);
+  tft.setCursor(0, 75);
   tft.setTextSize(2);
-  tft.println("WHEN FINISHED RESET");
+  tft.println(" WHEN FINISHED RESET");
 }
 
 void isLNMoneyNumber(bool cleared)
@@ -823,11 +820,11 @@ void isLNMoneyNumber(bool cleared)
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(0, 20);
-  tft.print("    ENTER AMOUNT");
+  tft.print("  - ENTER AMOUNT -");
   tft.setTextSize(3);
   tft.setCursor(0, 50);
   tft.println(String(lncurrency) + ": ");
-  tft.println("SATS: ");
+  tft.println("SAT: ");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
   tft.println(" *MENU #INVOICE");
@@ -849,7 +846,7 @@ void isLNMoneyNumber(bool cleared)
   tft.setCursor(75, 50);
   tft.println(amountToShow);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(90, 75);
+  tft.setCursor(75, 75);
   tft.println(noSats.toInt());
 }
 
@@ -859,7 +856,7 @@ void isLNURLMoneyNumber(bool cleared)
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(0, 20);
-  tft.print("    ENTER AMOUNT");
+  tft.print("  - ENTER AMOUNT -");
   tft.setTextSize(3);
   tft.setCursor(0, 50);
   tft.println(String(currencyPoS) + ": ");
@@ -889,7 +886,7 @@ void isATMMoneyNumber(bool cleared)
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(0, 20);
-  tft.print("    ENTER AMOUNT");
+  tft.print("  - ENTER AMOUNT -");
   tft.setTextSize(3);
   tft.setCursor(0, 50);
   tft.println(String(currencyATM) + ": ");
@@ -951,7 +948,7 @@ void inputScreenOnChain()
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(0, 120);
-  tft.println("*MENU #ADDRESS");
+  tft.println(" *MENU #ADDRESS");
 }
 
 void qrShowCodeln()
@@ -967,7 +964,6 @@ void qrShowCodeln()
 
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
-    // Each horizontal module
     for (uint8_t x = 0; x < qrcoded.size; x++)
     {
       if (qrcode_getModule(&qrcoded, x, y))
@@ -1154,12 +1150,13 @@ void menuLoop()
 {
   // footer/header
   tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(0, 0);
-  tft.print("   PAYMENT METHODS");
+  tft.setTextColor(TFT_ORANGE, TFT_BLACK);
+  tft.print("      - MENU -");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.print("*NEXT #SELECT ");
 
   // battery status
