@@ -579,30 +579,32 @@ void lnMain()
       }
 
       qrShowCodeln();
-      delay(3000);
 
+      bool isFirstRun = true;
       while (unConfirmed)
       {
         int timer = 0;
 
         // check invoice
-        unConfirmed = checkInvoice();
-        if (!unConfirmed)
-        {
-          paymentSuccess();
-          timer = 5000;
-
-          while(key_val != "*") {
-            key_val = "";
-            getKeypad(false, true, false, false);
-            if(key_val != "*") {
-              delay(100);              
+        if(!isFirstRun) {
+          unConfirmed = checkInvoice();
+          if (!unConfirmed)
+          {
+            paymentSuccess();
+            timer = 5000;
+  
+            while(key_val != "*") {
+              key_val = "";
+              getKeypad(false, true, false, false);
+              if(key_val != "*") {
+                delay(100);
+              }
             }
           }
         }
         
-        // abort on * press
-        while (timer < 2000)
+        // abort on * press        
+        while (timer < (isFirstRun ? 6000 : 2000))
         {
           getKeypad(false, true, false, false);
           if (key_val == "*")
@@ -617,6 +619,8 @@ void lnMain()
           delay(100);
           timer = timer + 100;
         }
+
+        isFirstRun = false;
       }
 
       noSats = "0";
@@ -627,6 +631,7 @@ void lnMain()
     delay(100);
   }
 }
+
 void lnurlPoSMain()
 {
   inputs = "";
