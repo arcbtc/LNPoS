@@ -551,8 +551,13 @@ void lnMain()
   if (converted == 0)
   {
     processing("FETCHING FIAT RATE");
-    getSats();
+    if(!getSats()) {
+      error("FETCHING FIAT RATE FAILED", "");
+      delay(3000);
+      return;
+    }
   }
+
   isLNMoneyNumber(true);
 
   while (unConfirmed)
@@ -1177,7 +1182,7 @@ void menuLoop()
 }
 
 //////////LIGHTNING//////////////////////
-void getSats()
+bool getSats()
 {
   WiFiClientSecure client;
   client.setInsecure(); //Some versions of WiFiClientSecure need this
@@ -1195,12 +1200,11 @@ void getSats()
   if (!client.connect(lnbitsServerChar, 443))
   {
     Serial.println("failed to connect to LNbits server " + lnbitsServer);
-    error("SERVER DOWN", "");
-    delay(3000);
+    return false;
   }
 
-  String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
-  String url = "/api/v1/conversion";
+  const String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
+  const String url = "/api/v1/conversion";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + String(lnbitsServerChar) + "\r\n" +
                "User-Agent: ESP32\r\n" +
@@ -1219,6 +1223,7 @@ void getSats()
       break;
     }
   }
+
   String line = client.readString();
   StaticJsonDocument<150> doc;
   DeserializationError error = deserializeJson(doc, line);
@@ -1226,9 +1231,11 @@ void getSats()
   {
     Serial.print("deserializeJson() failed: ");
     Serial.println(error.f_str());
-    return;
+    return false;
   }
+
   converted = doc["sats"];
+  return true;
 }
 
 bool getInvoice()
