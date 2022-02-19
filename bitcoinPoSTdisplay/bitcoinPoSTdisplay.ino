@@ -248,6 +248,7 @@ void setup()
   h.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
   SPIFFS.begin(true);
+
   //Get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
@@ -262,6 +263,7 @@ void setup()
     {
       apPassword = apPasswordChar;
     }
+
     JsonObject maRoot = doc[1];
     const char *masterKeyChar = maRoot["value"];
     masterKey = masterKeyChar;
@@ -269,9 +271,11 @@ void setup()
     {
       menuItemCheck[2] = 1;
     }
+
     JsonObject serverRoot = doc[2];
     const char *serverChar = serverRoot["value"];
     lnbitsServer = serverChar;
+
     JsonObject invoiceRoot = doc[3];
     const char *invoiceChar = invoiceRoot["value"];
     invoice = invoiceChar;
@@ -279,12 +283,15 @@ void setup()
     {
       menuItemCheck[0] = 1;
     }
+
     JsonObject lncurrencyRoot = doc[4];
     const char *lncurrencyChar = lncurrencyRoot["value"];
     lncurrency = lncurrencyChar;
+
     JsonObject lnurlPoSRoot = doc[5];
     const char *lnurlPoSChar = lnurlPoSRoot["value"];
     String lnurlPoS = lnurlPoSChar;
+
     baseURLPoS = getValue(lnurlPoS, ',', 0);
     secretPoS = getValue(lnurlPoS, ',', 1);
     currencyPoS = getValue(lnurlPoS, ',', 2);
@@ -292,6 +299,7 @@ void setup()
     {
       menuItemCheck[1] = 1;
     }
+
     JsonObject lnurlATMRoot = doc[6];
     const char *lnurlATMChar = lnurlATMRoot["value"];
     String lnurlATM = lnurlATMChar;
@@ -302,93 +310,92 @@ void setup()
     {
       menuItemCheck[3] = 1;
     }
+
     JsonObject lnurlATMMSRoot = doc[7];
     const char *lnurlATMMSChar = lnurlATMMSRoot["value"];
     lnurlATMMS = lnurlATMMSChar;
+
     JsonObject lnurlATMPinRoot = doc[8];
     const char *lnurlATMPinChar = lnurlATMPinRoot["value"];
     lnurlATMPin = lnurlATMPinChar;
   }
   paramFile.close();
 
-  //Handle access point traffic
-  server.on("/", []() {
-    String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
-    content += AUTOCONNECT_LINK(COG_24);
-    server.send(200, "text/html", content);
-  });
-
-  elementsAux.load(FPSTR(PAGE_ELEMENTS));
-  elementsAux.on([](AutoConnectAux &aux, PageArgument &arg) {
-    File param = FlashFS.open(PARAM_FILE, "r");
-    if (param)
-    {
-      aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
-      param.close();
-    }
-    if (portal.where() == "/posconfig")
-    {
+  // start portal (any key pressed on startup)
+  char key = keypad.getKey();
+  if (key != NO_KEY)
+  {
+    //Handle access point traffic
+    server.on("/", []() {
+      String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
+      content += AUTOCONNECT_LINK(COG_24);
+      server.send(200, "text/html", content);
+    });
+  
+    elementsAux.load(FPSTR(PAGE_ELEMENTS));
+    elementsAux.on([](AutoConnectAux &aux, PageArgument &arg) {
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param)
       {
         aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
         param.close();
       }
-    }
-    return String();
-  });
-
-  saveAux.load(FPSTR(PAGE_SAVE));
-  saveAux.on([](AutoConnectAux &aux, PageArgument &arg) {
-    aux["caption"].value = PARAM_FILE;
-    File param = FlashFS.open(PARAM_FILE, "w");
-    if (param)
-    {
-      // Save as a loadable set for parameters.
-      elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
-      param.close();
-      // Read the saved elements again to display.
-      param = FlashFS.open(PARAM_FILE, "r");
-      aux["echo"].value = param.readString();
-      param.close();
-    }
-    else
-    {
-      aux["echo"].value = "Filesystem failed to open.";
-    }
-    return String();
-  });
-
-  config.auth = AC_AUTH_BASIC;
-  config.authScope = AC_AUTHSCOPE_AUX;
-  config.ticker = true;
-  config.autoReconnect = true;
-  config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
-  config.psk = apPassword;
-  config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
-  config.reconnectInterval = 1;
-  config.title = "bitcoinPoS";
-  int timer = 0;
-
-  //Give few seconds to trigger portal
-  while (timer < 2000)
-  {
-    char key = keypad.getKey();
-    if (key != NO_KEY)
-    {
-      portalLaunch();
-      config.immediateStart = true;
-      portal.join({elementsAux, saveAux});
-      portal.config(config);
-      portal.begin();
-      while (true)
+      if (portal.where() == "/posconfig")
       {
-        portal.handleClient();
+        File param = FlashFS.open(PARAM_FILE, "r");
+        if (param)
+        {
+          aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
+          param.close();
+        }
       }
+      return String();
+    });
+  
+    saveAux.load(FPSTR(PAGE_SAVE));
+    saveAux.on([](AutoConnectAux &aux, PageArgument &arg) {
+      aux["caption"].value = PARAM_FILE;
+      File param = FlashFS.open(PARAM_FILE, "w");
+      if (param)
+      {
+        // Save as a loadable set for parameters.
+        elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
+        param.close();
+        // Read the saved elements again to display.
+        param = FlashFS.open(PARAM_FILE, "r");
+        aux["echo"].value = param.readString();
+        param.close();
+      }
+      else
+      {
+        aux["echo"].value = "Filesystem failed to open.";
+      }
+      return String();
+    });
+
+    portalLaunch();
+
+    //config.auth = AC_AUTH_BASIC;
+    //config.authScope = AC_AUTHSCOPE_AUX;
+    config.ticker = true;
+    config.autoReconnect = true;
+    config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
+    config.psk = apPassword;
+    
+    config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
+    config.reconnectInterval = 1;
+    config.title = "bitcoinPoS";
+
+    config.immediateStart = true;
+    portal.join({elementsAux, saveAux});
+    portal.config(config);
+    portal.begin();
+    while (true)
+    {
+      portal.handleClient();
     }
-    timer = timer + 200;
-    delay(200);
   }
+
   if (menuItemCheck[0])
   {
     portal.join({elementsAux, saveAux});
@@ -425,8 +432,8 @@ void loop()
     error("  NO METHODS", "RESTART & RUN PORTAL");
     delay(10000000);
   }
+
   //If only one payment method available skip menu
-  Serial.println(menuItemsAmount);
   if (menuItemsAmount == 1)
   {
     if (selection == "OnChain")
