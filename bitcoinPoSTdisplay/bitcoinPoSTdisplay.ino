@@ -1128,9 +1128,10 @@ void menuLoop()
   tft.setTextSize(2);
   tft.print("*NEXT #SELECT ");
 
+  // battery status
   const int batteryPercentage = getBatteryPercentage();
   String batteryPercentageText = "";
-  if(batteryPercentage > 99) {
+  if(batteryPercentage == NULL) {
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
     batteryPercentageText = "CHARGE";
 
@@ -1142,8 +1143,12 @@ void menuLoop()
     } else if (batteryPercentage <= 50) {
       tft.setTextColor(TFT_RED, TFT_BLACK);
     }
- 
-    batteryPercentageText = "   " + String(batteryPercentage) + "%";
+
+    if(batteryPercentage < 100) {
+      batteryPercentageText = " "; 
+    }
+
+    batteryPercentageText += "  " + String(batteryPercentage) + "%";
   }
   
   tft.print(batteryPercentageText);
@@ -1477,7 +1482,7 @@ int xor_encrypt(uint8_t *output, size_t outlen, uint8_t *key, size_t keylen, uin
   return cur;
 }
 
-int getBatteryPercentage()
+unsigned int getBatteryPercentage()
 {
   const float batteryMaxVoltage = 4.2;
   const float batteryMinVoltage = 3.73;
@@ -1485,12 +1490,17 @@ int getBatteryPercentage()
   const float batteryAllowedRange = batteryMaxVoltage - batteryMinVoltage;
   const float batteryCurVAboveMin = getInputVoltage() - batteryMinVoltage;
 
-  return (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
+  const int batteryPercentage = (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
+  if(batteryPercentage > 150) {
+    return NULL;
+  }
+
+  return max(min(batteryPercentage, 100), 0);
 }
 
 float getInputVoltage()
 {
   delay(100);
   const uint16_t v1 = analogRead(34);
-  return ((float)v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
+  return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
 }
