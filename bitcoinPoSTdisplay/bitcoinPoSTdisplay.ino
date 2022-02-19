@@ -321,11 +321,17 @@ void setup()
   }
   paramFile.close();
 
+  // general WiFi setting
+  config.autoReset = false;
+  config.autoReconnect = true;
+  config.reconnectInterval = 10;
+  config.beginTimeout = 10000UL;
+
   // start portal (any key pressed on startup)
   char key = keypad.getKey();
   if (key != NO_KEY)
   {
-    //Handle access point traffic
+    // handle access point traffic
     server.on("/", []() {
       String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
       content += AUTOCONNECT_LINK(COG_24);
@@ -373,20 +379,16 @@ void setup()
       return String();
     });
 
+    // start access point
     portalLaunch();
 
-    //config.auth = AC_AUTH_BASIC;
-    //config.authScope = AC_AUTHSCOPE_AUX;
+    config.immediateStart = true;
     config.ticker = true;
-    config.autoReconnect = true;
     config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
     config.psk = apPassword;
-    
     config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
-    config.reconnectInterval = 1;
     config.title = "bitcoinPoS";
 
-    config.immediateStart = true;
     portal.join({elementsAux, saveAux});
     portal.config(config);
     portal.begin();
@@ -396,10 +398,12 @@ void setup()
     }
   }
 
+  // connect to configured WiFi
   if (menuItemCheck[0])
   {
-    portal.join({elementsAux, saveAux});
     config.autoRise = false;
+
+    portal.join({elementsAux, saveAux});
     portal.config(config);
     portal.begin();
   }
@@ -412,11 +416,17 @@ void loop()
   amountToShow = "0";
   unConfirmed = true;
   key_val = "";
+
   int menuItemsAmount = 0;
-  if (WiFi.status() != WL_CONNECTED)
+  if (menuItemCheck[0] == 1 && WiFi.status() != WL_CONNECTED)
   {
-    menuItemCheck[0] = 0;
+    menuItemCheck[0] = -1;
   }
+  else if(menuItemCheck[0] == -1 && WiFi.status() == WL_CONNECTED)
+  {
+    menuItemCheck[0] = 1;
+  }
+
   for (int i = 0; i < sizeof(menuItems) / sizeof(menuItems[0]); i++)
   {
     if (menuItemCheck[i] == 1)
@@ -1137,7 +1147,7 @@ void menuLoop()
   selected = true;
   while (selected)
   {
-    if (menuItemCheck[0] == 0 && menuItemNo == 0)
+    if (menuItemCheck[0] <= 0 && menuItemNo == 0)
     {
       menuItemNo = menuItemNo + 1;
     }
