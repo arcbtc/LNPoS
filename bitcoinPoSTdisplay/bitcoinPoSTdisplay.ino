@@ -735,7 +735,11 @@ void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
   if (key != NO_KEY)
   {
     key_val = String(key);
-    dataIn += key_val;
+
+    if(dataIn.length() < 10) {
+      dataIn += key_val;
+    }
+
     if (isLN)
     {
       isLNMoneyNumber(false);
