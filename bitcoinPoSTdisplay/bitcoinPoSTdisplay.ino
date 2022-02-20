@@ -324,7 +324,7 @@ void setup()
   // general WiFi setting
   config.autoReset = false;
   config.autoReconnect = true;
-  config.reconnectInterval = 10;
+  config.reconnectInterval = 1; // 30s
   config.beginTimeout = 10000UL;
 
   // start portal (any key pressed on startup)
@@ -421,7 +421,7 @@ void loop()
   unConfirmed = true;
   key_val = "";
 
-  int menuItemsAmount = 0;
+  // check wifi status
   if (menuItemCheck[0] == 1 && WiFi.status() != WL_CONNECTED)
   {
     menuItemCheck[0] = -1;
@@ -430,6 +430,9 @@ void loop()
   {
     menuItemCheck[0] = 1;
   }
+
+  // count menu items
+  int menuItemsAmount = 0;
 
   for (int i = 0; i < sizeof(menuItems) / sizeof(menuItems[0]); i++)
   {
@@ -575,21 +578,24 @@ void lnMain()
     }
     else if (key_val == "#")
     {
+      // request invoice
       processing("FETCHING INVOICE");
       if (!getInvoice()) {
-        error("INVOICE DATA MALFORMED");
+        unConfirmed = false;
+        error("ERROR FETCHING INVOICE");
         delay(3000);
-        return;
+        break;
       }
 
+      // show QR
       qrShowCodeln();
 
+      // check invoice
       bool isFirstRun = true;
       while (unConfirmed)
       {
         int timer = 0;
 
-        // check invoice
         if (!isFirstRun) {
           unConfirmed = checkInvoice();
           if (!unConfirmed)
@@ -675,7 +681,7 @@ void lnurlPoSMain()
             key_val = "";
             getKeypad(false, true, false, false);
 
-            if (key_val == "*" || key_val == "#")
+            if (key_val == "*")
             {
               unConfirmed = false;
             }
@@ -1139,10 +1145,10 @@ void logo()
 }
 
 long int lastBatteryCheck = 0;
-void updateBatteryStatus()
+void updateBatteryStatus(bool force = false)
 {
   // throttle
-  if(lastBatteryCheck != 0 && millis() - lastBatteryCheck < 5000) {
+  if(!force && lastBatteryCheck != 0 && millis() - lastBatteryCheck < 5000) {
     return;
   }
 
@@ -1154,22 +1160,27 @@ void updateBatteryStatus()
   String batteryPercentageText = "";
   if (batteryPercentage == NULL) {
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
-    batteryPercentageText = "CHRG";
+    batteryPercentageText = " USB";
 
   } else {
-    if (batteryPercentage <= 75) {
+    if(batteryPercentage >= 60) {
+      tft.setTextColor(TFT_GREEN, TFT_BLACK);
+
+    } else if (batteryPercentage >= 20) {
       tft.setTextColor(TFT_YELLOW, TFT_BLACK);
 
-    } else if (batteryPercentage <= 50) {
-      tft.setTextColor(TFT_RED, TFT_BLACK);
-
     } else {
-      tft.setTextColor(TFT_GREEN, TFT_BLACK);
+      tft.setTextColor(TFT_RED, TFT_BLACK);
     }
 
     if(batteryPercentage != 100) {
       batteryPercentageText += " ";
+      
+      if (batteryPercentage < 10) {
+        batteryPercentageText += " ";
+      }
     }
+
     batteryPercentageText += String(batteryPercentage) + "%";
   }
 
@@ -1192,7 +1203,7 @@ void menuLoop()
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.print(" *NEXT #SELECT");
 
-  updateBatteryStatus();
+  updateBatteryStatus(true);
 
   // menu items
   selection = "";
@@ -1202,7 +1213,7 @@ void menuLoop()
   {
     if (menuItemCheck[0] <= 0 && menuItemNo == 0)
     {
-      menuItemNo = menuItemNo + 1;
+      menuItemNo++;
     }
 
     tft.setCursor(0, 40);
@@ -1239,13 +1250,13 @@ void menuLoop()
 
       if (key_val == "*")
       {
-        menuItemNo = menuItemNo + 1;
-        if (menuItemCheck[menuItemNo] == 0)
+        menuItemNo++;
+        if (menuItemCheck[menuItemNo] < 1)
         {
-          menuItemNo = menuItemNo + 1;
+          menuItemNo++;
         }
 
-        if (menuItemNo >= menuItemCount)
+        if (menuItemNo > menuItemCount)
         {
           menuItemNo = 0;
           break;
