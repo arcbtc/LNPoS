@@ -68,7 +68,6 @@ bool lnurlCheckATM = false;
 String lnurlATMPin;
 
 // custom access point pages
-static const String style = "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;";
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
   "uri": "/posconfig",
@@ -79,7 +78,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "text",
       "type": "ACText",
       "value": "bitcoinPoS options",
-      "style": style
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
       "name": "password",
@@ -92,7 +91,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "offline",
       "type": "ACText",
       "value": "Onchain *optional",
-      "style": style
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
       "name": "masterkey",
@@ -104,7 +103,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "heading1",
       "type": "ACText",
       "value": "Lightning *optional",
-      "style": style
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
       "name": "server",
@@ -125,7 +124,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "heading2",
       "type": "ACText",
       "value": "Offline Lightning *optional",
-      "style": style
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
       "name": "lnurlpos",
@@ -136,7 +135,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
       "name": "heading3",
       "type": "ACText",
       "value": "Offline Lightning *optional",
-      "style": style
+      "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
       "name": "lnurlatm",
@@ -207,6 +206,7 @@ static const char PAGE_SAVE[] PROGMEM = R"(
   ]
 }
 )";
+
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
@@ -1138,43 +1138,61 @@ void logo()
   tft.print("Powered by LNbits");
 }
 
+long int lastBatteryCheck = 0;
+void updateBatteryStatus()
+{
+  // throttle
+  if(lastBatteryCheck != 0 && millis() - lastBatteryCheck < 5000) {
+    return;
+  }
+
+  lastBatteryCheck = millis();
+
+  // update
+  const int batteryPercentage = getBatteryPercentage();
+
+  String batteryPercentageText = "";
+  if (batteryPercentage == NULL) {
+    tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    batteryPercentageText = "CHRG";
+
+  } else {
+    if (batteryPercentage <= 75) {
+      tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+
+    } else if (batteryPercentage <= 50) {
+      tft.setTextColor(TFT_RED, TFT_BLACK);
+
+    } else {
+      tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    }
+
+    if(batteryPercentage != 100) {
+      batteryPercentageText += " ";
+    }
+    batteryPercentageText += String(batteryPercentage) + "%";
+  }
+
+  tft.setCursor(190, 120);
+  tft.print(batteryPercentageText);
+}
+
 void menuLoop()
 {
+  Serial.println("menuLoop");
+
   // footer/header
   tft.fillScreen(TFT_BLACK);
   tft.setTextSize(2);
-  tft.setCursor(0, 0);
+  tft.setCursor(0, 10);
   tft.setTextColor(TFT_ORANGE, TFT_BLACK);
   tft.print("      - MENU -");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.print("*NEXT #SELECT ");
+  tft.print(" *NEXT #SELECT");
 
-  // battery status
-  const int batteryPercentage = getBatteryPercentage();
-  String batteryPercentageText = "";
-  if (batteryPercentage == NULL) {
-    tft.setTextColor(TFT_GREEN, TFT_BLACK);
-    batteryPercentageText = "CHARGE";
-
-  } else {
-    tft.setTextColor(TFT_GREEN, TFT_BLACK);
-    if (batteryPercentage <= 75) {
-      tft.setTextColor(TFT_ORANGE, TFT_BLACK);
-
-    } else if (batteryPercentage <= 50) {
-      tft.setTextColor(TFT_RED, TFT_BLACK);
-    }
-
-    if (batteryPercentage < 100) {
-      batteryPercentageText = " ";
-    }
-
-    batteryPercentageText += "  " + String(batteryPercentage) + "%";
-  }
-
-  tft.print(batteryPercentageText);
+  updateBatteryStatus();
 
   // menu items
   selection = "";
@@ -1187,7 +1205,7 @@ void menuLoop()
       menuItemNo = menuItemNo + 1;
     }
 
-    tft.setCursor(0, 30);
+    tft.setCursor(0, 40);
     tft.setTextSize(2);
 
     int current = 0;
@@ -1207,6 +1225,7 @@ void menuLoop()
           tft.setTextColor(TFT_WHITE, TFT_BLACK);
         }
 
+        tft.print("  ");
         tft.println(menuItems[i]);
         menuItemCount++;
       }
@@ -1225,10 +1244,11 @@ void menuLoop()
         {
           menuItemNo = menuItemNo + 1;
         }
+
         if (menuItemNo >= menuItemCount)
         {
           menuItemNo = 0;
-          return loop();
+          break;
         }
 
         btnloop = false;
@@ -1241,6 +1261,7 @@ void menuLoop()
       else
       {
         delay(100);
+        updateBatteryStatus();
       }
     }
   }
