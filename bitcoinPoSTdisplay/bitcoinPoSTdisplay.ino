@@ -9,13 +9,13 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #include <Keypad.h>
 #include <AutoConnect.h>
 #include <SPI.h>
-#include <Wire.h>
+//#include <Wire.h>
 #include <TFT_eSPI.h>
 #include <Hash.h>
 #include <ArduinoJson.h>
 #include "qrcoded.h"
 #include "Bitcoin.h"
-#include "esp_adc_cal.h"
+//#include "esp_adc_cal.h"
 
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/thekey.txt"
@@ -49,7 +49,7 @@ String qrData;
 String dataId;
 String addressNo;
 String pinToShow;
-char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+const char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
 int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
 int menuItemNo = 0;
@@ -234,8 +234,6 @@ AutoConnectAux saveAux;
 void setup()
 {
   Serial.begin(115200);
-  pinMode(4, OUTPUT);
-  digitalWrite(4, HIGH);
 
   // load screen
   tft.init();
@@ -627,9 +625,11 @@ void lnMain()
             unConfirmed = false;
             timer = 5000;
             break;
+            
+          } else {
+            delay(100);
           }
 
-          delay(100);
           timer = timer + 100;
         }
 
@@ -640,8 +640,10 @@ void lnMain()
       dataIn = "0";
       amountToShow = "0";
     }
-
-    delay(100);
+    else
+    {
+      delay(100);
+    }
   }
 }
 
@@ -693,8 +695,10 @@ void lnurlPoSMain()
         }
       }
     }
-
-    delay(100);
+    else
+    {
+      delay(100);
+    }
   }
 }
 
@@ -759,6 +763,10 @@ void lnurlATMMain()
           }
         }
       }
+    }
+    else
+    {
+      delay(100);
     }
   }
 }
@@ -1271,8 +1279,8 @@ void menuLoop()
       }
       else
       {
-        delay(100);
         updateBatteryStatus();
+        delay(100);
       }
     }
   }
