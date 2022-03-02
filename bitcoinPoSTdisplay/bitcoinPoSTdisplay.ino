@@ -23,6 +23,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 // variables
 String inputs;
 String thePin;
+String spiffing;
 String nosats;
 String cntr = "0";
 String lnurl;
@@ -57,6 +58,8 @@ int randomPin;
 int calNum = 1;
 int sumFlag = 0;
 int converted = 0;
+int qrScreenBrightness = 180; // 0 = min, 255 = max
+long timeOfLastInteraction = millis();
 String key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
@@ -66,6 +69,12 @@ bool selected = false;
 bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
 String lnurlATMPin;
+enum invoiceType {
+  LNPOS,
+  LNURLPOS,
+  ONCHAIN,
+  LNURLATM
+};
 
 // custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -210,8 +219,10 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
-const byte rows = 4;
-const byte cols = 3;
+uint16_t qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+
+const byte rows = 4; //four rows
+const byte cols = 3; //three columns
 char keys[rows][cols] = {
     {'1', '2', '3'},
     {'4', '5', '6'},
@@ -546,6 +557,7 @@ void onchainMain()
             }
           }
         }
+        handleBrightnessAdjust(key_val, ONCHAIN);
       }
     }
   }
@@ -629,7 +641,7 @@ void lnMain()
           } else {
             delay(100);
           }
-
+          handleBrightnessAdjust(key_val, LNPOS);
           timer = timer + 100;
         }
 
@@ -693,6 +705,7 @@ void lnurlPoSMain()
         {
           unConfirmed = false;
         }
+        handleBrightnessAdjust(key_val, LNURLPOS);
       }
     }
     else
@@ -958,8 +971,7 @@ void inputScreenOnChain()
 
 void qrShowCodeln()
 {
-  tft.fillScreen(TFT_WHITE);
-
+  tft.fillScreen(qrScreenBgColour);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
@@ -977,21 +989,20 @@ void qrShowCodeln()
       }
       else
       {
-        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, TFT_WHITE);
+        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, qrScreenBgColour);
       }
     }
   }
 
   tft.setCursor(0, 220);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   tft.print(" *MENU");
 }
 
 void qrShowCodeOnchain(bool anAddress, String message)
 {
-  tft.fillScreen(TFT_WHITE);
-
+  tft.fillScreen(qrScreenBgColour);
   if (anAddress)
   {
     qrData.toUpperCase();
@@ -1004,8 +1015,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
   tft.setCursor(0, 100);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
-
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   if (anAddress)
   {
     qrcode_initText(&qrcoded, qrcodeData, 2, 0, qrDataChar);
@@ -1027,7 +1037,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
       }
       else
       {
-        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, TFT_WHITE);
+        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, qrScreenBgColour);
       }
     }
   }
@@ -1038,8 +1048,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
 void qrShowCodeLNURL(String message)
 {
-  tft.fillScreen(TFT_WHITE);
-
+  tft.fillScreen(qrScreenBgColour);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
@@ -1056,14 +1065,14 @@ void qrShowCodeLNURL(String message)
       }
       else
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, qrScreenBgColour);
       }
     }
   }
 
   tft.setCursor(0, 220);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   tft.println(message);
 }
 
@@ -1595,4 +1604,88 @@ float getInputVoltage()
   delay(100);
   const uint16_t v1 = analogRead(34);
   return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
+}
+
+void adjustQrBrightness(bool shouldMakeBrighter, invoiceType invoiceType)
+{
+  if (shouldMakeBrighter && qrScreenBrightness >= 0)
+  {
+    qrScreenBrightness = qrScreenBrightness + 25;
+    if (qrScreenBrightness > 255)
+    {
+      qrScreenBrightness = 255;
+    }
+  }
+  else if (!shouldMakeBrighter && qrScreenBrightness <= 30)
+  {
+    qrScreenBrightness = qrScreenBrightness - 5;
+  }
+  else if (!shouldMakeBrighter && qrScreenBrightness <= 255)
+  {
+    qrScreenBrightness = qrScreenBrightness - 25;
+  }
+  
+  if (qrScreenBrightness < 4)
+  {
+    qrScreenBrightness = 4;
+  }
+  
+  qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+
+  switch(invoiceType) {
+    case LNPOS:
+      qrShowCodeln();
+      break;
+    case LNURLPOS:
+      qrShowCodeLNURL(" *MENU #SHOW PIN");
+      break;
+    case ONCHAIN:
+      qrShowCodeOnchain(true, " *MENU #CHECK");
+      break;  
+    case LNURLATM:
+      qrShowCodeLNURL(" *MENU");
+      break;  
+    default:
+      break;
+  }
+  
+  File configFile = SPIFFS.open("/config.txt", "w");
+  configFile.print(String(qrScreenBrightness));
+  configFile.close();
+}
+
+/**
+ * Load stored config values
+ */
+void loadConfig() {
+  File file = SPIFFS.open("/config.txt");
+   spiffing = file.readStringUntil('\n');
+  String tempQrScreenBrightness = spiffing.c_str();
+  int tempQrScreenBrightnessInt = tempQrScreenBrightness.toInt();
+  Serial.println("spiffcontent " + String(tempQrScreenBrightnessInt));
+  file.close();
+
+  if(tempQrScreenBrightnessInt && tempQrScreenBrightnessInt > 3) {
+    qrScreenBrightness = tempQrScreenBrightnessInt;
+  }
+  Serial.println("qrScreenBrightness from config " + String(qrScreenBrightness));
+  qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+}
+
+/**
+ * Handle user inputs for adjusting the screen brightness
+ */
+void handleBrightnessAdjust(String keyVal, invoiceType invoiceType) {
+  // Handle screen brighten on QR screen
+  if (keyVal == "1"){
+      Serial.println("Adjust bnrightness " + invoiceType);
+    timeOfLastInteraction = millis();
+    adjustQrBrightness(true, invoiceType);
+  }
+  // Handle screen dim on QR screen
+  else if (keyVal == "4"){
+      Serial.println("Adjust bnrightness " + invoiceType);
+    timeOfLastInteraction = millis();
+    adjustQrBrightness(false, invoiceType);
+  }
 }
