@@ -776,6 +776,7 @@ void lnurlATMMain()
             {
               unConfirmed = false;
             }
+            handleBrightnessAdjust(key_val, LNURLATM);
           }
         }
       }
