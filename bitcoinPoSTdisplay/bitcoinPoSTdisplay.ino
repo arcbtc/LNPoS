@@ -630,6 +630,7 @@ void lnMain()
         // abort on * press
         while (timer < (isFirstRun ? 6000 : 2000))
         {
+          key_val = "";
           getKeypad(false, true, false, false);
 
           if (key_val == "*")
@@ -1705,13 +1706,13 @@ void loadConfig() {
 void handleBrightnessAdjust(String keyVal, invoiceType invoiceType) {
   // Handle screen brighten on QR screen
   if (keyVal == "1"){
-      Serial.println("Adjust bnrightness " + invoiceType);
+    Serial.println("Adjust bnrightness " + invoiceType);
     timeOfLastInteraction = millis();
     adjustQrBrightness(true, invoiceType);
   }
   // Handle screen dim on QR screen
   else if (keyVal == "4"){
-      Serial.println("Adjust bnrightness " + invoiceType);
+    Serial.println("Adjust bnrightness " + invoiceType);
     timeOfLastInteraction = millis();
     adjustQrBrightness(false, invoiceType);
   }
