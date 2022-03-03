@@ -59,6 +59,9 @@ int calNum = 1;
 int sumFlag = 0;
 int converted = 0;
 int qrScreenBrightness = 180; // 0 = min, 255 = max
+bool isSleepEnabled = true;
+int sleepTimer = 5; // Time in seconds before the device goes to sleep
+bool isPretendSleeping = false;
 long timeOfLastInteraction = millis();
 String key_val;
 bool onchainCheck = false;
@@ -1207,6 +1210,7 @@ void updateBatteryStatus(bool force = false)
 
 void menuLoop()
 {
+  timeOfLastInteraction = millis();
   Serial.println("menuLoop");
 
   // footer/header
@@ -1228,6 +1232,7 @@ void menuLoop()
 
   while (selected)
   {
+    maybeSleepDevice();
     if (menuItemCheck[0] <= 0 && menuItemNo == 0)
     {
       menuItemNo++;
@@ -1262,11 +1267,15 @@ void menuLoop()
     bool btnloop = true;
     while (btnloop)
     {
+      maybeSleepDevice();
       key_val = "";
       getKeypad(false, true, false, false);
 
       if (key_val == "*")
       {
+        isPretendSleeping = false;
+        timeOfLastInteraction = millis();
+        
         menuItemNo++;
         if (menuItemCheck[menuItemNo] < 1)
         {
@@ -1283,6 +1292,9 @@ void menuLoop()
       }
       else if (key_val == "#")
       {
+        isPretendSleeping = false;
+        timeOfLastInteraction = millis();
+        
         selected = false;
         btnloop = false;
       }
@@ -1688,4 +1700,75 @@ void handleBrightnessAdjust(String keyVal, invoiceType invoiceType) {
     timeOfLastInteraction = millis();
     adjustQrBrightness(false, invoiceType);
   }
+}
+
+/**
+ * Check whether the device should be put to sleep and put it to sleep
+ * if it should
+ */
+void maybeSleepDevice() {
+  if(isSleepEnabled && !isPretendSleeping) {
+    long currentTime = millis();
+    if(currentTime > (timeOfLastInteraction + sleepTimer * 1000)) {
+      sleepAnimation();
+      // The device wont charge if it is sleeping, so when charging, do a pretend sleep
+      if(isPoweredExternally()) {
+        Serial.println("Pretend sleep now");
+        isPretendSleeping = true;
+        tft.fillScreen(TFT_BLACK);
+      }
+      else {
+        esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+        Serial.println("Going to sleep now");
+        esp_deep_sleep_start();
+      }
+    }
+  }
+}
+
+/**
+ * Does the device have external or internal power?
+ */
+bool isPoweredExternally() {
+  float inputVoltage = getInputVoltage();
+  if(inputVoltage > 4.5)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+  
+}
+
+/**
+ * Awww. Show the go to sleep animation
+ */
+void sleepAnimation() {
+    printSleepAnimationFrame("(o.o)", 500);
+    printSleepAnimationFrame("(-.-)", 500);
+    printSleepAnimationFrame("(-.-)z", 250);
+    printSleepAnimationFrame("(-.-)zz", 250);
+    printSleepAnimationFrame("(-.-)zzz", 250);
+    tft.fillScreen(TFT_BLACK);
+}
+
+void wakeAnimation() {
+    printSleepAnimationFrame("(-.-)", 100);
+    printSleepAnimationFrame("(o.o)", 200);
+    tft.fillScreen(TFT_BLACK);
+}
+
+/**
+ * Print the line of the animation
+ */
+void printSleepAnimationFrame(String text, int wait) {
+  tft.fillScreen(TFT_BLACK);
+  tft.setCursor(5, 80);
+  tft.setTextSize(4);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK); 
+  //tft.setFreeFont(BIGFONT);
+  tft.println(text);
+  delay(wait);
 }
