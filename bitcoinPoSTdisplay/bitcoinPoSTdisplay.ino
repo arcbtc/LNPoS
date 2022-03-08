@@ -337,7 +337,7 @@ void setup()
   config.autoReset = false;
   config.autoReconnect = true;
   config.reconnectInterval = 1; // 30s
-  config.beginTimeout = 10000UL;
+  config.beginTimeout = 3000UL;
 
   // start portal (any key pressed on startup)
   const char key = keypad.getKey();
@@ -573,7 +573,7 @@ void lnMain()
     processing("FETCHING FIAT RATE");
     if (!getSats()) {
       error("FETCHING FIAT RATE FAILED");
-      delay(3000);
+      delay(1500);
       return;
     }
   }
@@ -596,7 +596,7 @@ void lnMain()
       if (!getInvoice()) {
         unConfirmed = false;
         error("ERROR FETCHING INVOICE");
-        delay(3000);
+        delay(1500);
         break;
       }
 
@@ -1270,13 +1270,27 @@ void menuLoop()
       maybeSleepDevice();
       key_val = "";
       getKeypad(false, true, false, false);
-
-      if (key_val == "*")
+        
+      if (key_val == "1") {
+        menuItemNo--;
+      }
+      else if (key_val == "4") {
+        menuItemNo++;
+      }
+      else if (key_val == "*") {
+         menuItemNo++; 
+      }
+      
+      if (
+        key_val == "1"
+        ||
+        key_val == "4"
+        ||
+        key_val == "*"
+        )
       {
         isPretendSleeping = false;
         timeOfLastInteraction = millis();
-        
-        menuItemNo++;
         if (menuItemCheck[menuItemNo] < 1)
         {
           menuItemNo++;
@@ -1381,7 +1395,7 @@ bool getInvoice()
   {
     Serial.println("failed");
     error("SERVER DOWN");
-    delay(3000);
+    delay(1500);
     return false;
   }
 
@@ -1436,7 +1450,7 @@ bool checkInvoice()
   if (!client.connect(lnbitsServerChar, 443))
   {
     error("SERVER DOWN");
-    delay(3000);
+    delay(1500);
     return false;
   }
 
