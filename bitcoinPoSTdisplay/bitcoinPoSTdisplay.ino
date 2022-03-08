@@ -60,7 +60,7 @@ int sumFlag = 0;
 int converted = 0;
 int qrScreenBrightness = 180; // 0 = min, 255 = max
 bool isSleepEnabled = true;
-int sleepTimer = 5; // Time in seconds before the device goes to sleep
+int sleepTimer = 30; // Time in seconds before the device goes to sleep
 bool isPretendSleeping = false;
 long timeOfLastInteraction = millis();
 String key_val;
