@@ -1,7 +1,7 @@
 <img src="../images/cheap.png?raw=true">
 
 <h2 align="center">
-⚡⚡⚡⚡bitcoinPoSBareBones⚡⚡⚡⚡
+⚡⚡⚡⚡LNPoSBareBones⚡⚡⚡⚡
 </h2>
 
 This is the cheap version of the project, with a litte bulk buying you can easily get the price down to $8ish off the shelf:
@@ -16,7 +16,7 @@ This is the cheap version of the project, with a litte bulk buying you can easil
 * Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
 * Download this repo
 * Copy these <a href="libraries">libraries</a> into your Arduino install "libraries" folder
-* Open this <a href="bitcoinPoSBareBones.ino">bitcoinPoSBareBones.ino</a> file in the Arduino IDE
+* Open this <a href="LNPoSBareBones.ino">LNPoSBareBones.ino</a> file in the Arduino IDE
 * Select "ESP32 Dev Module" from tools>board
 * Upload to device
 

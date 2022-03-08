@@ -9,18 +9,18 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #include <Keypad.h>
 #include <AutoConnect.h>
 #include <SPI.h>
-//#include <Wire.h>
+#include <Wire.h>
 #include <TFT_eSPI.h>
 #include <Hash.h>
 #include <ArduinoJson.h>
 #include "qrcoded.h"
 #include "Bitcoin.h"
-//#include "esp_adc_cal.h"
+#include "esp_adc_cal.h"
 
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/thekey.txt"
 
-// variables
+//Variables
 String inputs;
 String thePin;
 String nosats;
@@ -49,7 +49,7 @@ String qrData;
 String dataId;
 String addressNo;
 String pinToShow;
-const char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
 int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
 int menuItemNo = 0;
@@ -67,7 +67,7 @@ bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
 String lnurlATMPin;
 
-// custom access point pages
+//Custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
 {
   "uri": "/posconfig",
@@ -77,7 +77,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
     {
       "name": "text",
       "type": "ACText",
-      "value": "bitcoinPoS options",
+      "value": "LNPoS options",
       "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
@@ -206,20 +206,19 @@ static const char PAGE_SAVE[] PROGMEM = R"(
   ]
 }
 )";
-
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
-const byte rows = 4;
-const byte cols = 3;
+const byte rows = 4; //four rows
+const byte cols = 3; //three columns
 char keys[rows][cols] = {
     {'1', '2', '3'},
     {'4', '5', '6'},
     {'7', '8', '9'},
     {'*', '0', '#'}};
 
-byte rowPins[rows] = {21, 27, 26, 22}; //connect to the row pinouts of the keypad
-byte colPins[cols] = {33, 32, 25};     //connect to the column pinouts of the keypad
+byte rowPins[rows] = {12, 14, 27, 26}; //connect to the row pinouts of the keypad
+byte colPins[cols] = {25, 33, 32};     //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 int checker = 0;
@@ -233,62 +232,58 @@ AutoConnectAux saveAux;
 
 void setup()
 {
+
   Serial.begin(115200);
+  pinMode(4, OUTPUT);
+  digitalWrite(4, HIGH);
 
-  // load screen
+  //Load screen
   tft.init();
+  tft.invertDisplay(false);
   tft.setRotation(1);
-  tft.invertDisplay(true);
-
   logo();
 
-  // load buttons
+  //Load buttons
   h.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
   SPIFFS.begin(true);
-
-  // get the saved details and store in global variables
+  //Get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
   {
     StaticJsonDocument<2500> doc;
     DeserializationError error = deserializeJson(doc, paramFile.readString());
 
-    const JsonObject passRoot = doc[0];
+    JsonObject passRoot = doc[0];
     const char *apPasswordChar = passRoot["value"];
     const char *apNameChar = passRoot["name"];
     if (String(apPasswordChar) != "" && String(apNameChar) == "password")
     {
       apPassword = apPasswordChar;
     }
-
-    const JsonObject maRoot = doc[1];
+    JsonObject maRoot = doc[1];
     const char *masterKeyChar = maRoot["value"];
     masterKey = masterKeyChar;
     if (masterKey != "")
     {
       menuItemCheck[2] = 1;
     }
-
-    const JsonObject serverRoot = doc[2];
+    JsonObject serverRoot = doc[2];
     const char *serverChar = serverRoot["value"];
     lnbitsServer = serverChar;
-
-    const JsonObject invoiceRoot = doc[3];
+    JsonObject invoiceRoot = doc[3];
     const char *invoiceChar = invoiceRoot["value"];
     invoice = invoiceChar;
     if (invoice != "")
     {
       menuItemCheck[0] = 1;
     }
-
-    const JsonObject lncurrencyRoot = doc[4];
+    JsonObject lncurrencyRoot = doc[4];
     const char *lncurrencyChar = lncurrencyRoot["value"];
     lncurrency = lncurrencyChar;
-
-    const JsonObject lnurlPoSRoot = doc[5];
+    JsonObject lnurlPoSRoot = doc[5];
     const char *lnurlPoSChar = lnurlPoSRoot["value"];
-    const String lnurlPoS = lnurlPoSChar;
+    String lnurlPoS = lnurlPoSChar;
     baseURLPoS = getValue(lnurlPoS, ',', 0);
     secretPoS = getValue(lnurlPoS, ',', 1);
     currencyPoS = getValue(lnurlPoS, ',', 2);
@@ -296,10 +291,9 @@ void setup()
     {
       menuItemCheck[1] = 1;
     }
-
-    const JsonObject lnurlATMRoot = doc[6];
+    JsonObject lnurlATMRoot = doc[6];
     const char *lnurlATMChar = lnurlATMRoot["value"];
-    const String lnurlATM = lnurlATMChar;
+    String lnurlATM = lnurlATMChar;
     baseURLATM = getValue(lnurlATM, ',', 0);
     secretATM = getValue(lnurlATM, ',', 1);
     currencyATM = getValue(lnurlATM, ',', 2);
@@ -307,105 +301,97 @@ void setup()
     {
       menuItemCheck[3] = 1;
     }
-
-    const JsonObject lnurlATMMSRoot = doc[7];
+    JsonObject lnurlATMMSRoot = doc[7];
     const char *lnurlATMMSChar = lnurlATMMSRoot["value"];
     lnurlATMMS = lnurlATMMSChar;
-
-    const JsonObject lnurlATMPinRoot = doc[8];
+    JsonObject lnurlATMPinRoot = doc[8];
     const char *lnurlATMPinChar = lnurlATMPinRoot["value"];
     lnurlATMPin = lnurlATMPinChar;
   }
-
   paramFile.close();
 
-  // general WiFi setting
-  config.autoReset = false;
-  config.autoReconnect = true;
-  config.reconnectInterval = 1; // 30s
-  config.beginTimeout = 10000UL;
+  //Handle access point traffic
+  server.on("/", []() {
+    String content = "<h1>LNPoS</br>Free open-source bitcoin PoS</h1>";
+    content += AUTOCONNECT_LINK(COG_24);
+    server.send(200, "text/html", content);
+  });
 
-  // start portal (any key pressed on startup)
-  const char key = keypad.getKey();
-  if (key != NO_KEY)
-  {
-    // handle access point traffic
-    server.on("/", []() {
-      String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
-      content += AUTOCONNECT_LINK(COG_24);
-      server.send(200, "text/html", content);
-    });
-
-    elementsAux.load(FPSTR(PAGE_ELEMENTS));
-    elementsAux.on([](AutoConnectAux &aux, PageArgument &arg) {
+  elementsAux.load(FPSTR(PAGE_ELEMENTS));
+  elementsAux.on([](AutoConnectAux &aux, PageArgument &arg) {
+    File param = FlashFS.open(PARAM_FILE, "r");
+    if (param)
+    {
+      aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
+      param.close();
+    }
+    if (portal.where() == "/posconfig")
+    {
       File param = FlashFS.open(PARAM_FILE, "r");
       if (param)
       {
         aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
         param.close();
       }
-
-      if (portal.where() == "/posconfig")
-      {
-        File param = FlashFS.open(PARAM_FILE, "r");
-        if (param)
-        {
-          aux.loadElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
-          param.close();
-        }
-      }
-      return String();
-    });
-
-    saveAux.load(FPSTR(PAGE_SAVE));
-    saveAux.on([](AutoConnectAux &aux, PageArgument &arg) {
-      aux["caption"].value = PARAM_FILE;
-      File param = FlashFS.open(PARAM_FILE, "w");
-
-      if (param)
-      {
-        // save as a loadable set for parameters.
-        elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
-        param.close();
-
-        // read the saved elements again to display.
-        param = FlashFS.open(PARAM_FILE, "r");
-        aux["echo"].value = param.readString();
-        param.close();
-      }
-      else
-      {
-        aux["echo"].value = "Filesystem failed to open.";
-      }
-
-      return String();
-    });
-
-    // start access point
-    portalLaunch();
-
-    config.immediateStart = true;
-    config.ticker = true;
-    config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
-    config.psk = apPassword;
-    config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
-    config.title = "bitcoinPoS";
-
-    portal.join({elementsAux, saveAux});
-    portal.config(config);
-    portal.begin();
-    while (true)
-    {
-      portal.handleClient();
     }
-  }
+    return String();
+  });
 
-  // connect to configured WiFi
+  saveAux.load(FPSTR(PAGE_SAVE));
+  saveAux.on([](AutoConnectAux &aux, PageArgument &arg) {
+    aux["caption"].value = PARAM_FILE;
+    File param = FlashFS.open(PARAM_FILE, "w");
+    if (param)
+    {
+      // Save as a loadable set for parameters.
+      elementsAux.saveElement(param, {"password", "masterkey", "server", "invoice", "lncurrency", "lnurlpos", "lnurlatm", "lnurlatmms", "lnurlatmpin"});
+      param.close();
+      // Read the saved elements again to display.
+      param = FlashFS.open(PARAM_FILE, "r");
+      aux["echo"].value = param.readString();
+      param.close();
+    }
+    else
+    {
+      aux["echo"].value = "Filesystem failed to open.";
+    }
+    return String();
+  });
+
+  config.auth = AC_AUTH_BASIC;
+  config.authScope = AC_AUTHSCOPE_AUX;
+  config.ticker = true;
+  config.autoReconnect = true;
+  config.apid = "PoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
+  config.psk = apPassword;
+  config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
+  config.reconnectInterval = 1;
+  config.title = "LNPoS";
+  int timer = 0;
+
+  //Give few seconds to trigger portal
+  while (timer < 2000)
+  {
+    char key = keypad.getKey();
+    if (key != NO_KEY)
+    {
+      portalLaunch();
+      config.immediateStart = true;
+      portal.join({elementsAux, saveAux});
+      portal.config(config);
+      portal.begin();
+      while (true)
+      {
+        portal.handleClient();
+      }
+    }
+    timer = timer + 200;
+    delay(200);
+  }
   if (menuItemCheck[0])
   {
-    config.autoRise = false;
-
     portal.join({elementsAux, saveAux});
+    config.autoRise = false;
     portal.config(config);
     portal.begin();
   }
@@ -418,20 +404,11 @@ void loop()
   amountToShow = "0";
   unConfirmed = true;
   key_val = "";
-
-  // check wifi status
-  if (menuItemCheck[0] == 1 && WiFi.status() != WL_CONNECTED)
-  {
-    menuItemCheck[0] = -1;
-  }
-  else if (menuItemCheck[0] == -1 && WiFi.status() == WL_CONNECTED)
-  {
-    menuItemCheck[0] = 1;
-  }
-
-  // count menu items
   int menuItemsAmount = 0;
-
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    menuItemCheck[0] = 0;
+  }
   for (int i = 0; i < sizeof(menuItems) / sizeof(menuItems[0]); i++)
   {
     if (menuItemCheck[i] == 1)
@@ -441,44 +418,61 @@ void loop()
     }
   }
 
-  // no methods available
+  //If no methods available
   if (menuItemsAmount < 1)
   {
     error("  NO METHODS", "RESTART & RUN PORTAL");
     delay(10000000);
   }
-
-  // select menu item
-  while (unConfirmed)
+  //If only one payment method available skip menu
+  Serial.println(menuItemsAmount);
+  if (menuItemsAmount == 1)
   {
-    if (menuItemsAmount > 1) {
-      menuLoop();
+    if (selection == "OnChain")
+    {
+      onchainMain();
     }
-
     if (selection == "LNPoS")
     {
       lnMain();
     }
-    else if (selection == "OnChain")
-    {
-      onchainMain();
-    }
-    else if (selection == "LNURLPoS")
+    if (selection == "LNURLPoS")
     {
       lnurlPoSMain();
     }
-    else if (selection == "LNURLATM")
+    if (selection == "LNURLATM")
     {
       lnurlATMMain();
     }
-
-    if (menuItemsAmount == 1) {
-      unConfirmed = false;
+  }
+  //If more than one payment method available trigger menu
+  else
+  {
+    while (unConfirmed)
+    {
+      menuLoop();
+      if (selection == "LNPoS")
+      {
+        lnMain();
+      }
+      if (selection == "OnChain")
+      {
+        onchainMain();
+      }
+      if (selection == "LNURLPoS")
+      {
+        lnurlPoSMain();
+      }
+      if (selection == "LNURLATM")
+      {
+        lnurlATMMain();
+      }
+      delay(100);
     }
   }
 }
 
-// on-chain payment method
+//Onchain payment method
 void onchainMain()
 {
   File file = SPIFFS.open(KEY_FILE);
@@ -499,46 +493,40 @@ void onchainMain()
     file.print(addressNo);
     file.close();
   }
-
   Serial.println(addressNo);
   inputScreenOnChain();
-
   while (unConfirmed)
   {
     key_val = "";
     getKeypad(false, true, false, false);
-
     if (key_val == "*")
     {
       unConfirmed = false;
     }
-    else if (key_val == "#")
+    if (key_val == "#")
     {
       HDPublicKey hd(masterKey);
-      qrData = hd.derive(String("m/0/") + addressNo).address();
+      String path = String("m/0/") + addressNo;
+      qrData = hd.derive(path).address();
       qrShowCodeOnchain(true, " *MENU #CHECK");
-
       while (unConfirmed)
       {
         key_val = "";
         getKeypad(false, true, false, false);
-
         if (key_val == "*")
         {
           unConfirmed = false;
         }
-        else if (key_val == "#")
+        if (key_val == "#")
         {
           while (unConfirmed)
           {
             qrData = "https://" + lnurlATMMS + "/address/" + qrData;
             qrShowCodeOnchain(false, " *MENU");
-
             while (unConfirmed)
             {
               key_val = "";
               getKeypad(false, true, false, false);
-
               if (key_val == "*")
               {
                 unConfirmed = false;
@@ -550,73 +538,42 @@ void onchainMain()
     }
   }
 }
-
 void lnMain()
 {
   if (converted == 0)
   {
     processing("FETCHING FIAT RATE");
-    if (!getSats()) {
-      error("FETCHING FIAT RATE FAILED");
-      delay(3000);
-      return;
-    }
+    getSats();
   }
-
   isLNMoneyNumber(true);
-
   while (unConfirmed)
   {
     key_val = "";
     getKeypad(false, false, true, false);
-
     if (key_val == "*")
     {
       unConfirmed = false;
     }
-    else if (key_val == "#")
+    if (key_val == "#")
     {
-      // request invoice
       processing("FETCHING INVOICE");
-      if (!getInvoice()) {
-        unConfirmed = false;
-        error("ERROR FETCHING INVOICE");
-        delay(3000);
-        break;
-      }
-
-      // show QR
+      getInvoice();
+      delay(1000);
       qrShowCodeln();
-
-      // check invoice
-      bool isFirstRun = true;
       while (unConfirmed)
       {
         int timer = 0;
-
-        if (!isFirstRun) {
-          unConfirmed = checkInvoice();
-          if (!unConfirmed)
-          {
-            paymentSuccess();
-            timer = 5000;
-
-            while (key_val != "*") {
-              key_val = "";
-              getKeypad(false, true, false, false);
-
-              if (key_val != "*") {
-                delay(100);
-              }
-            }
-          }
-        }
-
-        // abort on * press
-        while (timer < (isFirstRun ? 6000 : 2000))
+        unConfirmed = checkInvoice();
+        if (!unConfirmed)
         {
+          complete();
+          timer = 5000;
+          delay(3000);
+        }
+        while (timer < 4000)
+        {
+          key_val = "";
           getKeypad(false, true, false, false);
-
           if (key_val == "*")
           {
             noSats = "0";
@@ -624,42 +581,28 @@ void lnMain()
             amountToShow = "0";
             unConfirmed = false;
             timer = 5000;
-            break;
-            
-          } else {
-            delay(100);
           }
-
+          delay(200);
           timer = timer + 100;
         }
-
-        isFirstRun = false;
       }
-
       noSats = "0";
       dataIn = "0";
       amountToShow = "0";
     }
-    else
-    {
-      delay(100);
-    }
+    delay(100);
   }
 }
-
 void lnurlPoSMain()
 {
   inputs = "";
   pinToShow = "";
   dataIn = "";
-
   isLNURLMoneyNumber(true);
-
   while (unConfirmed)
   {
     key_val = "";
     getKeypad(false, false, false, false);
-
     if (key_val == "*")
     {
       unConfirmed = false;
@@ -668,37 +611,30 @@ void lnurlPoSMain()
     {
       makeLNURL();
       qrShowCodeLNURL(" *MENU #SHOW PIN");
-
       while (unConfirmed)
       {
         key_val = "";
         getKeypad(false, true, false, false);
-
         if (key_val == "#")
         {
           showPin();
-
           while (unConfirmed)
           {
             key_val = "";
             getKeypad(false, true, false, false);
-
             if (key_val == "*")
             {
               unConfirmed = false;
             }
           }
         }
-        else if (key_val == "*")
+        if (key_val == "*")
         {
           unConfirmed = false;
         }
       }
     }
-    else
-    {
-      delay(100);
-    }
+    delay(100);
   }
 }
 
@@ -707,26 +643,22 @@ void lnurlATMMain()
   pinToShow = "";
   dataIn = "";
   isATMMoneyPin(true);
-
   while (unConfirmed)
   {
     key_val = "";
     getKeypad(true, false, false, false);
-
     if (key_val == "*")
     {
       unConfirmed = false;
     }
-    else if (key_val == "#")
+    if (key_val == "#")
     {
       isATMMoneyPin(true);
     }
-
     if (pinToShow.length() == lnurlATMPin.length() && pinToShow != lnurlATMPin)
     {
-      error("  WRONG PIN");
+      error("  WRONG PIN", "");
       delay(1500);
-
       pinToShow = "";
       dataIn = "";
       isATMMoneyPin(true);
@@ -736,26 +668,22 @@ void lnurlATMMain()
       isATMMoneyNumber(true);
       inputs = "";
       dataIn = "";
-
       while (unConfirmed)
       {
         key_val = "";
         getKeypad(false, false, false, true);
-
         if (key_val == "*")
         {
           unConfirmed = false;
         }
-        else if (key_val == "#")
+        if (key_val == "#")
         {
           makeLNURL();
           qrShowCodeLNURL(" *MENU");
-
           while (unConfirmed)
           {
             key_val = "";
             getKeypad(false, true, false, false);
-
             if (key_val == "*")
             {
               unConfirmed = false;
@@ -764,77 +692,66 @@ void lnurlATMMain()
         }
       }
     }
-    else
-    {
-      delay(100);
-    }
   }
 }
 
 void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
 {
-  const char key = keypad.getKey();
-  if (key == NO_KEY)
+  char key = keypad.getKey();
+  if (key != NO_KEY)
   {
-    return;
-  }
-
-  key_val = String(key);
-
-  if (dataIn.length() < 9) {
+    key_val = String(key);
     dataIn += key_val;
-  }
-
-  if (isLN)
-  {
-    isLNMoneyNumber(false);
-  }
-  else if (isATMPin)
-  {
-    isATMMoneyPin(false);
-  }
-  else if (justKey)
-  {
-  }
-  else if (isATMNum)
-  {
-    isATMMoneyNumber(false);
-  }
-  else
-  {
-    isLNURLMoneyNumber(false);
+    if (isLN)
+    {
+      isLNMoneyNumber(false);
+    }
+    else if (isATMPin)
+    {
+      isATMMoneyPin(false);
+    }
+    else if (justKey)
+    {
+    }
+    else if (isATMNum)
+    {
+      isATMMoneyNumber(false);
+    }
+    else
+    {
+      isLNURLMoneyNumber(false);
+    }
   }
 }
 
-///////////DISPLAY///////////////
 void portalLaunch()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(20, 50);
+  tft.setTextSize(2);
+  tft.setCursor(15, 50);
   tft.println("AP LAUNCHED");
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 75);
-  tft.setTextSize(2);
-  tft.println(" WHEN FINISHED RESET");
+  tft.setCursor(0, 100);
+  tft.setTextSize(1);
+  tft.println("WHEN FINISHED RESET");
 }
 
 void isLNMoneyNumber(bool cleared)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setCursor(0, 20);
-  tft.print("  - ENTER AMOUNT -");
-  tft.setTextSize(3);
+  tft.print("    ENTER AMOUNT");
+  tft.setTextSize(2);
   tft.setCursor(0, 50);
   tft.println(String(lncurrency) + ": ");
-  tft.println("SAT: ");
+  tft.println("SATS: ");
   tft.setCursor(0, 120);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.println(" *MENU #INVOICE");
-
+  tft.setTextSize(2);
   if (!cleared)
   {
     amountToShow = String(dataIn.toFloat() / 100);
@@ -846,13 +763,12 @@ void isLNMoneyNumber(bool cleared)
     dataIn = "0";
     amountToShow = "0";
   }
-
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.setCursor(75, 50);
+  tft.setCursor(55, 50);
   tft.println(amountToShow);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(75, 75);
+  tft.setCursor(70, 75);
   tft.println(noSats.toInt());
 }
 
@@ -860,17 +776,16 @@ void isLNURLMoneyNumber(bool cleared)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setCursor(0, 20);
-  tft.print("  - ENTER AMOUNT -");
-  tft.setTextSize(3);
+  tft.print("    ENTER AMOUNT");
+  tft.setTextSize(2);
   tft.setCursor(0, 50);
   tft.println(String(currencyPoS) + ": ");
   tft.setCursor(0, 120);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.println(" *MENU #INVOICE");
-  tft.setTextSize(3);
-
+  tft.setTextSize(2);
   if (!cleared)
   {
     amountToShow = String(dataIn.toFloat() / 100);
@@ -880,9 +795,8 @@ void isLNURLMoneyNumber(bool cleared)
     dataIn = "0";
     amountToShow = "0.00";
   }
-
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(75, 50);
+  tft.setCursor(55, 50);
   tft.println(amountToShow);
 }
 
@@ -890,17 +804,16 @@ void isATMMoneyNumber(bool cleared)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setCursor(0, 20);
-  tft.print("  - ENTER AMOUNT -");
-  tft.setTextSize(3);
+  tft.print("    ENTER AMOUNT");
+  tft.setTextSize(2);
   tft.setCursor(0, 50);
   tft.println(String(currencyATM) + ": ");
   tft.setCursor(0, 120);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.println(" *MENU #WITHDRAW");
-  tft.setTextSize(3);
-
+  tft.setTextSize(2);
   if (!cleared)
   {
     amountToShow = String(dataIn.toFloat() / 100);
@@ -910,9 +823,8 @@ void isATMMoneyNumber(bool cleared)
     dataIn = "0";
     amountToShow = "0.00";
   }
-
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(75, 50);
+  tft.setCursor(55, 50);
   tft.println(amountToShow);
 }
 
@@ -920,70 +832,68 @@ void isATMMoneyPin(bool cleared)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setCursor(0, 20);
   tft.print(" ENTER SECRET PIN");
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setCursor(0, 50);
   tft.println("PIN:");
   tft.setCursor(0, 120);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.println(" *MENU #CLEAR");
-
   pinToShow = dataIn;
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   if (cleared)
   {
     pinToShow = "";
     dataIn = "";
   }
-
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(75, 50);
+  tft.setCursor(55, 50);
   tft.println(pinToShow);
 }
+
+///////////DISPLAY///////////////
+/////Lightning//////
 
 void inputScreenOnChain()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setCursor(0, 40);
   tft.println("XPUB ENDING " + masterKey.substring(masterKey.length() - 5));
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setCursor(0, 120);
-  tft.println(" *MENU #ADDRESS");
+  tft.println("*MENU #ADDRESS");
 }
 
 void qrShowCodeln()
 {
   tft.fillScreen(TFT_WHITE);
-
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-
   qrcode_initText(&qrcoded, qrcodeData, 11, 0, qrDataChar);
-
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
+    // Each horizontal module
     for (uint8_t x = 0; x < qrcoded.size; x++)
     {
       if (qrcode_getModule(&qrcoded, x, y))
       {
-        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, TFT_BLACK);
+        tft.fillRect(20 + 2 * x, 2 + 2 * y, 2, 2, TFT_BLACK);
       }
       else
       {
-        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, TFT_WHITE);
+        tft.fillRect(20 + 2 * x, 2 + 2 * y, 2, 2, TFT_WHITE);
       }
     }
   }
-
   tft.setCursor(0, 220);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
   tft.print(" *MENU");
 }
@@ -991,21 +901,17 @@ void qrShowCodeln()
 void qrShowCodeOnchain(bool anAddress, String message)
 {
   tft.fillScreen(TFT_WHITE);
-
   if (anAddress)
   {
     qrData.toUpperCase();
   }
-
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
   int pixSize = 0;
-
   tft.setCursor(0, 100);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
-
   if (anAddress)
   {
     qrcode_initText(&qrcoded, qrcodeData, 2, 0, qrDataChar);
@@ -1016,22 +922,21 @@ void qrShowCodeOnchain(bool anAddress, String message)
     qrcode_initText(&qrcoded, qrcodeData, 4, 0, qrDataChar);
     pixSize = 3;
   }
-
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
+    // Each horizontal module
     for (uint8_t x = 0; x < qrcoded.size; x++)
     {
       if (qrcode_getModule(&qrcoded, x, y))
       {
-        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, TFT_BLACK);
+        tft.fillRect(25 + pixSize * x, 2 + pixSize * y, pixSize, pixSize, TFT_BLACK);
       }
       else
       {
-        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, TFT_WHITE);
+        tft.fillRect(25 + pixSize * x, 2 + pixSize * y, pixSize, pixSize, TFT_WHITE);
       }
     }
   }
-
   tft.setCursor(0, 120);
   tft.println(message);
 }
@@ -1039,51 +944,44 @@ void qrShowCodeOnchain(bool anAddress, String message)
 void qrShowCodeLNURL(String message)
 {
   tft.fillScreen(TFT_WHITE);
-
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
   qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
-
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
+    // Each horizontal module
     for (uint8_t x = 0; x < qrcoded.size; x++)
     {
       if (qrcode_getModule(&qrcoded, x, y))
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_BLACK);
+        tft.fillRect(20 + 3 * x, 2 + 3 * y, 3, 3, TFT_BLACK);
       }
       else
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(20 + 3 * x, 2 + 3 * y, 3, 3, TFT_WHITE);
       }
     }
   }
-
   tft.setCursor(0, 220);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
   tft.println(message);
-}
-
-void error(String message)
-{
-  error(message, "");
 }
 
 void error(String message, String additional)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setCursor(0, 30);
   tft.println(message);
   if (additional != "")
   {
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.setCursor(0, 120);
-    tft.setTextSize(2);
+    tft.setTextSize(1);
     tft.println(additional);
   }
 }
@@ -1092,47 +990,44 @@ void processing(String message)
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setCursor(20, 60);
+  tft.setTextSize(1);
+  tft.setCursor(20, 50);
   tft.println(message);
 }
 
-void paymentSuccess()
+void complete()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(70, 50);
-  tft.println("PAYED");
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
-  tft.println("  PRESS * FOR MENU");
+  tft.setCursor(45, 30);
+  tft.println("COMPLETE");
 }
 
 void showPin()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setCursor(40, 5);
   tft.println("PROOF PIN");
-  tft.setCursor(70, 60);
+  tft.setCursor(50, 60);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setTextSize(4);
+  tft.setTextSize(3);
   tft.println(randomPin);
 }
 
 void lnurlInputScreen()
 {
   tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setTextSize(3);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK); // White characters on black background
+  tft.setTextSize(2);
   tft.setCursor(0, 0);
   tft.println("AMOUNT THEN #");
   tft.setCursor(50, 110);
-  tft.setTextSize(2);
+  tft.setTextSize(1);
   tft.println("TO RESET PRESS *");
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setCursor(0, 30);
   tft.print(String(currency) + ":");
 }
@@ -1141,95 +1036,53 @@ void logo()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_ORANGE, TFT_BLACK);
-  tft.setTextSize(4);
-  tft.setCursor(0, 30);
+  tft.setTextSize(2);
+  tft.setCursor(0, 40);
   tft.print("bitcoin");
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.print("PoS");
-  tft.setTextSize(2);
-  tft.setCursor(0, 80);
+  tft.setTextSize(1);
+  tft.setCursor(0, 60);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.print("Powered by LNbits");
 }
 
-long int lastBatteryCheck = 0;
-void updateBatteryStatus(bool force = false)
+void to_upper(char *arr)
 {
-  // throttle
-  if(!force && lastBatteryCheck != 0 && millis() - lastBatteryCheck < 5000) {
-    return;
-  }
-
-  lastBatteryCheck = millis();
-
-  // update
-  const int batteryPercentage = getBatteryPercentage();
-
-  String batteryPercentageText = "";
-  if (batteryPercentage == NULL) {
-    tft.setTextColor(TFT_GREEN, TFT_BLACK);
-    batteryPercentageText = " USB";
-
-  } else {
-    if(batteryPercentage >= 60) {
-      tft.setTextColor(TFT_GREEN, TFT_BLACK);
-
-    } else if (batteryPercentage >= 20) {
-      tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-
-    } else {
-      tft.setTextColor(TFT_RED, TFT_BLACK);
+  for (size_t i = 0; i < strlen(arr); i++)
+  {
+    if (arr[i] >= 'a' && arr[i] <= 'z')
+    {
+      arr[i] = arr[i] - 'a' + 'A';
     }
-
-    if(batteryPercentage != 100) {
-      batteryPercentageText += " ";
-      
-      if (batteryPercentage < 10) {
-        batteryPercentageText += " ";
-      }
-    }
-
-    batteryPercentageText += String(batteryPercentage) + "%";
   }
+}
 
-  tft.setCursor(190, 120);
-  tft.print(batteryPercentageText);
+void callback()
+{
 }
 
 void menuLoop()
 {
-  Serial.println("menuLoop");
-
-  // footer/header
   tft.fillScreen(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setCursor(0, 10);
-  tft.setTextColor(TFT_ORANGE, TFT_BLACK);
-  tft.print("      - MENU -");
-  tft.setCursor(0, 120);
-  tft.setTextSize(2);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.print(" *NEXT #SELECT");
-
-  updateBatteryStatus(true);
-
-  // menu items
+  tft.setTextSize(1);
+  tft.setCursor(0, 0);
+  tft.print("   PAYMENT METHODS");
+  tft.setCursor(0, 120);
+  tft.setTextSize(1);
+  tft.println(" *NEXT #SELECT");
   selection = "";
   selected = true;
-
   while (selected)
   {
-    if (menuItemCheck[0] <= 0 && menuItemNo == 0)
+    if (menuItemCheck[0] == 0 && menuItemNo == 0)
     {
-      menuItemNo++;
+      menuItemNo = menuItemNo + 1;
     }
-
-    tft.setCursor(0, 40);
+    tft.setCursor(0, 30);
     tft.setTextSize(2);
-
     int current = 0;
-    int menuItemCount = 0;
-
     for (int i = 0; i < sizeof(menuItems) / sizeof(menuItems[0]); i++)
     {
       if (menuItemCheck[i] == 1)
@@ -1237,79 +1090,68 @@ void menuLoop()
         if (menuItems[i] == menuItems[menuItemNo])
         {
           tft.setTextColor(TFT_GREEN, TFT_BLACK);
+          tft.println(menuItems[i]);
           selection = menuItems[i];
         }
         else
         {
           tft.setTextColor(TFT_WHITE, TFT_BLACK);
+          tft.println(menuItems[i]);
         }
-
-        tft.print("  ");
-        tft.println(menuItems[i]);
-        menuItemCount++;
       }
     }
-
     bool btnloop = true;
     while (btnloop)
     {
       key_val = "";
       getKeypad(false, true, false, false);
-
       if (key_val == "*")
       {
-        menuItemNo++;
-        if (menuItemCheck[menuItemNo] < 1)
+        menuItemNo = menuItemNo + 1;
+        if (menuItemCheck[menuItemNo] == 0)
         {
-          menuItemNo++;
+          menuItemNo = menuItemNo + 1;
         }
-
-        if (menuItemNo > menuItemCount)
+        if (menuItemNo >= (sizeof(menuItems) / sizeof(menuItems[0])))
         {
           menuItemNo = 0;
-          break;
         }
-
         btnloop = false;
       }
-      else if (key_val == "#")
+      if (key_val == "#")
       {
         selected = false;
         btnloop = false;
-      }
-      else
-      {
-        updateBatteryStatus();
-        delay(100);
       }
     }
   }
 }
 
 //////////LIGHTNING//////////////////////
-bool getSats()
+void getSats()
 {
   WiFiClientSecure client;
-  client.setInsecure(); //Some versions of WiFiClientSecure need this
-
   lnbitsServer.toLowerCase();
+  Serial.println(lnbitsServer);
   if (lnbitsServer.substring(0, 8) == "https://")
   {
+    Serial.println(lnbitsServer.substring(8, lnbitsServer.length()));
     lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
+  client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
   const char *lncurrencyChar = lncurrency.c_str();
 
-  Serial.println("connecting to LNbits server " + lnbitsServer);
   if (!client.connect(lnbitsServerChar, 443))
   {
-    Serial.println("failed to connect to LNbits server " + lnbitsServer);
-    return false;
+    Serial.println("failed");
+    error("SERVER DOWN", "");
+    delay(3000);
   }
 
-  const String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
-  const String url = "/api/v1/conversion";
+  String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
+  String url = "/api/v1/conversion";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + String(lnbitsServerChar) + "\r\n" +
                "User-Agent: ESP32\r\n" +
@@ -1322,50 +1164,50 @@ bool getSats()
 
   while (client.connected())
   {
-    const String line = client.readStringUntil('\n');
+    String line = client.readStringUntil('\n');
+    if (line == "\r")
+    {
+      break;
+    }
     if (line == "\r")
     {
       break;
     }
   }
-
-  const String line = client.readString();
+  String line = client.readString();
   StaticJsonDocument<150> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
-    Serial.print("deserializeJson() failed: ");
+    Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
-    return false;
+    return;
   }
-
   converted = doc["sats"];
-  return true;
 }
 
-bool getInvoice()
+void getInvoice()
 {
   WiFiClientSecure client;
-  client.setInsecure(); //Some versions of WiFiClientSecure need this
-
   lnbitsServer.toLowerCase();
   if (lnbitsServer.substring(0, 8) == "https://")
   {
     lnbitsServer = lnbitsServer.substring(8, lnbitsServer.length());
   }
+  client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
 
   if (!client.connect(lnbitsServerChar, 443))
   {
     Serial.println("failed");
-    error("SERVER DOWN");
+    error("SERVER DOWN", "");
     delay(3000);
-    return false;
+    return;
   }
 
-  const String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"bitcoinPoS-" + String(random(1, 1000)) + "\"}";
-  const String url = "/api/v1/payments";
+  String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"LNPoS-" + String(random(1, 1000)) + "\"}";
+  String url = "/api/v1/payments";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +
                "User-Agent: ESP32\r\n" +
@@ -1378,48 +1220,48 @@ bool getInvoice()
 
   while (client.connected())
   {
-    const String line = client.readStringUntil('\n');
-
+    String line = client.readStringUntil('\n');
+    Serial.println(line);
+    if (line == "\r")
+    {
+      break;
+    }
     if (line == "\r")
     {
       break;
     }
   }
-  const String line = client.readString();
+  String line = client.readString();
 
   StaticJsonDocument<1000> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
-    Serial.print("deserializeJson() failed: ");
+    Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
-    return false;
+    return;
   }
-
   const char *payment_hash = doc["checking_id"];
   const char *payment_request = doc["payment_request"];
   qrData = payment_request;
   dataId = payment_hash;
-
   Serial.println(qrData);
-  return true;
 }
 
 bool checkInvoice()
 {
   WiFiClientSecure client;
   client.setInsecure(); //Some versions of WiFiClientSecure need this
-
   const char *lnbitsServerChar = lnbitsServer.c_str();
   const char *invoiceChar = invoice.c_str();
   if (!client.connect(lnbitsServerChar, 443))
   {
-    error("SERVER DOWN");
+    error("SERVER DOWN", "");
     delay(3000);
     return false;
   }
 
-  const String url = "/api/v1/payments/";
+  String url = "/api/v1/payments/";
   client.print(String("GET ") + url + dataId + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +
                "User-Agent: ESP32\r\n" +
@@ -1428,29 +1270,31 @@ bool checkInvoice()
                "Connection: close\r\n\r\n");
   while (client.connected())
   {
-    const String line = client.readStringUntil('\n');
+    String line = client.readStringUntil('\n');
+    if (line == "\r")
+    {
+      break;
+    }
     if (line == "\r")
     {
       break;
     }
   }
-
-  const String line = client.readString();
+  String line = client.readString();
   Serial.println(line);
   StaticJsonDocument<500> doc;
-
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
-    Serial.print("deserializeJson() failed: ");
+    Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
     return false;
   }
-  if (doc["paid"])
+  bool boolPaid = doc["paid"];
+  if (boolPaid)
   {
     unConfirmed = false;
   }
-
   return unConfirmed;
 }
 
@@ -1458,7 +1302,7 @@ String getValue(String data, char separator, int index)
 {
   int found = 0;
   int strIndex[] = {0, -1};
-  const int maxIndex = data.length() - 1;
+  int maxIndex = data.length() - 1;
 
   for (int i = 0; i <= maxIndex && found <= index; i++)
   {
@@ -1473,17 +1317,7 @@ String getValue(String data, char separator, int index)
   return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
-//////////UTILS///////////////
-void to_upper(char *arr)
-{
-  for (size_t i = 0; i < strlen(arr); i++)
-  {
-    if (arr[i] >= 'a' && arr[i] <= 'z')
-    {
-      arr[i] = arr[i] - 'a' + 'A';
-    }
-  }
-}
+//////////LNURL AND CRYPTO///////////////
 
 void makeLNURL()
 {
@@ -1493,7 +1327,6 @@ void makeLNURL()
   {
     nonce[i] = random(256);
   }
-
   byte payload[51]; // 51 bytes is max one can get with xor-encryption
   if (selection == "LNURLPoS")
   {
@@ -1514,8 +1347,8 @@ void makeLNURL()
   char *url = Buf;
   byte *data = (byte *)calloc(strlen(url) * 2, sizeof(byte));
   size_t len = 0;
-  int res = convert_bits(data, &len, 5, (byte *) url, strlen(url), 8, 1);
-  char *charLnurl = (char *) calloc(strlen(url) * 2, sizeof(byte));
+  int res = convert_bits(data, &len, 5, (byte *)url, strlen(url), 8, 1);
+  char *charLnurl = (char *)calloc(strlen(url) * 2, sizeof(byte));
   bech32_encode(charLnurl, "lnurl", data, len);
   to_upper(charLnurl);
   qrData = charLnurl;
@@ -1530,17 +1363,14 @@ int xor_encrypt(uint8_t *output, size_t outlen, uint8_t *key, size_t keylen, uin
   {
     return 0;
   }
-
   int cur = 0;
   output[cur] = 1; // variant: XOR encryption
   cur++;
-
   // nonce_len | nonce
   output[cur] = nonce_len;
   cur++;
   memcpy(output + cur, nonce, nonce_len);
   cur += nonce_len;
-
   // payload, unxored first - <pin><currency byte><amount>
   int payload_len = lenVarInt(pin) + 1 + lenVarInt(amount_in_cents);
   output[cur] = (uint8_t)payload_len;
@@ -1549,50 +1379,24 @@ int xor_encrypt(uint8_t *output, size_t outlen, uint8_t *key, size_t keylen, uin
   cur += writeVarInt(pin, output + cur, outlen - cur);             // pin code
   cur += writeVarInt(amount_in_cents, output + cur, outlen - cur); // amount
   cur++;
-
   // xor it with round key
   uint8_t hmacresult[32];
   SHA256 h;
   h.beginHMAC(key, keylen);
-  h.write((uint8_t *) "Round secret:", 13);
+  h.write((uint8_t *)"Round secret:", 13);
   h.write(nonce, nonce_len);
   h.endHMAC(hmacresult);
   for (int i = 0; i < payload_len; i++)
   {
     payload[i] = payload[i] ^ hmacresult[i];
   }
-
   // add hmac to authenticate
   h.beginHMAC(key, keylen);
-  h.write((uint8_t *) "Data:", 5);
+  h.write((uint8_t *)"Data:", 5);
   h.write(output, cur);
   h.endHMAC(hmacresult);
   memcpy(output + cur, hmacresult, 8);
   cur += 8;
-
   // return number of bytes written to the output
   return cur;
-}
-
-unsigned int getBatteryPercentage()
-{
-  const float batteryMaxVoltage = 4.2;
-  const float batteryMinVoltage = 3.73;
-
-  const float batteryAllowedRange = batteryMaxVoltage - batteryMinVoltage;
-  const float batteryCurVAboveMin = getInputVoltage() - batteryMinVoltage;
-
-  const int batteryPercentage = (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
-  if (batteryPercentage > 150) {
-    return NULL;
-  }
-
-  return max(min(batteryPercentage, 100), 0);
-}
-
-float getInputVoltage()
-{
-  delay(100);
-  const uint16_t v1 = analogRead(34);
-  return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
 }
