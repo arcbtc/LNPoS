@@ -60,7 +60,7 @@ int sumFlag = 0;
 int converted = 0;
 int qrScreenBrightness = 180; // 0 = min, 255 = max
 bool isSleepEnabled = true;
-int sleepTimer = 5; // Time in seconds before the device goes to sleep
+int sleepTimer = 30; // Time in seconds before the device goes to sleep
 bool isPretendSleeping = false;
 long timeOfLastInteraction = millis();
 String key_val;
@@ -76,7 +76,8 @@ enum InvoiceType {
   LNPOS,
   LNURLPOS,
   ONCHAIN,
-  LNURLATM
+  LNURLATM,
+  PORTAL
 };
 
 enum KeyPadTypes {
@@ -405,8 +406,6 @@ void setup()
     });
 
     // start access point
-    portalLaunch();
-
     config.immediateStart = true;
     config.ticker = true;
     config.apid = "bitcoinPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
@@ -414,13 +413,17 @@ void setup()
     config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
     config.title = "bitcoinPoS";
 
+    portalLaunch();
+    
     portal.join({elementsAux, saveAux});
     portal.config(config);
     portal.begin();
+
     while (true)
     {
       portal.handleClient();
     }
+
   }
 
   // connect to configured WiFi
@@ -862,16 +865,38 @@ void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
 
 ///////////DISPLAY///////////////
 void portalLaunch()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_PURPLE, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(20, 50);
-  tft.println("AP LAUNCHED");
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 75);
+{ 
+  
+  qrData = "WIFI:S:" + config.apid + ";T:WPA;P:" + config.psk + ";;";
+  tft.fillScreen(qrScreenBgColour);
+  const char *qrDataChar = qrData.c_str();
+  QRCode qrcoded;
+  uint8_t qrcodeData[qrcode_getBufferSize(20)];
+  qrcode_initText(&qrcoded, qrcodeData, 3, 0, qrDataChar);
+
+  for (uint8_t y = 0; y < qrcoded.size; y++)
+  {
+    for (uint8_t x = 0; x < qrcoded.size; x++)
+    {
+      if (qrcode_getModule(&qrcoded, x, y))
+      {
+        tft.fillRect(80 + 3 * x, 25 + 3 * y, 3, 3, TFT_BLACK);
+      }
+      else
+      {
+        tft.fillRect(80 + 3 * x, 25 + 3 * y, 3, 3, qrScreenBgColour);
+      }
+    }
+  }
+
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   tft.setTextSize(2);
-  tft.println(" WHEN FINISHED RESET");
+  tft.setCursor(25, 5);
+  tft.println("SCAN QR TO SETUP");
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
+  tft.setCursor(5, tft.height() - 20);
+  tft.setTextSize(2);
+  tft.println("RESET WHEN FINISHED");
 }
 
 void isLNMoneyNumber(bool cleared)
@@ -1153,7 +1178,7 @@ void paymentSuccess()
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setTextSize(3);
   tft.setCursor(70, 50);
-  tft.println("PAYED");
+  tft.println("PAID");
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.println("  PRESS * FOR MENU");
@@ -1708,7 +1733,7 @@ void adjustQrBrightness(bool shouldMakeBrighter, InvoiceType invoiceType)
       break;  
     case LNURLATM:
       qrShowCodeLNURL(" *MENU");
-      break;  
+      break;
     default:
       break;
   }
