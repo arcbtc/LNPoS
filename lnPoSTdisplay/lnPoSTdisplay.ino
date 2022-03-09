@@ -20,6 +20,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/thekey.txt"
 #define USB_POWER 1000 // battery percentage sentinel value to indicate USB power
+#define KEYPAD_DELAY 50 // millisecond delay between keypad reads
 
 // variables
 String inputs;
@@ -607,7 +608,7 @@ void lnMain()
               getKeypad(false, true, false, false);
 
               if (key_val != "*") {
-                delay(100);
+                delay(KEYPAD_DELAY);
               }
             }
           }
@@ -628,10 +629,10 @@ void lnMain()
             break;
             
           } else {
-            delay(100);
+            delay(KEYPAD_DELAY);
           }
 
-          timer = timer + 100;
+          timer = timer + KEYPAD_DELAY;
         }
 
         isFirstRun = false;
@@ -643,7 +644,7 @@ void lnMain()
     }
     else
     {
-      delay(100);
+      delay(KEYPAD_DELAY);
     }
   }
 }
@@ -698,7 +699,7 @@ void lnurlPoSMain()
     }
     else
     {
-      delay(100);
+      delay(KEYPAD_DELAY);
     }
   }
 }
@@ -767,7 +768,7 @@ void lnurlATMMain()
     }
     else
     {
-      delay(100);
+      delay(KEYPAD_DELAY);
     }
   }
 }
@@ -1275,7 +1276,7 @@ void menuLoop()
       else
       {
         updateBatteryStatus();
-        delay(100);
+        delay(50);
       }
     }
   }
