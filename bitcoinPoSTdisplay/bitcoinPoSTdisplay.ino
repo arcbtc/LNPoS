@@ -60,7 +60,7 @@ int sumFlag = 0;
 int converted = 0;
 int qrScreenBrightness = 180; // 0 = min, 255 = max
 bool isSleepEnabled = true;
-int sleepTimer = 30; // Time in seconds before the device goes to sleep
+int sleepTimer = 5; // Time in seconds before the device goes to sleep
 bool isPretendSleeping = false;
 long timeOfLastInteraction = millis();
 String key_val;
@@ -72,11 +72,16 @@ bool selected = false;
 bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
 String lnurlATMPin;
-enum invoiceType {
+enum InvoiceType {
   LNPOS,
   LNURLPOS,
   ONCHAIN,
   LNURLATM
+};
+
+enum KeyPadTypes {
+  LILYGO_TDISPLAY,
+  MEMBRANE_4X4
 };
 
 // custom access point pages
@@ -232,8 +237,10 @@ char keys[rows][cols] = {
     {'7', '8', '9'},
     {'*', '0', '#'}};
 
-byte rowPins[rows] = {21, 27, 26, 22}; //connect to the row pinouts of the keypad
-byte colPins[cols] = {33, 32, 25};     //connect to the column pinouts of the keypad
+byte rowPins[rows] = {};
+byte colPins[cols] = {};
+//byte rowPins[rows] = {21, 22, 17, 2}; //connect to the row pinouts of the keypad
+//byte colPins[cols] = {15, 13, 12}; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 int checker = 0;
@@ -248,6 +255,8 @@ AutoConnectAux saveAux;
 void setup()
 {
   Serial.begin(115200);
+
+  setupKeypad();
 
   // load screen
   tft.init();
@@ -492,6 +501,35 @@ void loop()
   }
 }
 
+void setupKeypad() {
+  KeyPadTypes keypadType = LILYGO_TDISPLAY;
+//  KeyPadTypes keypadType = MEMBRANE_4X4;
+  // lilygo t display
+  byte rowPinsTDisplay[rows] = {21, 27, 26, 22}; //connect to the row pinouts of the keypad
+  byte colPinsTDisplay[cols] = {33, 32, 25};     //connect to the column pinouts of the keypad
+  // membrane 4x4
+  byte rowPinsMembrane[rows] = {21, 22, 17, 2}; //connect to the row pinouts of the keypad
+  byte colPinsMembrane[cols] = {15, 13, 12}; //connect to the column pinouts of the keypad
+  
+  switch(keypadType) {
+    case LILYGO_TDISPLAY:
+      Serial.println("Set up lilygo");
+      memcpy(rowPins, rowPinsTDisplay, rows);
+      memcpy(colPins, colPinsTDisplay, cols);
+    break;
+    case MEMBRANE_4X4:
+      Serial.println("Set up membrane");
+      memcpy(rowPins, rowPinsMembrane, rows);
+      memcpy(colPins, colPinsMembrane, cols);
+    break;
+    default:
+      Serial.println("Set up default");
+      memcpy(rowPins, rowPinsTDisplay, rows);
+      memcpy(colPins, colPinsTDisplay, cols);
+    break;
+  }
+}
+
 // on-chain payment method
 void onchainMain()
 {
@@ -630,7 +668,6 @@ void lnMain()
         // abort on * press
         while (timer < (isFirstRun ? 6000 : 2000))
         {
-          key_val = "";
           getKeypad(false, true, false, false);
 
           if (key_val == "*")
@@ -777,7 +814,6 @@ void lnurlATMMain()
             {
               unConfirmed = false;
             }
-            handleBrightnessAdjust(key_val, LNURLATM);
           }
         }
       }
@@ -1634,7 +1670,7 @@ float getInputVoltage()
   return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
 }
 
-void adjustQrBrightness(bool shouldMakeBrighter, invoiceType invoiceType)
+void adjustQrBrightness(bool shouldMakeBrighter, InvoiceType invoiceType)
 {
   if (shouldMakeBrighter && qrScreenBrightness >= 0)
   {
@@ -1703,16 +1739,16 @@ void loadConfig() {
 /**
  * Handle user inputs for adjusting the screen brightness
  */
-void handleBrightnessAdjust(String keyVal, invoiceType invoiceType) {
+void handleBrightnessAdjust(String keyVal, InvoiceType invoiceType) {
   // Handle screen brighten on QR screen
   if (keyVal == "1"){
-    Serial.println("Adjust bnrightness " + invoiceType);
+      Serial.println("Adjust bnrightness " + invoiceType);
     timeOfLastInteraction = millis();
     adjustQrBrightness(true, invoiceType);
   }
   // Handle screen dim on QR screen
   else if (keyVal == "4"){
-    Serial.println("Adjust bnrightness " + invoiceType);
+      Serial.println("Adjust bnrightness " + invoiceType);
     timeOfLastInteraction = millis();
     adjustQrBrightness(false, invoiceType);
   }
@@ -1729,17 +1765,37 @@ void maybeSleepDevice() {
       sleepAnimation();
       // The device wont charge if it is sleeping, so when charging, do a pretend sleep
       if(isPoweredExternally()) {
+        isLilyGoKeyboard();
         Serial.println("Pretend sleep now");
         isPretendSleeping = true;
         tft.fillScreen(TFT_BLACK);
       }
       else {
-        esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+        if(isLilyGoKeyboard()) {
+          esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+        } else {
+          //Configure Touchpad as wakeup source
+          touchAttachInterrupt(T3, callback, 40);
+          esp_sleep_enable_touchpad_wakeup();
+        }
         Serial.println("Going to sleep now");
         esp_deep_sleep_start();
       }
     }
   }
+}
+
+void callback(){
+}
+
+/* 
+ * Get the keypad type 
+ */
+boolean isLilyGoKeyboard() {
+  if(colPins[0] == 33) {
+    return true;
+  }
+  return false;
 }
 
 /**
