@@ -77,7 +77,7 @@ static const char PAGE_ELEMENTS[] PROGMEM = R"(
     {
       "name": "text",
       "type": "ACText",
-      "value": "bitcoinPoS options",
+      "value": "LNPoS options",
       "style": "font-family:Arial;font-size:16px;font-weight:400;color:#191970;margin-botom:15px;"
     },
     {
@@ -312,7 +312,7 @@ void setup()
 
   //Handle access point traffic
   server.on("/", []() {
-    String content = "<h1>bitcoinPoS</br>Free open-source bitcoin PoS</h1>";
+    String content = "<h1>LNPoS</br>Free open-source bitcoin PoS</h1>";
     content += AUTOCONNECT_LINK(COG_24);
     server.send(200, "text/html", content);
   });
@@ -366,7 +366,7 @@ void setup()
   config.psk = apPassword;
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
-  config.title = "bitcoinPoS";
+  config.title = "LNPoS";
   int timer = 0;
 
   //Give few seconds to trigger portal
@@ -1206,7 +1206,7 @@ void getInvoice()
     return;
   }
 
-  String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"bitcoinPoS-" + String(random(1, 1000)) + "\"}";
+  String toPost = "{\"out\": false,\"amount\" : " + String(noSats.toInt()) + ", \"memo\" :\"LNPoS-" + String(random(1, 1000)) + "\"}";
   String url = "/api/v1/payments";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +

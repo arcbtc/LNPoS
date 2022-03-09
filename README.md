@@ -1,12 +1,12 @@
 ![Alt text](images/banner.png?raw=true "banner")
 
 <h1>
-bitcoinPoS
+LNPoS
 </h1>
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
 
-bitcoinPoS includes:
+LNPoS includes:
 
 - LNPoS (for online LN payments, original <a href="https://github.com/arcbtc/LNPoS">project</a>)
 - LNURLPoS (for offline LN payments, original <a href="https://github.com/arcbtc/LNURLPoS">project</a> )
@@ -68,12 +68,12 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 <br></br>
 
 <h2>
-bitcoinPoS Options
+LNPoS Options
 </h2>
 <h3>
  <ul>
-  <li><a href="bitcoinPoSM5Stack">bitcoinPoSM5Stack</a> $70</li>
-  <li><a href="bitcoinPoSTdisplay">bitcoinPoSTdisplay</a> $15</li>
-  <li><a href="bitcoinPoSBareBones">bitcoinPoSBareBones</a> $8</li>
+  <li><a href="LNPoSM5Stack">LNPoSM5Stack</a> $70</li>
+  <li><a href="LNPoSTdisplay">LNPoSTdisplay</a> $15</li>
+  <li><a href="LNPoSBareBones">LNPoSBareBones</a> $8</li>
   </ul>  
  </h3>
