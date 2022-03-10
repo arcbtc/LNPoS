@@ -505,8 +505,8 @@ void loop()
 }
 
 void setupKeypad() {
-  // KeyPadTypes keypadType = LILYGO_TDISPLAY;
- KeyPadTypes keypadType = MEMBRANE_4X4;
+  KeyPadTypes keypadType = LILYGO_TDISPLAY;
+//  KeyPadTypes keypadType = MEMBRANE_4X4;
   // lilygo t display
   byte rowPinsTDisplay[rows] = {21, 27, 26, 22}; //connect to the row pinouts of the keypad
   byte colPinsTDisplay[cols] = {33, 32, 25};     //connect to the column pinouts of the keypad
