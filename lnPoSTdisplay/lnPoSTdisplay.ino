@@ -518,7 +518,7 @@ void onchainMain()
     {
       HDPublicKey hd(masterKey);
       qrData = hd.derive(String("m/0/") + addressNo).address();
-      qrShowCodeOnchain(true, " *MENU #CHECK");
+      qrShowCodeOnchain(true, " *MENU        #CHECK");
 
       while (unConfirmed)
       {
@@ -669,7 +669,7 @@ void lnurlPoSMain()
     else if (key_val == "#")
     {
       makeLNURL();
-      qrShowCodeLNURL(" *MENU #SHOW PIN");
+      qrShowCodeLNURL(" *MENU     #SHOW PIN");
 
       while (unConfirmed)
       {
@@ -835,7 +835,7 @@ void isLNMoneyNumber(bool cleared)
   tft.println("SAT: ");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
-  tft.println(" *MENU #INVOICE");
+  tft.println(" *MENU       #INVOICE");
 
   if (!cleared)
   {
@@ -870,7 +870,7 @@ void isLNURLMoneyNumber(bool cleared)
   tft.println(String(currencyPoS) + ": ");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
-  tft.println(" *MENU #INVOICE");
+  tft.println(" *MENU     #INVOICE");
   tft.setTextSize(3);
 
   if (!cleared)
@@ -900,7 +900,7 @@ void isATMMoneyNumber(bool cleared)
   tft.println(String(currencyATM) + ": ");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
-  tft.println(" *MENU #WITHDRAW");
+  tft.println(" *MENU     #WITHDRAW");
   tft.setTextSize(3);
 
   if (!cleared)
@@ -930,7 +930,7 @@ void isATMMoneyPin(bool cleared)
   tft.println("PIN:");
   tft.setCursor(0, 120);
   tft.setTextSize(2);
-  tft.println(" *MENU #CLEAR");
+  tft.println(" *MENU        #CLEAR");
 
   pinToShow = dataIn;
   tft.setTextSize(3);
@@ -955,7 +955,7 @@ void inputScreenOnChain()
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(0, 120);
-  tft.println(" *MENU #ADDRESS");
+  tft.println(" *MENU      #ADDRESS");
 }
 
 void qrShowCodeln()
@@ -1154,50 +1154,6 @@ void logo()
   tft.print("Powered by LNbits");
 }
 
-long int lastBatteryCheck = 0;
-void updateBatteryStatus(bool force = false)
-{
-  // throttle
-  if(!force && lastBatteryCheck != 0 && millis() - lastBatteryCheck < 5000) {
-    return;
-  }
-
-  lastBatteryCheck = millis();
-
-  // update
-  const int batteryPercentage = getBatteryPercentage();
-
-  String batteryPercentageText = "";
-  if (batteryPercentage == USB_POWER) {
-    tft.setTextColor(TFT_GREEN, TFT_BLACK);
-    batteryPercentageText = " USB";
-
-  } else {
-    if(batteryPercentage >= 60) {
-      tft.setTextColor(TFT_GREEN, TFT_BLACK);
-
-    } else if (batteryPercentage >= 20) {
-      tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-
-    } else {
-      tft.setTextColor(TFT_RED, TFT_BLACK);
-    }
-
-    if(batteryPercentage != 100) {
-      batteryPercentageText += " ";
-      
-      if (batteryPercentage < 10) {
-        batteryPercentageText += " ";
-      }
-    }
-
-    batteryPercentageText += String(batteryPercentage) + "%";
-  }
-
-  tft.setCursor(190, 120);
-  tft.print(batteryPercentageText);
-}
-
 void menuLoop()
 {
   Serial.println("menuLoop");
@@ -1211,9 +1167,7 @@ void menuLoop()
   tft.setCursor(0, 120);
   tft.setTextSize(2);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.print(" *NEXT #SELECT");
-
-  updateBatteryStatus(true);
+  tft.print(" *NEXT       #SELECT");
 
   // menu items
   selection = "";
@@ -1239,15 +1193,19 @@ void menuLoop()
         if (menuItems[i] == menuItems[menuItemNo])
         {
           tft.setTextColor(TFT_GREEN, TFT_BLACK);
+          tft.print("    > ");
+          tft.print(menuItems[i]);
+          tft.println(" <");
           selection = menuItems[i];
         }
         else
         {
           tft.setTextColor(TFT_WHITE, TFT_BLACK);
+          tft.print("      ");
+          tft.print(menuItems[i]);
+          tft.println("  ");
         }
 
-        tft.print("  ");
-        tft.println(menuItems[i]);
         menuItemCount++;
       }
     }
@@ -1275,7 +1233,6 @@ void menuLoop()
       }
       else
       {
-        updateBatteryStatus();
         delay(50);
       }
     }
