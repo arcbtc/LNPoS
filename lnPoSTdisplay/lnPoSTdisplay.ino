@@ -347,7 +347,7 @@ void setup()
   config.autoReset = false;
   config.autoReconnect = true;
   config.reconnectInterval = 1; // 30s
-  config.beginTimeout = 3000UL;
+  config.beginTimeout = 10000UL;
 
   // start portal (any key pressed on startup)
   const char key = keypad.getKey();
@@ -1407,7 +1407,7 @@ bool getSats()
     return false;
   }
 
-  const String toPost = "{\"amount\" : 1, \"from_\" :\"" + String(lncurrencyChar) + "\"}";
+  const String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
   Serial.println("toPost : " + toPost);
   const String url = "/api/v1/conversion";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
