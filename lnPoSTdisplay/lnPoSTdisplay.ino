@@ -1040,7 +1040,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
 void qrShowCodeLNURL(String message)
 {
-  tft.fillScreen(TFT_WHITE);
+  tft.fillScreen(TFT_BLACK);
 
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
@@ -1048,17 +1048,22 @@ void qrShowCodeLNURL(String message)
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
   qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
 
-  for (uint8_t y = 0; y < qrcoded.size; y++)
+  for (int8_t y = -1; y < (qrcoded.size + 1); y++)
   {
-    for (uint8_t x = 0; x < qrcoded.size; x++)
+    for (int8_t x = -1; x < qrcoded.size + 1; x++)
     {
-      if (qrcode_getModule(&qrcoded, x, y))
-      {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_BLACK);
-      }
+      if(x < 0 || y < 0 || x >= qrcoded.size || y >= qrcoded.size)
+        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
       else
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        if (qrcode_getModule(&qrcoded, x, y))
+        {
+          tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_BLACK);
+        }
+        else
+        {
+          tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        }
       }
     }
   }
