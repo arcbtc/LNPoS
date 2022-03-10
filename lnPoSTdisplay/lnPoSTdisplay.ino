@@ -1053,7 +1053,7 @@ void qrShowCodeLNURL(String message)
     for (int8_t x = -1; x < qrcoded.size + 1; x++)
     {
       if(x < 0 || y < 0 || x >= qrcoded.size || y >= qrcoded.size)
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE); // could reduce contrast with TFT_LIGHTGREY
       else
       {
         if (qrcode_getModule(&qrcoded, x, y))
@@ -1062,7 +1062,7 @@ void qrShowCodeLNURL(String message)
         }
         else
         {
-          tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+          tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE); // could reduce contrast with TFT_LIGHTGREY
         }
       }
     }
