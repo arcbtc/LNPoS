@@ -812,6 +812,7 @@ void lnurlATMMain()
           {
             key_val = "";
             getKeypad(false, true, false, false);
+            handleBrightnessAdjust(key_val, LNURLATM);
 
             if (key_val == "*")
             {
