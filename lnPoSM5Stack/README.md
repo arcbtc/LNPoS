@@ -18,8 +18,6 @@ The <a href="https://shop.m5stack.com/products/face?variant=17290437623898">M5St
 
 #### Example arduino Settings
 
-If your **M5Stack-screen stays black**  after flashing, check if Tools/Flash Mode is set to **QIO** and the partition scheme to "default/standard"
-
 Working Arduino settings in "Tools":
 - Board: M5Stack-Core-ESP32
 - Upload Speed: 921600
@@ -34,6 +32,8 @@ Common port locating/debug method:
   - unplugging M5Stack
   - check which Port is not listed anymore
   - plug M5Stack back in and use that Port
-  - 
+
+> If your **M5Stack-screen stays black**  after flashing, check if Tools/Flash Mode is set to **QIO** and the partition scheme to "default/standard"
+> 
 #### Demo
 > Drunk Germans giving a terrible demo https://twitter.com/rootzoll/status/1162351526867800064
