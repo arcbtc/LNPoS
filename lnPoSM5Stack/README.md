@@ -16,7 +16,7 @@ The <a href="https://shop.m5stack.com/products/face?variant=17290437623898">M5St
 
 > _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_
 
-#### Arduino Settings
+#### Example arduino Settings
 
 If your **M5Stack-screen stays black**  after flashing, check if Tools/Flash Mode is set to **QIO** and the partition scheme to "default/standard"
 
