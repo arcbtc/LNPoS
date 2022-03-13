@@ -72,8 +72,8 @@ LNPoS Options
 </h2>
 <h3>
  <ul>
-  <li><a href="LNPoSM5Stack">LNPoSM5Stack</a> $70</li>
-  <li><a href="LNPoSTdisplay">LNPoSTdisplay</a> $15</li>
-  <li><a href="LNPoSBareBones">LNPoSBareBones</a> $8</li>
+  <li><a href="lnPoSM5Stack">LNPoSM5Stack</a> $70</li>
+  <li><a href="lnPoSTdisplay">LNPoSTdisplay</a> $15</li>
+  <li><a href="lnPoSBareBones">LNPoSBareBones</a> $8</li>
   </ul>  
  </h3>
