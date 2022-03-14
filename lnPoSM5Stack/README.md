@@ -1,12 +1,11 @@
-<img src="../images/m5stack.png?raw=true">
 
 <h2 align="center">
 ⚡⚡⚡⚡LNPoSM5Stack⚡⚡⚡⚡
 </h2>
 
-The <a href="https://shop.m5stack.com/products/face?variant=17290437623898">M5Stack</a> is an excellent ESP32 based off the shelf device that comes with a charging dock. We had a bitcoin PoS running, in the iconic Room77 bar in Berlin, for a year, and it performed very well.
-
 <a href="https://www.youtube.com/watch?v=d0kivRdwWCU"><img style="width:300px" src="https://user-images.githubusercontent.com/33088785/157879463-21a85b50-23b2-4925-9568-6bc0f73a54a8.png"></a>
+
+The <a href="https://shop.m5stack.com/products/face?variant=17290437623898">M5Stack</a> is an excellent ESP32 based off the shelf device that comes with a charging dock. We had a bitcoin PoS running, in the iconic Room77 bar in Berlin, for a year, and it performed very well.
 
 - Install <a href="https://www.arduino.cc/en/software">Arduino IDE 1.8.19</a>
 - Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
