@@ -1,4 +1,4 @@
-# 3D Printed Cases for LNURLPoS with LilyGo T-Display Keyboard
+# 3D Printed Cases for LNPoS with LilyGo T-Display Keyboard
 
 These 3D print files will print a case for the LilyGo T-Display Keyboard https://aliexpress.com/item/1005003534734992.html.
 
