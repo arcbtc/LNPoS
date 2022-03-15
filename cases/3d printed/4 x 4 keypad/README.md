@@ -1,4 +1,4 @@
-# 3D Printed Cases for LNURLPoS
+# 3D Printed Cases for LNPoS
 
 These 3D print files will print a case for the LNURLPoS device
 
