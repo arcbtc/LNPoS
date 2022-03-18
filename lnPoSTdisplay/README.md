@@ -1,7 +1,7 @@
 <img src="../images/tdisplay.png?raw=true">
 
 <h2 align="center">
-⚡⚡⚡⚡LNPoSTdisplay⚡⚡⚡⚡
+⚡⚡⚡⚡LNPoSTdisplay ($20)⚡⚡⚡⚡
 </h2>
 
 Video tutorial <a href="https://www.youtube.com/watch?v=rOmO3GhsPts">https://www.youtube.com/watch?v=rOmO3GhsPts</a>
