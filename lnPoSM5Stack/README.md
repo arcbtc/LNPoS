@@ -1,6 +1,6 @@
 
 <h2 align="center">
-⚡⚡⚡⚡LNPoSM5Stack⚡⚡⚡⚡
+⚡⚡⚡⚡LNPoSM5Stack ($70)⚡⚡⚡⚡
 </h2>
 
 Video tutorial <a href="https://www.youtube.com/watch?v=d0kivRdwWCU">https://www.youtube.com/watch?v=d0kivRdwWCU</a>
