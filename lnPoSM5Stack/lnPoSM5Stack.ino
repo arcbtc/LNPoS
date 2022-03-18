@@ -233,6 +233,7 @@ void setup()
 
   //Load keypad
   Wire.begin();
+  Serial.begin(115200);
   pinMode(KEYBOARD_INT, INPUT_PULLUP);
 
   //Load buttons
@@ -1278,7 +1279,7 @@ bool checkInvoice()
   }
   String line = client.readString();
   Serial.println(line);
-  StaticJsonDocument<500> doc;
+  StaticJsonDocument<2000> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
@@ -1287,6 +1288,7 @@ bool checkInvoice()
     return false;
   }
   bool boolPaid = doc["paid"];
+  Serial.print(boolPaid);
   if (boolPaid)
   {
     unConfirmed = false;
