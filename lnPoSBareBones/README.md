@@ -1,7 +1,7 @@
 <img src="../images/cheap.png?raw=true">
 
 <h2 align="center">
-⚡⚡⚡⚡LNPoSBareBones⚡⚡⚡⚡
+⚡⚡⚡⚡LNPoSBareBones ($10)⚡⚡⚡⚡
 </h2>
 
 This is the cheap version of the project, with a litte bulk buying you can easily get the price down to $8ish off the shelf:
