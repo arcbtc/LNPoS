@@ -3,6 +3,8 @@
 ⚡⚡⚡⚡LNPoSM5Stack ($70)⚡⚡⚡⚡
 </h2>
 
+Currently M5Stack list this product as EOL, but they promise a new version will be out soon https://twitter.com/m5stack/status/1505411398008213510?s=21
+
 Video tutorial <a href="https://www.youtube.com/watch?v=d0kivRdwWCU">https://www.youtube.com/watch?v=d0kivRdwWCU</a>
 
 The <a href="https://shop.m5stack.com/products/face?variant=17290437623898">M5Stack</a> is an excellent ESP32 based off the shelf device that comes with a charging dock. We had a bitcoin PoS running, in the iconic Room77 bar in Berlin, for a year, and it performed very well.
