@@ -12,6 +12,9 @@ The Lilygo <a href="https://www.aliexpress.com/item/33048962331.html">Tdisplay</
 
 - Install <a href="https://www.arduino.cc/en/software">Arduino IDE 1.8.19</a>
 - Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
+- Role back ESP32 boards to 2.0.1 in boards manager
+![image](https://user-images.githubusercontent.com/33088785/161862832-1269a12e-16ce-427c-9a92-df3ee573a1fb.png)
+
 - Download this repo
 - Copy these <a href="libraries">libraries</a> into your Arduino install "libraries" folder
 - Open this <a href="LNPoSTdisplay.ino">LNPoSTdisplay.ino</a> file in the Arduino IDE
