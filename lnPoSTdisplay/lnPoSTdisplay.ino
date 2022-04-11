@@ -51,6 +51,7 @@ String addressNo;
 String pinToShow;
 const char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
 int menuItemCheck[4] = {0, 0, 0, 0};
+int largestMenuItemChecked = 0;
 String selection;
 int menuItemNo = 0;
 int randomPin;
@@ -268,6 +269,7 @@ void setup()
     if (masterKey != "")
     {
       menuItemCheck[2] = 1;
+      largestMenuItemChecked = 2;
     }
 
     const JsonObject serverRoot = doc[2];
@@ -295,6 +297,7 @@ void setup()
     if (secretPoS != "")
     {
       menuItemCheck[1] = 1;
+      largestMenuItemChecked = 1;
     }
 
     const JsonObject lnurlATMRoot = doc[6];
@@ -306,6 +309,7 @@ void setup()
     if (secretATM != "")
     {
       menuItemCheck[3] = 1;
+      largestMenuItemChecked = 3;
     }
 
     const JsonObject lnurlATMMSRoot = doc[7];
@@ -1264,7 +1268,7 @@ void menuLoop()
           menuItemNo++;
         }
 
-        if (menuItemNo > menuItemCount)
+        if (menuItemNo > largestMenuItemChecked)
         {
           menuItemNo = 0;
           break;
