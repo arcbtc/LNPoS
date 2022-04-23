@@ -1103,7 +1103,7 @@ void paymentSuccess()
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setTextSize(3);
   tft.setCursor(70, 50);
-  tft.println("PAYED");
+  tft.println("PAID");
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
   tft.println("  PRESS * FOR MENU");
