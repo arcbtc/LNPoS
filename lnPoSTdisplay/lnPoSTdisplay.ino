@@ -23,6 +23,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 // variables
 String inputs;
 String thePin;
+String spiffing;
 String nosats;
 String cntr = "0";
 String lnurl;
@@ -57,6 +58,11 @@ int randomPin;
 int calNum = 1;
 int sumFlag = 0;
 int converted = 0;
+int qrScreenBrightness = 180; // 0 = min, 255 = max
+bool isSleepEnabled = true;
+int sleepTimer = 30; // Time in seconds before the device goes to sleep
+bool isPretendSleeping = false;
+long timeOfLastInteraction = millis();
 String key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
@@ -66,6 +72,18 @@ bool selected = false;
 bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
 String lnurlATMPin;
+enum InvoiceType {
+  LNPOS,
+  LNURLPOS,
+  ONCHAIN,
+  LNURLATM,
+  PORTAL
+};
+
+enum KeyPadTypes {
+  LILYGO_TDISPLAY,
+  MEMBRANE_4X4
+};
 
 // custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -210,16 +228,20 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
 
-const byte rows = 4;
-const byte cols = 3;
+uint16_t qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+
+const byte rows = 4; //four rows
+const byte cols = 3; //three columns
 char keys[rows][cols] = {
     {'1', '2', '3'},
     {'4', '5', '6'},
     {'7', '8', '9'},
     {'*', '0', '#'}};
 
-byte rowPins[rows] = {21, 27, 26, 22}; //connect to the row pinouts of the keypad
-byte colPins[cols] = {33, 32, 25};     //connect to the column pinouts of the keypad
+byte rowPins[rows] = {};
+byte colPins[cols] = {};
+//byte rowPins[rows] = {21, 22, 17, 2}; //connect to the row pinouts of the keypad
+//byte colPins[cols] = {15, 13, 12}; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 int checker = 0;
@@ -234,6 +256,8 @@ AutoConnectAux saveAux;
 void setup()
 {
   Serial.begin(115200);
+
+  setupKeypad();
 
   // load screen
   tft.init();
@@ -382,8 +406,6 @@ void setup()
     });
 
     // start access point
-    portalLaunch();
-
     config.immediateStart = true;
     config.ticker = true;
     config.apid = "LNPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
@@ -391,13 +413,17 @@ void setup()
     config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
     config.title = "LNPoS";
 
+    portalLaunch();
+    
     portal.join({elementsAux, saveAux});
     portal.config(config);
     portal.begin();
+
     while (true)
     {
       portal.handleClient();
     }
+
   }
 
   // connect to configured WiFi
@@ -478,6 +504,35 @@ void loop()
   }
 }
 
+void setupKeypad() {
+  KeyPadTypes keypadType = LILYGO_TDISPLAY;
+//  KeyPadTypes keypadType = MEMBRANE_4X4;
+  // lilygo t display
+  byte rowPinsTDisplay[rows] = {21, 27, 26, 22}; //connect to the row pinouts of the keypad
+  byte colPinsTDisplay[cols] = {33, 32, 25};     //connect to the column pinouts of the keypad
+  // membrane 4x4
+  byte rowPinsMembrane[rows] = {21, 22, 17, 2}; //connect to the row pinouts of the keypad
+  byte colPinsMembrane[cols] = {15, 13, 12}; //connect to the column pinouts of the keypad
+  
+  switch(keypadType) {
+    case LILYGO_TDISPLAY:
+      Serial.println("Set up lilygo");
+      memcpy(rowPins, rowPinsTDisplay, rows);
+      memcpy(colPins, colPinsTDisplay, cols);
+    break;
+    case MEMBRANE_4X4:
+      Serial.println("Set up membrane");
+      memcpy(rowPins, rowPinsMembrane, rows);
+      memcpy(colPins, colPinsMembrane, cols);
+    break;
+    default:
+      Serial.println("Set up default");
+      memcpy(rowPins, rowPinsTDisplay, rows);
+      memcpy(colPins, colPinsTDisplay, cols);
+    break;
+  }
+}
+
 // on-chain payment method
 void onchainMain()
 {
@@ -546,6 +601,7 @@ void onchainMain()
             }
           }
         }
+        handleBrightnessAdjust(key_val, ONCHAIN);
       }
     }
   }
@@ -558,7 +614,7 @@ void lnMain()
     processing("FETCHING FIAT RATE");
     if (!getSats()) {
       error("FETCHING FIAT RATE FAILED");
-      delay(3000);
+      delay(1500);
       return;
     }
   }
@@ -581,7 +637,7 @@ void lnMain()
       if (!getInvoice()) {
         unConfirmed = false;
         error("ERROR FETCHING INVOICE");
-        delay(3000);
+        delay(1500);
         break;
       }
 
@@ -629,7 +685,7 @@ void lnMain()
           } else {
             delay(100);
           }
-
+          handleBrightnessAdjust(key_val, LNPOS);
           timer = timer + 100;
         }
 
@@ -693,6 +749,7 @@ void lnurlPoSMain()
         {
           unConfirmed = false;
         }
+        handleBrightnessAdjust(key_val, LNURLPOS);
       }
     }
     else
@@ -755,6 +812,7 @@ void lnurlATMMain()
           {
             key_val = "";
             getKeypad(false, true, false, false);
+            handleBrightnessAdjust(key_val, LNURLATM);
 
             if (key_val == "*")
             {
@@ -808,16 +866,38 @@ void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
 
 ///////////DISPLAY///////////////
 void portalLaunch()
-{
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_PURPLE, TFT_BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(20, 50);
-  tft.println("AP LAUNCHED");
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 75);
+{ 
+  
+  qrData = "WIFI:S:" + config.apid + ";T:WPA;P:" + config.psk + ";;";
+  tft.fillScreen(qrScreenBgColour);
+  const char *qrDataChar = qrData.c_str();
+  QRCode qrcoded;
+  uint8_t qrcodeData[qrcode_getBufferSize(20)];
+  qrcode_initText(&qrcoded, qrcodeData, 3, 0, qrDataChar);
+
+  for (uint8_t y = 0; y < qrcoded.size; y++)
+  {
+    for (uint8_t x = 0; x < qrcoded.size; x++)
+    {
+      if (qrcode_getModule(&qrcoded, x, y))
+      {
+        tft.fillRect(80 + 3 * x, 25 + 3 * y, 3, 3, TFT_BLACK);
+      }
+      else
+      {
+        tft.fillRect(80 + 3 * x, 25 + 3 * y, 3, 3, qrScreenBgColour);
+      }
+    }
+  }
+
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   tft.setTextSize(2);
-  tft.println(" WHEN FINISHED RESET");
+  tft.setCursor(25, 5);
+  tft.println("SCAN QR TO SETUP");
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
+  tft.setCursor(5, tft.height() - 20);
+  tft.setTextSize(2);
+  tft.println("RESET WHEN FINISHED");
 }
 
 void isLNMoneyNumber(bool cleared)
@@ -958,8 +1038,7 @@ void inputScreenOnChain()
 
 void qrShowCodeln()
 {
-  tft.fillScreen(TFT_WHITE);
-
+  tft.fillScreen(qrScreenBgColour);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
@@ -977,21 +1056,20 @@ void qrShowCodeln()
       }
       else
       {
-        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, TFT_WHITE);
+        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, qrScreenBgColour);
       }
     }
   }
 
   tft.setCursor(0, 220);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   tft.print(" *MENU");
 }
 
 void qrShowCodeOnchain(bool anAddress, String message)
 {
-  tft.fillScreen(TFT_WHITE);
-
+  tft.fillScreen(qrScreenBgColour);
   if (anAddress)
   {
     qrData.toUpperCase();
@@ -1004,8 +1082,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
   tft.setCursor(0, 100);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
-
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   if (anAddress)
   {
     qrcode_initText(&qrcoded, qrcodeData, 2, 0, qrDataChar);
@@ -1027,7 +1104,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
       }
       else
       {
-        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, TFT_WHITE);
+        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, qrScreenBgColour);
       }
     }
   }
@@ -1038,8 +1115,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
 void qrShowCodeLNURL(String message)
 {
-  tft.fillScreen(TFT_WHITE);
-
+  tft.fillScreen(qrScreenBgColour);
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
@@ -1056,14 +1132,14 @@ void qrShowCodeLNURL(String message)
       }
       else
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, qrScreenBgColour);
       }
     }
   }
 
   tft.setCursor(0, 220);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
   tft.println(message);
 }
 
@@ -1198,6 +1274,7 @@ void updateBatteryStatus(bool force = false)
 
 void menuLoop()
 {
+  timeOfLastInteraction = millis();
   Serial.println("menuLoop");
 
   // footer/header
@@ -1219,6 +1296,7 @@ void menuLoop()
 
   while (selected)
   {
+    maybeSleepDevice();
     if (menuItemCheck[0] <= 0 && menuItemNo == 0)
     {
       menuItemNo++;
@@ -1253,12 +1331,30 @@ void menuLoop()
     bool btnloop = true;
     while (btnloop)
     {
+      maybeSleepDevice();
       key_val = "";
       getKeypad(false, true, false, false);
-
-      if (key_val == "*")
-      {
+        
+      if (key_val == "1") {
+        menuItemNo--;
+      }
+      else if (key_val == "4") {
         menuItemNo++;
+      }
+      else if (key_val == "*") {
+         menuItemNo++; 
+      }
+      
+      if (
+        key_val == "1"
+        ||
+        key_val == "4"
+        ||
+        key_val == "*"
+        )
+      {
+        isPretendSleeping = false;
+        timeOfLastInteraction = millis();
         if (menuItemCheck[menuItemNo] < 1)
         {
           menuItemNo++;
@@ -1274,6 +1370,9 @@ void menuLoop()
       }
       else if (key_val == "#")
       {
+        isPretendSleeping = false;
+        timeOfLastInteraction = millis();
+        
         selected = false;
         btnloop = false;
       }
@@ -1309,6 +1408,7 @@ bool getSats()
   }
 
   const String toPost = "{\"amount\" : 1, \"from\" :\"" + String(lncurrencyChar) + "\"}";
+  Serial.println("toPost : " + toPost);
   const String url = "/api/v1/conversion";
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + String(lnbitsServerChar) + "\r\n" +
@@ -1330,6 +1430,7 @@ bool getSats()
   }
 
   const String line = client.readString();
+  Serial.println("Data " + line);
   StaticJsonDocument<150> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
@@ -1360,7 +1461,7 @@ bool getInvoice()
   {
     Serial.println("failed");
     error("SERVER DOWN");
-    delay(3000);
+    delay(1500);
     return false;
   }
 
@@ -1415,7 +1516,7 @@ bool checkInvoice()
   if (!client.connect(lnbitsServerChar, 443))
   {
     error("SERVER DOWN");
-    delay(3000);
+    delay(1500);
     return false;
   }
 
@@ -1595,4 +1696,179 @@ float getInputVoltage()
   delay(100);
   const uint16_t v1 = analogRead(34);
   return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
+}
+
+void adjustQrBrightness(bool shouldMakeBrighter, InvoiceType invoiceType)
+{
+  if (shouldMakeBrighter && qrScreenBrightness >= 0)
+  {
+    qrScreenBrightness = qrScreenBrightness + 25;
+    if (qrScreenBrightness > 255)
+    {
+      qrScreenBrightness = 255;
+    }
+  }
+  else if (!shouldMakeBrighter && qrScreenBrightness <= 30)
+  {
+    qrScreenBrightness = qrScreenBrightness - 5;
+  }
+  else if (!shouldMakeBrighter && qrScreenBrightness <= 255)
+  {
+    qrScreenBrightness = qrScreenBrightness - 25;
+  }
+  
+  if (qrScreenBrightness < 4)
+  {
+    qrScreenBrightness = 4;
+  }
+  
+  qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+
+  switch(invoiceType) {
+    case LNPOS:
+      qrShowCodeln();
+      break;
+    case LNURLPOS:
+      qrShowCodeLNURL(" *MENU #SHOW PIN");
+      break;
+    case ONCHAIN:
+      qrShowCodeOnchain(true, " *MENU #CHECK");
+      break;  
+    case LNURLATM:
+      qrShowCodeLNURL(" *MENU");
+      break;
+    default:
+      break;
+  }
+  
+  File configFile = SPIFFS.open("/config.txt", "w");
+  configFile.print(String(qrScreenBrightness));
+  configFile.close();
+}
+
+/**
+ * Load stored config values
+ */
+void loadConfig() {
+  File file = SPIFFS.open("/config.txt");
+   spiffing = file.readStringUntil('\n');
+  String tempQrScreenBrightness = spiffing.c_str();
+  int tempQrScreenBrightnessInt = tempQrScreenBrightness.toInt();
+  Serial.println("spiffcontent " + String(tempQrScreenBrightnessInt));
+  file.close();
+
+  if(tempQrScreenBrightnessInt && tempQrScreenBrightnessInt > 3) {
+    qrScreenBrightness = tempQrScreenBrightnessInt;
+  }
+  Serial.println("qrScreenBrightness from config " + String(qrScreenBrightness));
+  qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+}
+
+/**
+ * Handle user inputs for adjusting the screen brightness
+ */
+void handleBrightnessAdjust(String keyVal, InvoiceType invoiceType) {
+  // Handle screen brighten on QR screen
+  if (keyVal == "1"){
+      Serial.println("Adjust bnrightness " + invoiceType);
+    timeOfLastInteraction = millis();
+    adjustQrBrightness(true, invoiceType);
+  }
+  // Handle screen dim on QR screen
+  else if (keyVal == "4"){
+      Serial.println("Adjust bnrightness " + invoiceType);
+    timeOfLastInteraction = millis();
+    adjustQrBrightness(false, invoiceType);
+  }
+}
+
+/**
+ * Check whether the device should be put to sleep and put it to sleep
+ * if it should
+ */
+void maybeSleepDevice() {
+  if(isSleepEnabled && !isPretendSleeping) {
+    long currentTime = millis();
+    if(currentTime > (timeOfLastInteraction + sleepTimer * 1000)) {
+      sleepAnimation();
+      // The device wont charge if it is sleeping, so when charging, do a pretend sleep
+      if(isPoweredExternally()) {
+        isLilyGoKeyboard();
+        Serial.println("Pretend sleep now");
+        isPretendSleeping = true;
+        tft.fillScreen(TFT_BLACK);
+      }
+      else {
+        if(isLilyGoKeyboard()) {
+          esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+        } else {
+          //Configure Touchpad as wakeup source
+          touchAttachInterrupt(T3, callback, 40);
+          esp_sleep_enable_touchpad_wakeup();
+        }
+        Serial.println("Going to sleep now");
+        esp_deep_sleep_start();
+      }
+    }
+  }
+}
+
+void callback(){
+}
+
+/* 
+ * Get the keypad type 
+ */
+boolean isLilyGoKeyboard() {
+  if(colPins[0] == 33) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Does the device have external or internal power?
+ */
+bool isPoweredExternally() {
+  float inputVoltage = getInputVoltage();
+  if(inputVoltage > 4.5)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+  
+}
+
+/**
+ * Awww. Show the go to sleep animation
+ */
+void sleepAnimation() {
+    printSleepAnimationFrame("(o.o)", 500);
+    printSleepAnimationFrame("(-.-)", 500);
+    printSleepAnimationFrame("(-.-)z", 250);
+    printSleepAnimationFrame("(-.-)zz", 250);
+    printSleepAnimationFrame("(-.-)zzz", 250);
+    tft.fillScreen(TFT_BLACK);
+}
+
+void wakeAnimation() {
+    printSleepAnimationFrame("(-.-)", 100);
+    printSleepAnimationFrame("(o.o)", 200);
+    tft.fillScreen(TFT_BLACK);
+}
+
+/**
+ * Print the line of the animation
+ */
+void printSleepAnimationFrame(String text, int wait) {
+  tft.fillScreen(TFT_BLACK);
+  tft.setCursor(5, 80);
+  tft.setTextSize(4);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK); 
+  //tft.setFreeFont(BIGFONT);
+  tft.println(text);
+  delay(wait);
 }
