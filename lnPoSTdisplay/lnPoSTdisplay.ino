@@ -1259,17 +1259,11 @@ void menuLoop()
 
       if (key_val == "*")
       {
-        menuItemNo++;
-        if (menuItemCheck[menuItemNo] < 1)
-        {
+        do {
           menuItemNo++;
+          menuItemNo %= sizeof(menuItems) / sizeof(menuItems[0]);
         }
-
-        if (menuItemNo > menuItemCount)
-        {
-          menuItemNo = 0;
-          break;
-        }
+        while(menuItemCheck[menuItemNo] == 0);
 
         btnloop = false;
       }
