@@ -1423,7 +1423,6 @@ bool checkInvoice()
   client.print(String("GET ") + url + dataId + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +
                "User-Agent: ESP32\r\n" +
-               "X-Api-Key:" + invoiceChar + "\r\n" +
                "Content-Type: application/json\r\n" +
                "Connection: close\r\n\r\n");
   while (client.connected())

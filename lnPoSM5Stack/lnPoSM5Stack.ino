@@ -363,9 +363,9 @@ void setup()
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
   config.reconnectInterval = 1;
   config.title = "LNPoS";
-  int timer = 0;
 
   //Give few seconds to trigger portal
+  int timer = 0;
   while (timer < 2000)
   {
     BTNA.read();
