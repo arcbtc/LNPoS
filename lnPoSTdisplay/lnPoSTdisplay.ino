@@ -19,6 +19,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/thekey.txt"
+#define USB_POWER 1000 // battery percentage sentinel value to indicate USB power
 
 // variables
 String inputs;
@@ -1166,7 +1167,7 @@ void updateBatteryStatus(bool force = false)
   const int batteryPercentage = getBatteryPercentage();
 
   String batteryPercentageText = "";
-  if (batteryPercentage == NULL) {
+  if (batteryPercentage == USB_POWER) {
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
     batteryPercentageText = " USB";
 
@@ -1583,7 +1584,7 @@ unsigned int getBatteryPercentage()
 
   const int batteryPercentage = (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
   if (batteryPercentage > 150) {
-    return NULL;
+    return USB_POWER;
   }
 
   return max(min(batteryPercentage, 100), 0);
