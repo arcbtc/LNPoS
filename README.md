@@ -6,7 +6,7 @@ LNPoS
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
 
-> Currently (until a merge of all projects), the TDisplay is the most maintained and recommended.
+> Currently (until a merge of all versions into one codebase), the TDisplay is the most maintained and recommended.
 
 LNPoS includes:
 
