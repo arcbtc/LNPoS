@@ -6,6 +6,8 @@ LNPoS
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
 
+> Currently (until a merge of all projects), the TDisplay is the most maintained and recommended.
+
 LNPoS includes:
 
 - LNPoS (for online LN payments, original <a href="https://github.com/arcbtc/LNPoS">project</a>)
