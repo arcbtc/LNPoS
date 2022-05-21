@@ -77,5 +77,6 @@ LNPoS Options
   <li><a href="lnPoSM5Stack">LNPoSM5Stack</a> $70</li>
   <li><a href="lnPoSTdisplay">LNPoSTdisplay</a> $15</li>
   <li><a href="lnPoSBareBones">LNPoSBareBones</a> $8</li>
-  </ul>  
- </h3>
+  <li><a href="lnPoSOdroidGo">LNPoSOdroidGo</a></li>
+ </ul>
+</h3>
