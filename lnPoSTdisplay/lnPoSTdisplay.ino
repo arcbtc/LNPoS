@@ -58,6 +58,10 @@ int randomPin;
 int calNum = 1;
 int sumFlag = 0;
 int converted = 0;
+bool isSleepEnabled = true;
+int sleepTimer = 30; // Time in seconds before the device goes to sleep
+bool isPretendSleeping = false;
+long timeOfLastInteraction = millis();
 String key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
@@ -1220,6 +1224,7 @@ void menuLoop()
 
   while (selected)
   {
+    maybeSleepDevice();
     if (menuItemCheck[0] <= 0 && menuItemNo == 0)
     {
       menuItemNo++;
@@ -1254,6 +1259,7 @@ void menuLoop()
     bool btnloop = true;
     while (btnloop)
     {
+      maybeSleepDevice();
       key_val = "";
       getKeypad(false, true, false, false);
 
@@ -1589,4 +1595,98 @@ float getInputVoltage()
   delay(100);
   const uint16_t v1 = analogRead(34);
   return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
+}
+
+
+/**
+ * Check whether the device should be put to sleep and put it to sleep
+ * if it should
+ */
+void maybeSleepDevice() {
+  Serial.println("maybe sleep device");
+  if(isSleepEnabled && !isPretendSleeping) {
+    long currentTime = millis();
+    if(currentTime > (timeOfLastInteraction + sleepTimer * 1000)) {
+      sleepAnimation();
+      // The device wont charge if it is sleeping, so when charging, do a pretend sleep
+      if(isPoweredExternally()) {
+        isLilyGoKeyboard();
+        Serial.println("Pretend sleep now");
+        isPretendSleeping = true;
+        tft.fillScreen(TFT_BLACK);
+      }
+      else {
+        if(isLilyGoKeyboard()) {
+          esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+        } else {
+          //Configure Touchpad as wakeup source
+          touchAttachInterrupt(T3, callback, 40);
+          esp_sleep_enable_touchpad_wakeup();
+        }
+        Serial.println("Going to sleep now");
+        esp_deep_sleep_start();
+      }
+    }
+  }
+}
+
+void callback(){
+}
+
+/* 
+ * Get the keypad type 
+ */
+boolean isLilyGoKeyboard() {
+  if(colPins[0] == 33) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Does the device have external or internal power?
+ */
+bool isPoweredExternally() {
+  Serial.println("Is powered externally?");
+  float inputVoltage = getInputVoltage();
+  if(inputVoltage > 4.5)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+  
+}
+
+/**
+ * Awww. Show the go to sleep animation
+ */
+void sleepAnimation() {
+    printSleepAnimationFrame("(o.o)", 500);
+    printSleepAnimationFrame("(-.-)", 500);
+    printSleepAnimationFrame("(-.-)z", 250);
+    printSleepAnimationFrame("(-.-)zz", 250);
+    printSleepAnimationFrame("(-.-)zzz", 250);
+    tft.fillScreen(TFT_BLACK);
+}
+
+void wakeAnimation() {
+    printSleepAnimationFrame("(-.-)", 100);
+    printSleepAnimationFrame("(o.o)", 200);
+    tft.fillScreen(TFT_BLACK);
+}
+
+/**
+ * Print the line of the animation
+ */
+void printSleepAnimationFrame(String text, int wait) {
+  tft.fillScreen(TFT_BLACK);
+  tft.setCursor(5, 80);
+  tft.setTextSize(4);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK); 
+  //tft.setFreeFont(BIGFONT);
+  tft.println(text);
+  delay(wait);
 }
