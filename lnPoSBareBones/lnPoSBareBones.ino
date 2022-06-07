@@ -948,7 +948,7 @@ void qrShowCodeLNURL(String message)
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-  qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
+  qrcode_initText(&qrcoded, qrcodeData, 11, 0, qrDataChar);
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
     // Each horizontal module
@@ -956,11 +956,11 @@ void qrShowCodeLNURL(String message)
     {
       if (qrcode_getModule(&qrcoded, x, y))
       {
-        tft.fillRect(20 + 3 * x, 2 + 3 * y, 3, 3, TFT_BLACK);
+        tft.fillRect(20 + 2 * x, 2 + 2 * y, 2, 2, TFT_BLACK);
       }
       else
       {
-        tft.fillRect(20 + 3 * x, 2 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(20 + 2 * x, 2 + 2 * y, 2, 2, TFT_WHITE);
       }
     }
   }
