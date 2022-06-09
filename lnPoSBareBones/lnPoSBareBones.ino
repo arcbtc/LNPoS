@@ -49,7 +49,7 @@ String qrData;
 String dataId;
 String addressNo;
 String pinToShow;
-char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+char menuItems[4][12] = {"LNPoS", "LNURLPoS", "LNURLATM", "OnChain"};
 int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
 int menuItemNo = 0;
@@ -1090,14 +1090,13 @@ void menuLoop()
         if (menuItems[i] == menuItems[menuItemNo])
         {
           tft.setTextColor(TFT_GREEN, TFT_BLACK);
-          tft.println(menuItems[i]);
           selection = menuItems[i];
         }
         else
         {
           tft.setTextColor(TFT_WHITE, TFT_BLACK);
-          tft.println(menuItems[i]);
         }
+          tft.println("   " + String(menuItems[i]));
       }
     }
     bool btnloop = true;
