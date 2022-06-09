@@ -1281,7 +1281,7 @@ bool checkInvoice()
   }
   String line = client.readString();
   Serial.println(line);
-  StaticJsonDocument<500> doc;
+  StaticJsonDocument<2000> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {
