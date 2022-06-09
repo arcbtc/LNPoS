@@ -360,6 +360,7 @@ void setup()
 
   config.auth = AC_AUTH_BASIC;
   config.authScope = AC_AUTHSCOPE_AUX;
+  Serial.println("LNPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX));
   config.ticker = true;
   config.autoReconnect = true;
   config.apid = "PoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
@@ -1129,6 +1130,7 @@ void menuLoop()
 //////////LIGHTNING//////////////////////
 void getSats()
 {
+  Serial.println("----- GETTING SATS -----");
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
   Serial.println(lnbitsServer);
@@ -1187,6 +1189,7 @@ void getSats()
 
 void getInvoice()
 {
+  Serial.println("----- GETTING INVOICE -----");
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
   if (lnbitsServer.substring(0, 8) == "https://")
@@ -1249,6 +1252,7 @@ void getInvoice()
 
 bool checkInvoice()
 {
+  Serial.println("----- CHECKING INVOICE -----");
   WiFiClientSecure client;
   client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
