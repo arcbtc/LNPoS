@@ -1160,7 +1160,7 @@ void logo()
   tft.setTextColor(TFT_ORANGE, TFT_BLACK);
   tft.setTextSize(4);
   tft.setCursor(0, 30);
-  tft.print("bitcoin");
+  tft.print("LN");
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.print("PoS");
   tft.setTextSize(2);
