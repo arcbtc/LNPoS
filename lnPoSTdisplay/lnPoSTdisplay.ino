@@ -948,6 +948,14 @@ void isATMMoneyPin(bool cleared)
   tft.println(" *MENU #CLEAR");
 
   pinToShow = dataIn;
+  String obscuredPinToShow = "";
+
+  int pinLength = dataIn.length();
+  for (size_t i = 0; i < pinLength; i++)
+  {
+    obscuredPinToShow += "*";
+  }
+  
   tft.setTextSize(3);
   if (cleared)
   {
@@ -957,7 +965,7 @@ void isATMMoneyPin(bool cleared)
 
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setCursor(75, 50);
-  tft.println(pinToShow);
+  tft.println(obscuredPinToShow);
 }
 
 void inputScreenOnChain()
