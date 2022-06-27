@@ -28,6 +28,7 @@ This is the cheap version of the project, with a litte bulk buying you can easil
 > * SDA (MOSI) - GPIO23
 > * SCK - GPIO18
 > * LED - 3.3V
+ 
 > Keypad 
 > * 12-32
 * Upload to device
