@@ -20,8 +20,8 @@ This is the cheap version of the project, with a litte bulk buying you can easil
 * Select "ESP32 Dev Module" from tools>board
 * build device
 > TFT PIN MAP: 
-> VCC - 5V
-> GND - GND
+> * VCC - 5V
+> * GND - GND
 > CS - GPIO5
 > Reset - GPIO16
 > AO (DC) - GPI17
