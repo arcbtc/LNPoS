@@ -22,13 +22,14 @@ This is the cheap version of the project, with a litte bulk buying you can easil
 > TFT PIN MAP: 
 > * VCC - 5V
 > * GND - GND
-> CS - GPIO5
-> Reset - GPIO16
-> AO (DC) - GPI17
-> SDA (MOSI) - GPIO23
-> SCK - GPIO18
-> LED - 3.3V
-> Keypad 12-32
+> * CS - GPIO5
+> * Reset - GPIO16
+> * AO (DC) - GPI17
+> * SDA (MOSI) - GPIO23
+> * SCK - GPIO18
+> * LED - 3.3V
+> Keypad 
+> * 12-32
 * Upload to device
 
 > _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_
