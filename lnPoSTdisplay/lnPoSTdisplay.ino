@@ -615,7 +615,6 @@ void lnMain()
           unConfirmed = checkInvoice();
           if (!unConfirmed)
           {
-            resetTimeOfLastInteraction();
             paymentSuccess();
             timer = 5000;
 
@@ -642,7 +641,6 @@ void lnMain()
             amountToShow = "0";
             unConfirmed = false;
             timer = 5000;
-            resetTimeOfLastInteraction();
             break;
             
           } else {
@@ -682,12 +680,10 @@ void lnurlPoSMain()
 
     if (key_val == "*")
     {
-      resetTimeOfLastInteraction();
       unConfirmed = false;
     }
     else if (key_val == "#")
     {
-      resetTimeOfLastInteraction();
       makeLNURL();
       qrShowCodeLNURL(" *MENU #SHOW PIN");
 
@@ -698,7 +694,6 @@ void lnurlPoSMain()
 
         if (key_val == "#")
         {
-          resetTimeOfLastInteraction();
           showPin();
 
           while (unConfirmed)
@@ -708,14 +703,12 @@ void lnurlPoSMain()
 
             if (key_val == "*")
             {
-              resetTimeOfLastInteraction();
               unConfirmed = false;
             }
           }
         }
         else if (key_val == "*")
         {
-          resetTimeOfLastInteraction();
           unConfirmed = false;
         }
         handleBrightnessAdjust(key_val, LNURLPOS);
@@ -770,12 +763,10 @@ void lnurlATMMain()
 
         if (key_val == "*")
         {
-          resetTimeOfLastInteraction();
           unConfirmed = false;
         }
         else if (key_val == "#")
         {
-          resetTimeOfLastInteraction();
           makeLNURL();
           qrShowCodeLNURL(" *MENU");
 
@@ -787,7 +778,6 @@ void lnurlATMMain()
 
             if (key_val == "*")
             {
-              resetTimeOfLastInteraction();
               unConfirmed = false;
             }
           }
@@ -810,6 +800,10 @@ void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
   }
 
   key_val = String(key);
+
+  if(key_val != "") {
+    timeOfLastInteraction = millis();
+  }
 
   if (dataIn.length() < 9) {
     dataIn += key_val;
@@ -1737,13 +1731,11 @@ void loadConfig() {
 void handleBrightnessAdjust(String keyVal, InvoiceType invoiceType) {
   // Handle screen brighten on QR screen
   if (keyVal == "1"){
-    resetTimeOfLastInteraction();
     Serial.println("Adjust bnrightness " + invoiceType);
     adjustQrBrightness(true, invoiceType);
   }
   // Handle screen dim on QR screen
   else if (keyVal == "4"){
-    resetTimeOfLastInteraction();
     Serial.println("Adjust bnrightness " + invoiceType);
     adjustQrBrightness(false, invoiceType);
   }
@@ -1805,9 +1797,4 @@ void printSleepAnimationFrame(String text, int wait) {
   //tft.setFreeFont(BIGFONT);
   tft.println(text);
   delay(wait);
-}
-
-
-void resetTimeOfLastInteraction() {
-  timeOfLastInteraction = millis();
 }
