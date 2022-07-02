@@ -615,6 +615,7 @@ void lnMain()
           unConfirmed = checkInvoice();
           if (!unConfirmed)
           {
+            resetTimeOfLastInteraction();
             paymentSuccess();
             timer = 5000;
 
@@ -641,6 +642,7 @@ void lnMain()
             amountToShow = "0";
             unConfirmed = false;
             timer = 5000;
+            resetTimeOfLastInteraction();
             break;
             
           } else {
@@ -680,10 +682,12 @@ void lnurlPoSMain()
 
     if (key_val == "*")
     {
+      resetTimeOfLastInteraction();
       unConfirmed = false;
     }
     else if (key_val == "#")
     {
+      resetTimeOfLastInteraction();
       makeLNURL();
       qrShowCodeLNURL(" *MENU #SHOW PIN");
 
@@ -694,6 +698,7 @@ void lnurlPoSMain()
 
         if (key_val == "#")
         {
+          resetTimeOfLastInteraction();
           showPin();
 
           while (unConfirmed)
@@ -703,12 +708,14 @@ void lnurlPoSMain()
 
             if (key_val == "*")
             {
+              resetTimeOfLastInteraction();
               unConfirmed = false;
             }
           }
         }
         else if (key_val == "*")
         {
+          resetTimeOfLastInteraction();
           unConfirmed = false;
         }
         handleBrightnessAdjust(key_val, LNURLPOS);
@@ -763,10 +770,12 @@ void lnurlATMMain()
 
         if (key_val == "*")
         {
+          resetTimeOfLastInteraction();
           unConfirmed = false;
         }
         else if (key_val == "#")
         {
+          resetTimeOfLastInteraction();
           makeLNURL();
           qrShowCodeLNURL(" *MENU");
 
@@ -778,6 +787,7 @@ void lnurlATMMain()
 
             if (key_val == "*")
             {
+              resetTimeOfLastInteraction();
               unConfirmed = false;
             }
           }
@@ -1653,7 +1663,8 @@ void maybeSleepDevice() {
   }
 }
 
-void callback(){
+void callback(){}
+
 void adjustQrBrightness(bool shouldMakeBrighter, InvoiceType invoiceType)
 {
   if (shouldMakeBrighter && qrScreenBrightness >= 0)
@@ -1726,14 +1737,14 @@ void loadConfig() {
 void handleBrightnessAdjust(String keyVal, InvoiceType invoiceType) {
   // Handle screen brighten on QR screen
   if (keyVal == "1"){
-      Serial.println("Adjust bnrightness " + invoiceType);
-    timeOfLastInteraction = millis();
+    resetTimeOfLastInteraction();
+    Serial.println("Adjust bnrightness " + invoiceType);
     adjustQrBrightness(true, invoiceType);
   }
   // Handle screen dim on QR screen
   else if (keyVal == "4"){
-      Serial.println("Adjust bnrightness " + invoiceType);
-    timeOfLastInteraction = millis();
+    resetTimeOfLastInteraction();
+    Serial.println("Adjust bnrightness " + invoiceType);
     adjustQrBrightness(false, invoiceType);
   }
 }
@@ -1795,4 +1806,8 @@ void printSleepAnimationFrame(String text, int wait) {
   tft.println(text);
   delay(wait);
 }
+
+
+void resetTimeOfLastInteraction() {
+  timeOfLastInteraction = millis();
 }
