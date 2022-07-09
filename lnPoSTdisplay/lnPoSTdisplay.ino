@@ -1630,7 +1630,6 @@ float getInputVoltage()
  * if it should
  */
 void maybeSleepDevice() {
-  Serial.println("maybe sleep device");
   if(isSleepEnabled && !isPretendSleeping) {
     long currentTime = millis();
     if(currentTime > (timeOfLastInteraction + sleepTimer * 1000)) {
@@ -1644,7 +1643,7 @@ void maybeSleepDevice() {
       }
       else {
         if(isLilyGoKeyboard()) {
-          esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+          esp_sleep_enable_ext0_wakeup(GPIO_NUM_32,1); //1 = High, 0 = Low
         } else {
           //Configure Touchpad as wakeup source
           touchAttachInterrupt(T3, callback, 40);
