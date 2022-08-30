@@ -51,7 +51,7 @@ String qrData;
 String dataId;
 String addressNo;
 String pinToShow;
-const char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+const char menuItems[4][12] = {"LNPoS", "Offline PoS", "OnChain", "ATM"};
 int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
 int menuItemNo = 0;
@@ -476,11 +476,11 @@ void loop()
     {
       onchainMain();
     }
-    else if (selection == "LNURLPoS")
+    else if (selection == "Offline PoS")
     {
       lnurlPoSMain();
     }
-    else if (selection == "LNURLATM")
+    else if (selection == "ATM")
     {
       lnurlATMMain();
     }
