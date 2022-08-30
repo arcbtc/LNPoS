@@ -394,15 +394,15 @@ void setup()
       return String();
     });
 
-    // start access point
-    portalLaunch();
-
     config.immediateStart = true;
     config.ticker = true;
     config.apid = "LNPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
     config.psk = apPassword;
     config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
     config.title = "LNPoS";
+
+    // start access point
+    portalLaunch();
 
     portal.join({elementsAux, saveAux});
     portal.config(config);
@@ -829,12 +829,18 @@ void portalLaunch()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.setTextSize(3);
-  tft.setCursor(20, 50);
+  tft.setCursor(20, 40);
   tft.println("AP LAUNCHED");
+
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 75);
+  tft.setCursor(0, 65);
   tft.setTextSize(2);
   tft.println(" WHEN FINISHED RESET");
+  
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setCursor(30, 83);
+  tft.setTextSize(2);
+  tft.println(config.apid );
 }
 
 void isLNMoneyNumber(bool cleared)
