@@ -24,8 +24,8 @@ Join our telegram group <a href="https://t.me/makerbits">MakerBits</a>
 Configuring
 </h2>
 
-> Press/hold any button on startup for TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
-> Default password is "ToTheMoon1"
+> Press/hold any button on the keypad during startup for TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
+> Default password is "ToTheMoon1" (without the quotes)
 
 ### LNPoS – Online Lightning Network payments
 
