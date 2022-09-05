@@ -6,6 +6,8 @@ LNPoS
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
 
+> Currently (until a merge of all versions into one codebase), the hardware version <a href="/lnPoSTdisplay">TDisplay</a> is the most maintained and recommended.
+
 LNPoS includes:
 
 - LNPoS (for online LN payments, original <a href="https://github.com/arcbtc/LNPoS">project</a>)
@@ -22,8 +24,8 @@ Join our telegram group <a href="https://t.me/makerbits">MakerBits</a>
 Configuring
 </h2>
 
-> Press/hold any button on startup for TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
-> Default password is "ToTheMoon1"
+> Press/hold any button on the keypad during startup for TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
+> Default password is "ToTheMoon1" (without the quotes)
 
 ### LNPoS – Online Lightning Network payments
 

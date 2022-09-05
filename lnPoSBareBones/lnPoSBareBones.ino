@@ -49,7 +49,7 @@ String qrData;
 String dataId;
 String addressNo;
 String pinToShow;
-char menuItems[4][12] = {"LNPoS", "LNURLPoS", "OnChain", "LNURLATM"};
+char menuItems[4][12] = {"LNPoS", "LNURLPoS", "LNURLATM", "OnChain"};
 int menuItemCheck[4] = {0, 0, 0, 0};
 String selection;
 int menuItemNo = 0;
@@ -360,6 +360,7 @@ void setup()
 
   config.auth = AC_AUTH_BASIC;
   config.authScope = AC_AUTHSCOPE_AUX;
+  Serial.println("LNPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX));
   config.ticker = true;
   config.autoReconnect = true;
   config.apid = "PoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
@@ -421,7 +422,7 @@ void loop()
   //If no methods available
   if (menuItemsAmount < 1)
   {
-    error("  NO METHODS", "RESTART & RUN PORTAL");
+    error("NO METHODS", "RESTART & RUN PORTAL");
     delay(10000000);
   }
   //If only one payment method available skip menu
@@ -508,7 +509,7 @@ void onchainMain()
       HDPublicKey hd(masterKey);
       String path = String("m/0/") + addressNo;
       qrData = hd.derive(path).address();
-      qrShowCodeOnchain(true, " *MENU #CHECK");
+      qrShowCodeOnchain(true, "* MENU   # CHECK");
       while (unConfirmed)
       {
         key_val = "";
@@ -522,7 +523,7 @@ void onchainMain()
           while (unConfirmed)
           {
             qrData = "https://" + lnurlATMMS + "/address/" + qrData;
-            qrShowCodeOnchain(false, " *MENU");
+            qrShowCodeOnchain(false, "* MENU");
             while (unConfirmed)
             {
               key_val = "";
@@ -610,7 +611,7 @@ void lnurlPoSMain()
     else if (key_val == "#")
     {
       makeLNURL();
-      qrShowCodeLNURL(" *MENU #SHOW PIN");
+      qrShowCodeLNURL("* MENU   # SHOW PIN");
       while (unConfirmed)
       {
         key_val = "";
@@ -657,7 +658,7 @@ void lnurlATMMain()
     }
     if (pinToShow.length() == lnurlATMPin.length() && pinToShow != lnurlATMPin)
     {
-      error("  WRONG PIN", "");
+      error("WRONG PIN", "");
       delay(1500);
       pinToShow = "";
       dataIn = "";
@@ -679,7 +680,7 @@ void lnurlATMMain()
         if (key_val == "#")
         {
           makeLNURL();
-          qrShowCodeLNURL(" *MENU");
+          qrShowCodeLNURL("* MENU");
           while (unConfirmed)
           {
             key_val = "";
@@ -730,11 +731,11 @@ void portalLaunch()
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.setTextSize(2);
   tft.setCursor(15, 50);
-  tft.println("AP LAUNCHED");
+  tft.println("PORTAL MODE");
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 100);
+  tft.setCursor(22, 115);
   tft.setTextSize(1);
-  tft.println("WHEN FINISHED RESET");
+  tft.println("RESET WHEN FINISHED");
 }
 
 void isLNMoneyNumber(bool cleared)
@@ -742,15 +743,16 @@ void isLNMoneyNumber(bool cleared)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(0, 20);
-  tft.print("    ENTER AMOUNT");
+  tft.setCursor(47, 5);
+  tft.print("ENTER AMOUNT");
   tft.setTextSize(2);
-  tft.setCursor(0, 50);
-  tft.println(String(lncurrency) + ": ");
-  tft.println("SATS: ");
-  tft.setCursor(0, 120);
+  tft.setCursor(10, 40);
+  tft.println(String(lncurrency) + ":");
+  tft.setCursor(10, 70);
+  tft.println("SATS:");
+  tft.setCursor(30, 115);
   tft.setTextSize(1);
-  tft.println(" *MENU #INVOICE");
+  tft.println("* MENU   # INVOICE");
   tft.setTextSize(2);
   if (!cleared)
   {
@@ -765,10 +767,10 @@ void isLNMoneyNumber(bool cleared)
   }
   tft.setTextSize(2);
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.setCursor(55, 50);
+  tft.setCursor(75, 40);
   tft.println(amountToShow);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(70, 75);
+  tft.setCursor(75, 70);
   tft.println(noSats.toInt());
 }
 
@@ -777,14 +779,14 @@ void isLNURLMoneyNumber(bool cleared)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(0, 20);
-  tft.print("    ENTER AMOUNT");
+  tft.setCursor(47, 5);
+  tft.print("ENTER AMOUNT");
   tft.setTextSize(2);
-  tft.setCursor(0, 50);
-  tft.println(String(currencyPoS) + ": ");
-  tft.setCursor(0, 120);
+  tft.setCursor(10, 55);
+  tft.println(String(currencyPoS) + ":");
+  tft.setCursor(30, 115);
   tft.setTextSize(1);
-  tft.println(" *MENU #INVOICE");
+  tft.println("* MENU   # INVOICE");
   tft.setTextSize(2);
   if (!cleared)
   {
@@ -796,7 +798,7 @@ void isLNURLMoneyNumber(bool cleared)
     amountToShow = "0.00";
   }
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(55, 50);
+  tft.setCursor(75, 55);
   tft.println(amountToShow);
 }
 
@@ -805,14 +807,14 @@ void isATMMoneyNumber(bool cleared)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(0, 20);
-  tft.print("    ENTER AMOUNT");
+  tft.setCursor(47, 5);
+  tft.print("ENTER AMOUNT");
   tft.setTextSize(2);
-  tft.setCursor(0, 50);
-  tft.println(String(currencyATM) + ": ");
-  tft.setCursor(0, 120);
+  tft.setCursor(10, 55);
+  tft.println(String(currencyATM) + ":");
+  tft.setCursor(20, 115);
   tft.setTextSize(1);
-  tft.println(" *MENU #WITHDRAW");
+  tft.println("* MENU   # WITHDRAW");
   tft.setTextSize(2);
   if (!cleared)
   {
@@ -824,7 +826,7 @@ void isATMMoneyNumber(bool cleared)
     amountToShow = "0.00";
   }
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(55, 50);
+  tft.setCursor(75, 55);
   tft.println(amountToShow);
 }
 
@@ -833,14 +835,14 @@ void isATMMoneyPin(bool cleared)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(0, 20);
-  tft.print(" ENTER SECRET PIN");
+  tft.setCursor(35, 5);
+  tft.print("ENTER SECRET PIN");
   tft.setTextSize(2);
-  tft.setCursor(0, 50);
+  tft.setCursor(10, 55);
   tft.println("PIN:");
-  tft.setCursor(0, 120);
+  tft.setCursor(35, 115);
   tft.setTextSize(1);
-  tft.println(" *MENU #CLEAR");
+  tft.println("* MENU   # CLEAR");
   pinToShow = dataIn;
   tft.setTextSize(2);
   if (cleared)
@@ -849,7 +851,7 @@ void isATMMoneyPin(bool cleared)
     dataIn = "";
   }
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  tft.setCursor(55, 50);
+  tft.setCursor(75, 55);
   tft.println(pinToShow);
 }
 
@@ -861,12 +863,12 @@ void inputScreenOnChain()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE);
   tft.setTextSize(1);
-  tft.setCursor(0, 40);
+  tft.setCursor(30, 5);
   tft.println("XPUB ENDING " + masterKey.substring(masterKey.length() - 5));
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(0, 120);
-  tft.println("*MENU #ADDRESS");
+  tft.setCursor(27, 115);
+  tft.println("* MENU   # ADDRESS");
 }
 
 void qrShowCodeln()
@@ -892,10 +894,10 @@ void qrShowCodeln()
       }
     }
   }
-  tft.setCursor(0, 220);
+  tft.setCursor(10, 220);
   tft.setTextSize(1);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
-  tft.print(" *MENU");
+  tft.print("* MENU");
 }
 
 void qrShowCodeOnchain(bool anAddress, String message)
@@ -909,7 +911,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
   int pixSize = 0;
-  tft.setCursor(0, 100);
+  tft.setCursor(10, 110);
   tft.setTextSize(1);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
   if (anAddress)
@@ -937,7 +939,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
       }
     }
   }
-  tft.setCursor(0, 120);
+  tft.setCursor(37, 115);
   tft.println(message);
 }
 
@@ -948,7 +950,7 @@ void qrShowCodeLNURL(String message)
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-  qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
+  qrcode_initText(&qrcoded, qrcodeData, 11, 0, qrDataChar);
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
     // Each horizontal module
@@ -956,15 +958,15 @@ void qrShowCodeLNURL(String message)
     {
       if (qrcode_getModule(&qrcoded, x, y))
       {
-        tft.fillRect(20 + 3 * x, 2 + 3 * y, 3, 3, TFT_BLACK);
+        tft.fillRect(20 + 2 * x, 2 + 2 * y, 2, 2, TFT_BLACK);
       }
       else
       {
-        tft.fillRect(20 + 3 * x, 2 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(20 + 2 * x, 2 + 2 * y, 2, 2, TFT_WHITE);
       }
     }
   }
-  tft.setCursor(0, 220);
+  tft.setCursor(10, 220);
   tft.setTextSize(1);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
   tft.println(message);
@@ -975,12 +977,12 @@ void error(String message, String additional)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_RED, TFT_BLACK);
   tft.setTextSize(2);
-  tft.setCursor(0, 30);
+  tft.setCursor(10, 55);
   tft.println(message);
   if (additional != "")
   {
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setCursor(0, 120);
+    tft.setCursor(22, 115);
     tft.setTextSize(1);
     tft.println(additional);
   }
@@ -991,7 +993,7 @@ void processing(String message)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(20, 50);
+  tft.setCursor(20, 60);
   tft.println(message);
 }
 
@@ -1000,7 +1002,7 @@ void complete()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setTextSize(2);
-  tft.setCursor(45, 30);
+  tft.setCursor(30, 55);
   tft.println("COMPLETE");
 }
 
@@ -1009,9 +1011,9 @@ void showPin()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(2);
-  tft.setCursor(40, 5);
+  tft.setCursor(30, 5);
   tft.println("PROOF PIN");
-  tft.setCursor(50, 60);
+  tft.setCursor(35, 55);
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setTextSize(3);
   tft.println(randomPin);
@@ -1024,11 +1026,11 @@ void lnurlInputScreen()
   tft.setTextSize(2);
   tft.setCursor(0, 0);
   tft.println("AMOUNT THEN #");
-  tft.setCursor(50, 110);
+  tft.setCursor(50, 115);
   tft.setTextSize(1);
   tft.println("TO RESET PRESS *");
   tft.setTextSize(2);
-  tft.setCursor(0, 30);
+  tft.setCursor(10, 55);
   tft.print(String(currency) + ":");
 }
 
@@ -1037,12 +1039,12 @@ void logo()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_ORANGE, TFT_BLACK);
   tft.setTextSize(2);
-  tft.setCursor(0, 40);
-  tft.print("bitcoin");
+  tft.setCursor(25, 35);
+  tft.print("LN");
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.print("PoS");
   tft.setTextSize(1);
-  tft.setCursor(0, 60);
+  tft.setCursor(25, 60);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.print("Powered by LNbits");
 }
@@ -1067,11 +1069,11 @@ void menuLoop()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextSize(1);
-  tft.setCursor(0, 0);
-  tft.print("   PAYMENT METHODS");
-  tft.setCursor(0, 120);
+  tft.setCursor(38, 5);
+  tft.print("PAYMENT METHODS");
+  tft.setCursor(34, 115);
   tft.setTextSize(1);
-  tft.println(" *NEXT #SELECT");
+  tft.println("* NEXT   # SELECT");
   selection = "";
   selected = true;
   while (selected)
@@ -1090,14 +1092,13 @@ void menuLoop()
         if (menuItems[i] == menuItems[menuItemNo])
         {
           tft.setTextColor(TFT_GREEN, TFT_BLACK);
-          tft.println(menuItems[i]);
           selection = menuItems[i];
         }
         else
         {
           tft.setTextColor(TFT_WHITE, TFT_BLACK);
-          tft.println(menuItems[i]);
         }
+          tft.println("   " + String(menuItems[i]));
       }
     }
     bool btnloop = true;
@@ -1130,6 +1131,7 @@ void menuLoop()
 //////////LIGHTNING//////////////////////
 void getSats()
 {
+  Serial.println("----- GETTING SATS -----");
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
   Serial.println(lnbitsServer);
@@ -1188,6 +1190,7 @@ void getSats()
 
 void getInvoice()
 {
+  Serial.println("----- GETTING INVOICE -----");
   WiFiClientSecure client;
   lnbitsServer.toLowerCase();
   if (lnbitsServer.substring(0, 8) == "https://")
@@ -1250,6 +1253,7 @@ void getInvoice()
 
 bool checkInvoice()
 {
+  Serial.println("----- CHECKING INVOICE -----");
   WiFiClientSecure client;
   client.setInsecure(); //Some versions of WiFiClientSecure need this
   const char *lnbitsServerChar = lnbitsServer.c_str();
@@ -1282,7 +1286,7 @@ bool checkInvoice()
   }
   String line = client.readString();
   Serial.println(line);
-  StaticJsonDocument<500> doc;
+  StaticJsonDocument<2000> doc;
   DeserializationError error = deserializeJson(doc, line);
   if (error)
   {

@@ -19,10 +19,12 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 
 #define PARAM_FILE "/elements.json"
 #define KEY_FILE "/thekey.txt"
+#define USB_POWER 1000 // battery percentage sentinel value to indicate USB power
 
 // variables
 String inputs;
 String thePin;
+String spiffing;
 String nosats;
 String cntr = "0";
 String lnurl;
@@ -57,6 +59,11 @@ int randomPin;
 int calNum = 1;
 int sumFlag = 0;
 int converted = 0;
+bool isSleepEnabled = true;
+int sleepTimer = 30; // Time in seconds before the device goes to sleep
+bool isPretendSleeping = false;
+int qrScreenBrightness = 180; // 0 = min, 255 = max
+long timeOfLastInteraction = millis();
 String key_val;
 bool onchainCheck = false;
 bool lnCheck = false;
@@ -66,6 +73,13 @@ bool selected = false;
 bool lnurlCheckPoS = false;
 bool lnurlCheckATM = false;
 String lnurlATMPin;
+enum InvoiceType {
+  LNPOS,
+  LNURLPOS,
+  ONCHAIN,
+  LNURLATM,
+  PORTAL
+};
 
 // custom access point pages
 static const char PAGE_ELEMENTS[] PROGMEM = R"(
@@ -209,6 +223,8 @@ static const char PAGE_SAVE[] PROGMEM = R"(
 
 SHA256 h;
 TFT_eSPI tft = TFT_eSPI();
+
+uint16_t qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
 
 const byte rows = 4;
 const byte cols = 3;
@@ -381,15 +397,15 @@ void setup()
       return String();
     });
 
-    // start access point
-    portalLaunch();
-
     config.immediateStart = true;
     config.ticker = true;
     config.apid = "LNPoS-" + String((uint32_t)ESP.getEfuseMac(), HEX);
     config.psk = apPassword;
     config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET;
     config.title = "LNPoS";
+
+    // start access point
+    portalLaunch();
 
     portal.join({elementsAux, saveAux});
     portal.config(config);
@@ -546,6 +562,7 @@ void onchainMain()
             }
           }
         }
+        handleBrightnessAdjust(key_val, ONCHAIN);
       }
     }
   }
@@ -628,8 +645,9 @@ void lnMain()
             
           } else {
             delay(100);
+            handleBrightnessAdjust(key_val, LNPOS);
+            key_val = "";
           }
-
           timer = timer + 100;
         }
 
@@ -693,6 +711,7 @@ void lnurlPoSMain()
         {
           unConfirmed = false;
         }
+        handleBrightnessAdjust(key_val, LNURLPOS);
       }
     }
     else
@@ -755,6 +774,7 @@ void lnurlATMMain()
           {
             key_val = "";
             getKeypad(false, true, false, false);
+            handleBrightnessAdjust(key_val, LNURLATM);
 
             if (key_val == "*")
             {
@@ -780,6 +800,10 @@ void getKeypad(bool isATMPin, bool justKey, bool isLN, bool isATMNum)
   }
 
   key_val = String(key);
+
+  if(key_val != "") {
+    timeOfLastInteraction = millis();
+  }
 
   if (dataIn.length() < 9) {
     dataIn += key_val;
@@ -812,12 +836,18 @@ void portalLaunch()
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.setTextSize(3);
-  tft.setCursor(20, 50);
+  tft.setCursor(20, 40);
   tft.println("AP LAUNCHED");
+
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.setCursor(0, 75);
+  tft.setCursor(0, 65);
   tft.setTextSize(2);
   tft.println(" WHEN FINISHED RESET");
+  
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setCursor(30, 83);
+  tft.setTextSize(2);
+  tft.println(config.apid );
 }
 
 void isLNMoneyNumber(bool cleared)
@@ -931,6 +961,14 @@ void isATMMoneyPin(bool cleared)
   tft.println(" *MENU #CLEAR");
 
   pinToShow = dataIn;
+  String obscuredPinToShow = "";
+
+  int pinLength = dataIn.length();
+  for (size_t i = 0; i < pinLength; i++)
+  {
+    obscuredPinToShow += "*";
+  }
+  
   tft.setTextSize(3);
   if (cleared)
   {
@@ -940,7 +978,7 @@ void isATMMoneyPin(bool cleared)
 
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.setCursor(75, 50);
-  tft.println(pinToShow);
+  tft.println(obscuredPinToShow);
 }
 
 void inputScreenOnChain()
@@ -958,7 +996,7 @@ void inputScreenOnChain()
 
 void qrShowCodeln()
 {
-  tft.fillScreen(TFT_WHITE);
+  tft.fillScreen(qrScreenBgColour);
 
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
@@ -977,7 +1015,7 @@ void qrShowCodeln()
       }
       else
       {
-        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, TFT_WHITE);
+        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, qrScreenBgColour);
       }
     }
   }
@@ -990,7 +1028,7 @@ void qrShowCodeln()
 
 void qrShowCodeOnchain(bool anAddress, String message)
 {
-  tft.fillScreen(TFT_WHITE);
+  tft.fillScreen(qrScreenBgColour);
 
   if (anAddress)
   {
@@ -1004,7 +1042,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
   tft.setCursor(0, 100);
   tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, qrScreenBgColour);
 
   if (anAddress)
   {
@@ -1027,7 +1065,7 @@ void qrShowCodeOnchain(bool anAddress, String message)
       }
       else
       {
-        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, TFT_WHITE);
+        tft.fillRect(70 + pixSize * x, 5 + pixSize * y, pixSize, pixSize, qrScreenBgColour);
       }
     }
   }
@@ -1038,13 +1076,13 @@ void qrShowCodeOnchain(bool anAddress, String message)
 
 void qrShowCodeLNURL(String message)
 {
-  tft.fillScreen(TFT_WHITE);
+  tft.fillScreen(qrScreenBgColour);
 
   qrData.toUpperCase();
   const char *qrDataChar = qrData.c_str();
   QRCode qrcoded;
   uint8_t qrcodeData[qrcode_getBufferSize(20)];
-  qrcode_initText(&qrcoded, qrcodeData, 6, 0, qrDataChar);
+  qrcode_initText(&qrcoded, qrcodeData, 11, 0, qrDataChar);
 
   for (uint8_t y = 0; y < qrcoded.size; y++)
   {
@@ -1052,11 +1090,11 @@ void qrShowCodeLNURL(String message)
     {
       if (qrcode_getModule(&qrcoded, x, y))
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_BLACK);
+        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, TFT_BLACK);
       }
       else
       {
-        tft.fillRect(65 + 3 * x, 5 + 3 * y, 3, 3, TFT_WHITE);
+        tft.fillRect(65 + 2 * x, 5 + 2 * y, 2, 2, qrScreenBgColour);
       }
     }
   }
@@ -1143,7 +1181,7 @@ void logo()
   tft.setTextColor(TFT_ORANGE, TFT_BLACK);
   tft.setTextSize(4);
   tft.setCursor(0, 30);
-  tft.print("bitcoin");
+  tft.print("LN");
   tft.setTextColor(TFT_PURPLE, TFT_BLACK);
   tft.print("PoS");
   tft.setTextSize(2);
@@ -1166,7 +1204,7 @@ void updateBatteryStatus(bool force = false)
   const int batteryPercentage = getBatteryPercentage();
 
   String batteryPercentageText = "";
-  if (batteryPercentage == NULL) {
+  if (batteryPercentage == USB_POWER) {
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
     batteryPercentageText = " USB";
 
@@ -1219,6 +1257,7 @@ void menuLoop()
 
   while (selected)
   {
+    maybeSleepDevice();
     if (menuItemCheck[0] <= 0 && menuItemNo == 0)
     {
       menuItemNo++;
@@ -1253,22 +1292,17 @@ void menuLoop()
     bool btnloop = true;
     while (btnloop)
     {
+      maybeSleepDevice();
       key_val = "";
       getKeypad(false, true, false, false);
 
       if (key_val == "*")
       {
-        menuItemNo++;
-        if (menuItemCheck[menuItemNo] < 1)
-        {
+        do {
           menuItemNo++;
+          menuItemNo %= sizeof(menuItems) / sizeof(menuItems[0]);
         }
-
-        if (menuItemNo > menuItemCount)
-        {
-          menuItemNo = 0;
-          break;
-        }
+        while(menuItemCheck[menuItemNo] == 0);
 
         btnloop = false;
       }
@@ -1423,7 +1457,6 @@ bool checkInvoice()
   client.print(String("GET ") + url + dataId + " HTTP/1.1\r\n" +
                "Host: " + lnbitsServerChar + "\r\n" +
                "User-Agent: ESP32\r\n" +
-               "X-Api-Key:" + invoiceChar + "\r\n" +
                "Content-Type: application/json\r\n" +
                "Connection: close\r\n\r\n");
   while (client.connected())
@@ -1583,7 +1616,7 @@ unsigned int getBatteryPercentage()
 
   const int batteryPercentage = (int) (batteryCurVAboveMin / batteryAllowedRange * 100);
   if (batteryPercentage > 150) {
-    return NULL;
+    return USB_POWER;
   }
 
   return max(min(batteryPercentage, 100), 0);
@@ -1594,4 +1627,178 @@ float getInputVoltage()
   delay(100);
   const uint16_t v1 = analogRead(34);
   return ((float) v1 / 4095.0f) * 2.0f * 3.3f * (1100.0f / 1000.0f);
+}
+
+
+/**
+ * Check whether the device should be put to sleep and put it to sleep
+ * if it should
+ */
+void maybeSleepDevice() {
+  if(isSleepEnabled && !isPretendSleeping) {
+    long currentTime = millis();
+    if(currentTime > (timeOfLastInteraction + sleepTimer * 1000)) {
+      sleepAnimation();
+      // The device wont charge if it is sleeping, so when charging, do a pretend sleep
+      if(isPoweredExternally()) {
+        isLilyGoKeyboard();
+        Serial.println("Pretend sleep now");
+        isPretendSleeping = true;
+        tft.fillScreen(TFT_BLACK);
+      }
+      else {
+        if(isLilyGoKeyboard()) {
+          esp_sleep_enable_ext0_wakeup(GPIO_NUM_32,1); //1 = High, 0 = Low
+        } else {
+          //Configure Touchpad as wakeup source
+          touchAttachInterrupt(T3, callback, 40);
+          esp_sleep_enable_touchpad_wakeup();
+        }
+        Serial.println("Going to sleep now");
+        esp_deep_sleep_start();
+      }
+    }
+  }
+}
+
+void callback(){}
+
+void adjustQrBrightness(bool shouldMakeBrighter, InvoiceType invoiceType)
+{
+  if (shouldMakeBrighter && qrScreenBrightness >= 0)
+  {
+    qrScreenBrightness = qrScreenBrightness + 25;
+    if (qrScreenBrightness > 255)
+    {
+      qrScreenBrightness = 255;
+    }
+  }
+  else if (!shouldMakeBrighter && qrScreenBrightness <= 30)
+  {
+    qrScreenBrightness = qrScreenBrightness - 5;
+  }
+  else if (!shouldMakeBrighter && qrScreenBrightness <= 255)
+  {
+    qrScreenBrightness = qrScreenBrightness - 25;
+  }
+  
+  if (qrScreenBrightness < 4)
+  {
+    qrScreenBrightness = 4;
+  }
+  
+  qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+
+  switch(invoiceType) {
+    case LNPOS:
+      qrShowCodeln();
+      break;
+    case LNURLPOS:
+      qrShowCodeLNURL(" *MENU #SHOW PIN");
+      break;
+    case ONCHAIN:
+      qrShowCodeOnchain(true, " *MENU #CHECK");
+      break;  
+    case LNURLATM:
+      qrShowCodeLNURL(" *MENU");
+      break;
+    default:
+      break;
+  }
+  
+  File configFile = SPIFFS.open("/config.txt", "w");
+  configFile.print(String(qrScreenBrightness));
+  configFile.close();
+}
+
+/**
+ * Load stored config values
+ */
+void loadConfig() {
+  File file = SPIFFS.open("/config.txt");
+   spiffing = file.readStringUntil('\n');
+  String tempQrScreenBrightness = spiffing.c_str();
+  int tempQrScreenBrightnessInt = tempQrScreenBrightness.toInt();
+  Serial.println("spiffcontent " + String(tempQrScreenBrightnessInt));
+  file.close();
+
+  if(tempQrScreenBrightnessInt && tempQrScreenBrightnessInt > 3) {
+    qrScreenBrightness = tempQrScreenBrightnessInt;
+  }
+  Serial.println("qrScreenBrightness from config " + String(qrScreenBrightness));
+  qrScreenBgColour = tft.color565(qrScreenBrightness, qrScreenBrightness, qrScreenBrightness);
+}
+
+/**
+ * Handle user inputs for adjusting the screen brightness
+ */
+void handleBrightnessAdjust(String keyVal, InvoiceType invoiceType) {
+  // Handle screen brighten on QR screen
+  if (keyVal == "1"){
+    Serial.println("Adjust bnrightness " + invoiceType);
+    adjustQrBrightness(true, invoiceType);
+  }
+  // Handle screen dim on QR screen
+  else if (keyVal == "4"){
+    Serial.println("Adjust bnrightness " + invoiceType);
+    adjustQrBrightness(false, invoiceType);
+  }
+}
+
+/* 
+ * Get the keypad type 
+ */
+boolean isLilyGoKeyboard() {
+  if(colPins[0] == 33) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Does the device have external or internal power?
+ */
+bool isPoweredExternally() {
+  Serial.println("Is powered externally?");
+  float inputVoltage = getInputVoltage();
+  if(inputVoltage > 4.5)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+  
+}
+
+/**
+ * Awww. Show the go to sleep animation
+ */
+void sleepAnimation() {
+    printSleepAnimationFrame("(o.o)", 500);
+    printSleepAnimationFrame("(-.-)", 500);
+    printSleepAnimationFrame("(-.-)z", 250);
+    printSleepAnimationFrame("(-.-)zz", 250);
+    printSleepAnimationFrame("(-.-)zzz", 250);
+    tft.fillScreen(TFT_BLACK);
+}
+
+void wakeAnimation() {
+    printSleepAnimationFrame("(-.-)", 100);
+    printSleepAnimationFrame("(o.o)", 200);
+    tft.fillScreen(TFT_BLACK);
+}
+
+/**
+ * Print the line of the animation
+ */
+void printSleepAnimationFrame(String text, int wait) {
+  tft.fillScreen(TFT_BLACK);
+  tft.setCursor(5, 80);
+  tft.setTextSize(4);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK); 
+  //tft.setFreeFont(BIGFONT);
+  tft.println(text);
+  delay(wait);
 }
