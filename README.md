@@ -76,7 +76,7 @@ To compile the code:
   - For M5Stack, choose "M5Stack-Core-ESP32"
   - For Lilygo Tdisplay, choose "TTGO-LoRa32-OLED-V1" 
 - Clone or download this code repository
-- Copy (or symlink) <a href="lnPoS/libraries">lnPoS/libraries</a> into your Arduino install "libraries" folder
+- Copy (or symlink) the folders in <a href="lnPoS/libraries">lnPoS/libraries</a> into your Arduino install "libraries" folder
 - Open <a href="lnPoS/LNPoS.ino">lnPoS/LNPoS.ino</a> in the Arduino IDE
 - Set "#define HARDWARE_DEVICE 1" at the top of the file to the right value (read the comments)
 - Compile and upload the code to device
