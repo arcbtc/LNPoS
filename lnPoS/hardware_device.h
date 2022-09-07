@@ -10,7 +10,7 @@
 // 1 = BareBones ESP32
 // 2 = M5Stack
 // 3 = Lilygo TDisplay
-#define HARDWARE_DEVICE 2
+#define HARDWARE_DEVICE 3
 
 
 //#warning "hardware_device.h has defined HARDWARE_DEVICE - this is good!"
