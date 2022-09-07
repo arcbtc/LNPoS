@@ -21,6 +21,13 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #define KEY_FILE "/thekey.txt"
 #define USB_POWER 1000 // battery percentage sentinel value to indicate USB power
 
+//////////SET TO TRUE TO WIPE MEMORY//////////////
+
+bool format = false;
+
+//////////////////////////////////////////////////
+
+
 // variables
 String inputs;
 String thePin;
@@ -262,7 +269,9 @@ void setup()
   h.begin();
   FlashFS.begin(FORMAT_ON_FAIL);
   SPIFFS.begin(true);
-
+  if(format == true){
+    SPIFFS.format(); 
+  }
   // get the saved details and store in global variables
   File paramFile = FlashFS.open(PARAM_FILE, "r");
   if (paramFile)
