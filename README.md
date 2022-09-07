@@ -69,16 +69,17 @@ To compile the code:
 
 - Install <a href="https://www.arduino.cc/en/software">Arduino IDE 1.8.19</a>
 - Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
-- Role back ESP32 boards to 2.0.1 in boards manager
+- Roll back ESP32 boards to 2.0.1 in boards manager
 ![image](https://user-images.githubusercontent.com/33088785/161862832-1269a12e-16ce-427c-9a92-df3ee573a1fb.png)
 - Select the appropriate device in the Arduino IDE -> Tools -> Board -> ESP32 Arduino
   - For a generic ESP32 dev board, choose "ESP32 Dev Module"
   - For M5Stack, choose "M5Stack-Core-ESP32"
   - For Lilygo Tdisplay, choose "TTGO-LoRa32-OLED-V1" 
 - Clone or download this code repository
-- Copy (or symlink) the folders in <a href="lnPoS/libraries">lnPoS/libraries</a> into your Arduino install "libraries" folder
-- Open <a href="lnPoS/LNPoS.ino">lnPoS/LNPoS.ino</a> in the Arduino IDE
-- Set "#define HARDWARE_DEVICE 1" at the top of the file to the right value (read the comments)
+- Open <a href="lnPoS/libraries/TFT_eSPI/User_Setup_Select.h">lnPoS/libraries/TFT_eSPI/User_Setup_Select.h</a> and make sure it points to this project's hardware_device.h file with an absolute path, for example: `#include "/home/user/Arduino/LNPoS/lnPoS/hardware_device.h"` or `#include "C:\Users\username\My Documents\Arduino\LNPoS\lnPoS\hardware_device.h"`
+- Copy (or symlink) the folders in <a href="lnPoS/libraries">lnPoS/libraries</a> into your Arduino installation's "libraries" folder
+- Open the project (<a href="lnPoS/LNPoS.ino">lnPoS/LNPoS.ino</a>) in the Arduino IDE
+- Set the appropriate `#define HARDWARE_DEVICE 1` in <a href="lnPoS/hardware_device.h">lnPoS/hardware_device.h</a> (read the comments)
 - Compile and upload the code to device
 
 > _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_
