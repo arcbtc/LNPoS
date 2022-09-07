@@ -79,7 +79,7 @@ To compile the code:
 - Open <a href="lnPoS/libraries/TFT_eSPI/User_Setup_Select.h">lnPoS/libraries/TFT_eSPI/User_Setup_Select.h</a> and make sure it points to this project's hardware_device.h file with an absolute path, for example: `#include "/home/user/Arduino/LNPoS/lnPoS/hardware_device.h"` or `#include "C:\Users\username\My Documents\Arduino\LNPoS\lnPoS\hardware_device.h"`
 - Copy (or symlink) the folders in <a href="lnPoS/libraries">lnPoS/libraries</a> into your Arduino installation's "libraries" folder
 - Open the project (<a href="lnPoS/LNPoS.ino">lnPoS/LNPoS.ino</a>) in the Arduino IDE
-- Set the appropriate `#define HARDWARE_DEVICE 1` in <a href="lnPoS/hardware_device.h">lnPoS/hardware_device.h</a> (read the comments)
+- Set the appropriate `#define HARDWARE_DEVICE` in <a href="lnPoS/hardware_device.h">lnPoS/hardware_device.h</a> (read the comments)
 - Compile and upload the code to device
 
 > _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_
