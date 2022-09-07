@@ -19,7 +19,41 @@
 
 // Only ONE line below should be uncommented.  Add extra lines and files as needed.
 
-#include <User_Setup.h>           // Default setup is root library folder
+//#include <User_Setup.h>           // Default setup is root library folder
+
+// ==================
+// LNPoS modification: choose the correct setup based on the device this is for.
+// ==================
+
+// The TFT_eSPI library is compiled independently from the Arduino sketch,
+// so the only way to configure it to be device-specific is by including a
+// file from the Arduino sketch.
+// Good overview: https://www.deviceplus.com/arduino/arduino-preprocessor-directives-tutorial/
+
+// Figure out which HARDWARE_DEVICE to use from the Arduino sketch:
+#ifndef HARDWARE_DEVICE
+//#warning "HARDWARE_DEVICE is not defined, including hardware_device.h from the Arduino sketch"
+//#warning "Make sure this #include in libraries/TFT_eSPI/User_Setup_Select.h points to your Arduino sketch:"
+#include "/home/user/Arduino/LNPoS/lnPoS/hardware_device.h"
+#endif
+
+// Now that the hardware device is known, include the right display configuration.
+#if HARDWARE_DEVICE == 1
+  //#warning "including User_Setups/Setup0_lnPoSBareBones.h"
+  #include "User_Setups/Setup0_lnPoSBareBones.h"
+#elif HARDWARE_DEVICE == 2
+  //#warning "including User_Setups/Setup12_M5Stack.h"
+  #include "User_Setups/Setup12_M5Stack.h"
+#elif HARDWARE_DEVICE == 3
+  //#warning "including User_Setups/Setup25_TTGO_T_Display.h"
+  #include "User_Setups/Setup25_TTGO_T_Display.h"
+#else
+  #error "HARDWARE_DEVICE is not set or invalid value, TFT display will not work! Have a look at libraries/TFT_eSPI/User_Setup_Select.h and make sure it points to the absolute path of LNPoS/lnPoS/hardware_device.h"
+#endif
+
+// =========================
+// end of LNPoS modification
+// =========================
 
 //#include <User_Setups/Setup1_ILI9341.h>  // Setup file configured for my ILI9341
 //#include <User_Setups/Setup2_ST7735.h>   // Setup file configured for my ST7735
@@ -33,7 +67,7 @@
 //#include <User_Setups/Setup10_RPi_touch_ILI9486.h> // Setup file configured for ESP8266 and RPi TFT with touch
 
 //#include <User_Setups/Setup11_RPi_touch_ILI9486.h> // Setup file configured for ESP32 and RPi TFT with touch
-#include <User_Setups/Setup12_M5Stack.h>           // Setup file for the ESP32 based M5Stack
+//#include <User_Setups/Setup12_M5Stack.h>           // Setup file for the ESP32 based M5Stack
 //#include <User_Setups/Setup13_ILI9481_Parallel.h>  // Setup file for the ESP32 with parallel bus TFT
 //#include <User_Setups/Setup14_ILI9341_Parallel.h>  // Setup file for the ESP32 with parallel bus TFT
 //#include <User_Setups/Setup15_HX8357D.h>           // Setup file configured for HX8357D (untested)

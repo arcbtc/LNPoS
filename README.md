@@ -1,12 +1,8 @@
 ![Alt text](images/banner.png?raw=true "banner")
 
-<h1>
-LNPoS
-</h1>
+# LNPoS
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
-
-> Currently (until a merge of all versions into one codebase), the hardware version <a href="/lnPoSTdisplay">TDisplay</a> is the most maintained and recommended.
 
 LNPoS includes:
 
@@ -20,9 +16,7 @@ Original <a href="https://twitter.com/arcbtc/status/1484942260013838336">demo</a
 
 Join our telegram group <a href="https://t.me/makerbits">MakerBits</a>
 
-<h2>
-Configuring
-</h2>
+## Configuring
 
 > Press/hold any button on the keypad during startup for TDisplay, or any top button on M5Stack during logo screen, to trigger access portal.
 > Default password is "ToTheMoon1" (without the quotes)
@@ -69,13 +63,33 @@ Launch portal and enter the string from the LNURLDevice extension on LNbits
 
 <br></br>
 
-<h2>
-LNPoS Options
-</h2>
-<h3>
- <ul>
-  <li><a href="lnPoSM5Stack">LNPoSM5Stack</a> $70</li>
-  <li><a href="lnPoSTdisplay">LNPoSTdisplay</a> $15</li>
-  <li><a href="lnPoSBareBones">LNPoSBareBones</a> $8</li>
-  </ul>  
- </h3>
+<h2>Compilation</h2>
+
+To compile the code:
+
+- Install <a href="https://www.arduino.cc/en/software">Arduino IDE 1.8.19</a>
+- Install ESP32 boards, using <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#installing-using-boards-manager">boards manager</a>
+- Roll back ESP32 boards to 2.0.1 in boards manager
+![image](https://user-images.githubusercontent.com/33088785/161862832-1269a12e-16ce-427c-9a92-df3ee573a1fb.png)
+- Select the appropriate device in the Arduino IDE -> Tools -> Board -> ESP32 Arduino
+  - For a generic ESP32 dev board, choose "ESP32 Dev Module"
+  - For M5Stack, choose "M5Stack-Core-ESP32"
+  - For Lilygo Tdisplay, choose "TTGO-LoRa32-OLED-V1" 
+- Clone or download this code repository
+- Open <a href="lnPoS/libraries/TFT_eSPI/User_Setup_Select.h">lnPoS/libraries/TFT_eSPI/User_Setup_Select.h</a> and make sure it points to this project's hardware_device.h file with an absolute path, for example: `#include "/home/user/Arduino/LNPoS/lnPoS/hardware_device.h"` or `#include "C:\Users\username\My Documents\Arduino\LNPoS\lnPoS\hardware_device.h"`
+- Copy (or symlink) the folders in <a href="lnPoS/libraries">lnPoS/libraries</a> into your Arduino installation's "libraries" folder
+- Open the project (<a href="lnPoS/LNPoS.ino">lnPoS/LNPoS.ino</a>) in the Arduino IDE
+- Set the appropriate `#define HARDWARE_DEVICE` in <a href="lnPoS/hardware_device.h">lnPoS/hardware_device.h</a> (read the comments)
+- Compile and upload the code to device
+
+> _Note: If using MacOS, you will need the CP210x USB to UART Bridge VCP Drivers available here https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers_
+> If you are using **MacOS Big Sur or an Mac with M1 chip**, you might encounter the issue `A fatal error occurred: Failed to write to target RAM (result was 0107)`, this is related to the chipsest used by TTGO, you can find the correct driver and more info in this <a href="https://github.com/Xinyuan-LilyGO/LilyGo-T-Call-SIM800/issues/139#issuecomment-904390716">GitHub issue</a>
+
+
+## LNPoS Options
+
+> Currently, the hardware version <a href="/lnPoSTdisplay">TDisplay</a> is the most maintained and recommended.
+
+- <a href="lnPoSBareBones">LNPoSBareBones</a> $8
+- <a href="lnPoSM5Stack">LNPoSM5Stack</a> $70
+- <a href="lnPoSTdisplay">LNPoSTdisplay</a> $15
