@@ -1,8 +1,10 @@
+ <h1>Now moved to https://github.com/lnbits/LNPoS</h1>
+
 ![Alt text](images/banner.png?raw=true "banner")
 
-<h1>
+<h2>
 LNPoS
-</h1>
+</h2>
 
 ## Free and open-source bitcoin point-of-sale (includes device portal for easy setup!)
 
